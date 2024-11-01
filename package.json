@@ -14,10 +14,30 @@
   "contributes": {
     "commands": [
       {
-        "command": "agin-requests.helloWorld",
-        "title": "Hello World"
+        "command": "agin-requests.new",
+        "title": "Agin Requests: New Request"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "agin-requests-sidebar",
+          "title": "Agin Requests",
+          "icon": "assets/sidebar.svg"
+        }
+      ]
+    },
+    "views": {
+      "agin-requests-sidebar": [
+        {
+          "type": "webview",
+          "id": "agin-requests-sidebar",
+          "name": "Agin Requests",
+          "icon": "assets/sidebar.svg",
+          "contextualTitle": "Agin Requests"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
