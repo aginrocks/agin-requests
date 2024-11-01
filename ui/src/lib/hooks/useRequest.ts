@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { RequestConfigContext } from "../providers/RequestConfigProvider";
+import { RequestConfigContext } from "@lib/providers/RequestConfigProvider";
 
 export function useRequest() {
     return useContext(RequestConfigContext);

@@ -1,4 +1,4 @@
-import RequestConfigProvider from "@lib/components/providers/RequestConfigProvider";
+import RequestConfigProvider from "@lib/providers/RequestConfigProvider";
 import { Request } from "./screens";
 
 export default function App() {

@@ -5,4 +5,5 @@ export const select = css({
     paddingLeft: '10px',
     marginRight: '10px',
     outline: 'none !important',
+    height: '100%',
 });
