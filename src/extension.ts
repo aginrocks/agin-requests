@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { SidebarProvider } from './SidebarProvider';
+import path from 'path';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -18,6 +19,10 @@ export function activate(context: vscode.ExtensionContext) {
     const panel = vscode.window.createWebviewPanel('webview', 'New Request', vscode.ViewColumn.One, {
       enableScripts: true
     });
+
+    const iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets', 'tab.svg'));
+
+    panel.iconPath = iconPath;
 
     const scriptSrc = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'ui', 'dist', 'index.js'));
 

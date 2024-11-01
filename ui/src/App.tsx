@@ -1,9 +1,12 @@
+import RequestConfigProvider from "@lib/components/providers/RequestConfigProvider";
 import { Request } from "./screens";
 
 export default function App() {
   return (
     <div>
-      <Request />
+      <RequestConfigProvider>
+        <Request />
+      </RequestConfigProvider>
     </div>
   );
 }

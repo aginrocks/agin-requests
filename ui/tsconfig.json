@@ -18,9 +18,22 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "src",
+    "paths": {
+      "@styled-system/*": [
+        "styled-system/*"
+      ],
+      "@lib/*": [
+        "lib/*"
+      ],
+      "@screens/*": [
+        "screens/*"
+      ]
+    },
   },
   "include": [
-    "src"
+    "src",
+    "styled-system"
   ]
 }

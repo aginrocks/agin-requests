@@ -21,3 +21,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+## Panda
+styled-system
+styled-system-studio
+## Panda
+src/styled-system
+src/styled-system-studio
