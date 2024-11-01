@@ -1,7 +1,7 @@
 import { css } from "@styled-system/css";
 
 export const container = css({
-    padding: '15px',
+    // padding: '15px',
 });
 
 export const inputGroup = css({

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { VSCodeButton, VSCodeTextField } from '@vscode/webview-ui-toolkit/react';
-import { css } from "@styled-system/css";
 import Columns from "@lib/components/Columns";
 import { useRequest } from "@lib/hooks/useRequest";
 import UrlSelector from "@lib/components/UrlSelector";
 import Tabs, { TabType } from "@lib/components/Tabs";
-import { RequestConfig } from "./RequestConfig";
+import { container, urlSelector } from "./styles";
 
 export const requestTabs: TabType[] = [
     {
@@ -22,17 +20,17 @@ export const requestTabs: TabType[] = [
     },
 ]
 
-export function Request() {
+export function RequestConfig() {
     const request = useRequest();
 
     const [requestTab, setRequestTab] = useState('query');
 
     return (
-        <Columns
-            left={<RequestConfig />}
-            right={<>
-                Response
-            </>}
-        />
+        <div className={container}>
+            <div className={urlSelector}>
+                <UrlSelector />
+            </div>
+            <Tabs tabs={requestTabs} active={requestTab} onChange={setRequestTab} />
+        </div>
     )
 }

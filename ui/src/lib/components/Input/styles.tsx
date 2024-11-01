@@ -49,5 +49,5 @@ export const input = css({
     outline: 'none !important',
     fontWeight: 500,
     padding: '10px',
-    paddingLeft: '15px'
+    paddingLeft: '12px'
 });
