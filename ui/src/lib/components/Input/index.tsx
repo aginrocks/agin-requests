@@ -2,16 +2,16 @@ import React, { forwardRef, Ref } from "react";
 import { input, inputContainer } from "./styles";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    leftSection?: React.ReactNode,
-    rightSection?: React.ReactNode,
+    withRightBorder?: boolean,
+    withLeftBorder?: boolean,
+    withLeftRadius?: boolean,
+    withRightRadius?: boolean,
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({ leftSection, rightSection, ...props }, ref: Ref<HTMLInputElement>) => {
+const Input = forwardRef<HTMLInputElement, InputProps>(({ withRightBorder, withLeftBorder, withLeftRadius, withRightRadius, ...props }, ref: Ref<HTMLInputElement>) => {
     return (
-        <div className={inputContainer}>
-            {leftSection}
+        <div className={inputContainer({ withRightBorder, withLeftBorder, withLeftRadius, withRightRadius, })}>
             <input className={input} ref={ref} {...props} />
-            {rightSection}
         </div>
     );
 });

@@ -7,7 +7,7 @@ export const container = css({
 export const inputGroup = css({
     display: 'flex',
     height: '35px',
-    gap: '5px',
+    // gap: '5px',
 });
 
 export const input = css({
@@ -22,6 +22,7 @@ export const sendButton = css({
     borderRadius: '9999999px',
     borderLeftRadius: '0px',
     padding: '10px 5px',
+    paddingRight: '8px',
     height: '100%'
 });
 
