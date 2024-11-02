@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Columns from "@lib/components/Columns";
 import { useRequest } from "@lib/hooks/useRequest";
 import UrlSelector from "@lib/components/UrlSelector";
 import Tabs, { TabType } from "@lib/components/Tabs";
@@ -57,6 +56,7 @@ export function RequestConfig() {
             </div>
             {tab == 'query' && <ParamsGroup>
                 {request?.values.params.map((p, i) => <Param
+                    key={i}
                     name={p.name}
                     value={p.value}
                     enabled={p.enabled}
@@ -68,6 +68,7 @@ export function RequestConfig() {
             </ParamsGroup>}
             {tab == 'headers' && <ParamsGroup>
                 {request?.values.headers.map((p, i) => <Param
+                    key={i}
                     name={p.name}
                     value={p.value}
                     enabled={p.enabled}

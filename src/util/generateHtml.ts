@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
 export function generateHtml(extensionUri: vscode.Uri, panel: vscode.WebviewView): string {
-    const scriptSrc = panel.webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'ui', 'dist', 'index.js'))
+  const scriptSrc = panel.webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'ui', 'dist', 'index.js'))
 
-    const cssSrc = panel.webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'ui', 'dist', 'index.css'))
+  const cssSrc = panel.webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'ui', 'dist', 'index.css'))
 
-    const html = `<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
         <html lang="en">
           <head>
             <link rel="stylesheet" href="${cssSrc}" />
@@ -16,7 +16,6 @@ export function generateHtml(extensionUri: vscode.Uri, panel: vscode.WebviewView
           </body>
         </html>
         `;
-    console.log('nigger', html);
 
-    return html;
+  return html;
 }

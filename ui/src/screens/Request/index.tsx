@@ -7,6 +7,7 @@ import UrlSelector from "@lib/components/UrlSelector";
 import Tabs, { TabType } from "@lib/components/Tabs";
 import { RequestConfig } from "./RequestConfig";
 import Response from "./Response";
+import VscodeProvider from "@lib/providers/VSCodeProvider";
 
 export const requestTabs: TabType[] = [
     {
@@ -29,9 +30,11 @@ export function Request() {
     const [requestTab, setRequestTab] = useState('query');
 
     return (
-        <Columns
-            left={<RequestConfig />}
-            right={<Response />}
-        />
+        <VscodeProvider>
+            <Columns
+                left={<RequestConfig />}
+                right={<Response />}
+            />
+        </VscodeProvider>
     )
 }

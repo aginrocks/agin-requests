@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import { SidebarProvider } from './SidebarProvider';
 import path from 'path';
+import { getMonacoTheme } from './helpers';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -29,6 +30,30 @@ export function activate(context: vscode.ExtensionContext) {
     const cssSrc = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'ui', 'dist', 'index.css'));
 
     const codiconsUri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'node_modules', '@vscode/codicons', 'dist', 'codicon.css'));
+
+    // panel.webview.onDidReceiveMessage(
+    //   message => {
+    //     console.log('got message', message);
+
+    //     if (message.command === 'theme.get') {
+    //       console.log('getting theme');
+
+    //       const themeSettings = vscode.workspace.getConfiguration('workbench.colorCustomizations');
+    //       // console.log({ themeSettings: themeSettings.inspect('') });
+
+    //       const monacoTheme = getMonacoTheme();
+    //       console.log({ command: 'theme', theme: monacoTheme });
+
+    //       panel.webview.postMessage({ command: 'theme', theme: monacoTheme });
+    //     }
+    //   }
+    // );
+
+    const themeChangeListener = vscode.workspace.onDidChangeConfiguration((event) => {
+      if (event.affectsConfiguration('workbench.colorTheme')) {
+        panel.webview.postMessage({ command: 'themeChanged' })
+      }
+    });
 
     panel.webview.html = `<!DOCTYPE html>
         <html lang="en">
