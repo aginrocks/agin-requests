@@ -23,7 +23,7 @@ export const sendButton = css({
     borderLeftRadius: '0px',
     padding: '10px 5px',
     paddingRight: '8px',
-    height: '100%'
+    height: '100%',
 });
 
 export const methodSelector = css({

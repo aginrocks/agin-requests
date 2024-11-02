@@ -4,6 +4,8 @@ import { Param } from "./Param";
 
 export type RequestBodyType = 'none' | 'json' | 'xml' | 'text' | 'urlencoded' | 'formdata' | 'binary';
 
+export type AuthType = 'none' | 'basic' | 'bearer' | 'oauth2';
+
 export type RequestConfig = {
     type: 'ws' | 'socketio' | 'http',
     url: string,
@@ -12,4 +14,15 @@ export type RequestConfig = {
     params: Param[],
     requestBodyType: RequestBodyType,
     requestBody?: FormItem[] | string,
+    authType: AuthType,
+    auth?: {
+        basic?: {
+            username?: string,
+            password?: string,
+        },
+        bearer?: {
+            token?: string,
+            prefix?: 'Bearer' | string,
+        }
+    }
 };

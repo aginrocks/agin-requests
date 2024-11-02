@@ -8,6 +8,8 @@ import ParamsGroup from "@lib/components/ParamsGroup";
 import ParamsEditor from "./ParamsEditor";
 import HeadersEditor from "./HeadersEditor";
 import BodyEditor from "./BodyEditor";
+import AuthEditor from "./AuthEditor";
+import { RequestBodyType } from "@lib/types";
 
 export const requestTabs: TabType[] = [
     {
@@ -19,8 +21,16 @@ export const requestTabs: TabType[] = [
         label: 'Headers',
     },
     {
+        id: 'auth',
+        label: 'Authorization',
+    },
+    {
         id: 'body',
         label: 'Body',
+    },
+    {
+        id: 'settings',
+        label: 'Settings',
     },
 ]
 
@@ -47,6 +57,22 @@ export function RequestConfig() {
         });
     }, [request?.values.headers]);
 
+    useEffect(() => {
+        if (!(request?.values.requestBody instanceof Object)) {
+            if (['formdata', 'urlencoded'].includes(request?.values.requestBodyType as RequestBodyType)) {
+                request?.setFieldValue('requestBody', []);
+            }
+            return;
+        }
+        const last = request?.values.requestBody[request?.values.requestBody.length - 1];
+        if (last?.name != '' || last?.value != '') request?.insertListItem('requestBody', {
+            enabled: false,
+            name: '',
+            value: '',
+            file: null,
+        });
+    }, [request?.values.requestBody, request?.values.requestBodyType]);
+
     return (
         <div className={left}>
             <div className={container}>
@@ -60,6 +86,7 @@ export function RequestConfig() {
             {tab == 'query' && <ParamsEditor />}
             {tab == 'headers' && <HeadersEditor />}
             {tab == 'body' && <BodyEditor />}
+            {tab == 'auth' && <AuthEditor />}
         </div>
     )
 }
