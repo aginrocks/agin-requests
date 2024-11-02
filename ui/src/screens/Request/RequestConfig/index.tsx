@@ -6,7 +6,6 @@ import Tabs, { TabType } from "@lib/components/Tabs";
 import { container, tabs, urlSelector } from "./styles";
 import Param from "@lib/components/Param";
 import ParamsGroup from "@lib/components/ParamsGroup";
-import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
 
 export const requestTabs: TabType[] = [
     {
@@ -26,7 +25,7 @@ export const requestTabs: TabType[] = [
 export function RequestConfig() {
     const request = useRequest();
 
-    const [requestTab, setRequestTab] = useState('query');
+    const [tab, setTab] = useState<string>('query');
 
     useEffect(() => {
         const last = request?.values.params[request?.values.params.length - 1];
@@ -37,6 +36,15 @@ export function RequestConfig() {
         });
     }, [request?.values.params]);
 
+    useEffect(() => {
+        const last = request?.values.headers[request?.values.headers.length - 1];
+        if (last?.name != '' || last?.value != '') request?.insertListItem('headers', {
+            enabled: false,
+            name: '',
+            value: '',
+        });
+    }, [request?.values.headers]);
+
     return (
         <>
             <div className={container}>
@@ -44,10 +52,10 @@ export function RequestConfig() {
                     <UrlSelector />
                 </div>
                 <div className={tabs}>
-                    <Tabs tabs={requestTabs} active={requestTab} onChange={setRequestTab} />
+                    <Tabs tabs={requestTabs} active={tab} onChange={setTab} />
                 </div>
             </div>
-            <ParamsGroup>
+            {tab == 'query' && <ParamsGroup>
                 {request?.values.params.map((p, i) => <Param
                     name={p.name}
                     value={p.value}
@@ -55,8 +63,20 @@ export function RequestConfig() {
                     onNameChange={(e) => request.setFieldValue(`params.${i}.name`, e.target.value)}
                     onValueChange={(e) => request.setFieldValue(`params.${i}.value`, e.target.value)}
                     onEnabledChange={(e) => request.setFieldValue(`params.${i}.enabled`, e.target.checked)}
+                    onRemove={() => request.removeListItem('params', i)}
                 />)}
-            </ParamsGroup>
+            </ParamsGroup>}
+            {tab == 'headers' && <ParamsGroup>
+                {request?.values.headers.map((p, i) => <Param
+                    name={p.name}
+                    value={p.value}
+                    enabled={p.enabled}
+                    onNameChange={(e) => request.setFieldValue(`headers.${i}.name`, e.target.value)}
+                    onValueChange={(e) => request.setFieldValue(`headers.${i}.value`, e.target.value)}
+                    onEnabledChange={(e) => request.setFieldValue(`headers.${i}.enabled`, e.target.checked)}
+                    onRemove={() => request.removeListItem('headers', i)}
+                />)}
+            </ParamsGroup>}
         </>
     )
 }

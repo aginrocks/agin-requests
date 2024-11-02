@@ -6,6 +6,7 @@ import { useRequest } from "@lib/hooks/useRequest";
 import UrlSelector from "@lib/components/UrlSelector";
 import Tabs, { TabType } from "@lib/components/Tabs";
 import { RequestConfig } from "./RequestConfig";
+import Response from "./Response";
 
 export const requestTabs: TabType[] = [
     {
@@ -30,9 +31,7 @@ export function Request() {
     return (
         <Columns
             left={<RequestConfig />}
-            right={<>
-                Response
-            </>}
+            right={<Response />}
         />
     )
 }

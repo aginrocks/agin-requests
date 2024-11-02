@@ -28,10 +28,13 @@ export function activate(context: vscode.ExtensionContext) {
 
     const cssSrc = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'ui', 'dist', 'index.css'));
 
+    const codiconsUri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'node_modules', '@vscode/codicons', 'dist', 'codicon.css'));
+
     panel.webview.html = `<!DOCTYPE html>
         <html lang="en">
           <head>
             <link rel="stylesheet" href="${cssSrc}" />
+            <link href="${codiconsUri}" rel="stylesheet" />
           </head>
           <body>
             <noscript>You need to enable JavaScript to run this app.</noscript>

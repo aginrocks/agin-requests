@@ -12,7 +12,28 @@ export default function RequestConfigProvider({ children }: { children: React.Re
             type: 'http',
             url: '',
             method: 'get',
-            headers: [],
+            headers: [
+                {
+                    enabled: true,
+                    name: 'Accept',
+                    value: '*/*',
+                },
+                {
+                    enabled: true,
+                    name: 'User-Agent',
+                    value: 'AginRequests/1.0.0',
+                },
+                {
+                    enabled: true,
+                    name: 'Accept-Encoding',
+                    value: 'gzip, deflate, br',
+                },
+                {
+                    enabled: true,
+                    name: 'Connection',
+                    value: 'keep-alive',
+                },
+            ],
             params: [],
             requestBodyType: 'none',
         },

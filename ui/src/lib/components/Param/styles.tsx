@@ -6,6 +6,7 @@ export const param = css({
     padding: '5px 10px',
     borderRadius: '10px',
     transition: 'background-color .3s ease',
+    alignItems: 'center',
     '&:hover,&:focus-within': {
         backgroundColor: 'var(--vscode-list-hoverBackground)'
     },
