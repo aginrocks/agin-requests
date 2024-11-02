@@ -11,5 +11,11 @@ export const urlSelector = css({
 });
 
 export const tabs = css({
-    marginBottom: '5px',
+    // marginBottom: '5px',
+});
+
+export const left = css({
+    height: '100%',
+    display: 'flex',
+    flexDir: 'column',
 });

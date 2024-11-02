@@ -13,4 +13,10 @@ code {
     monospace;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 @layer reset, base, tokens, recipes, utilities;

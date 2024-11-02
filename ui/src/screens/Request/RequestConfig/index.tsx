@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useRequest } from "@lib/hooks/useRequest";
 import UrlSelector from "@lib/components/UrlSelector";
 import Tabs, { TabType } from "@lib/components/Tabs";
-import { container, tabs, urlSelector } from "./styles";
+import { container, left, tabs, urlSelector } from "./styles";
 import Param from "@lib/components/Param";
 import ParamsGroup from "@lib/components/ParamsGroup";
+import ParamsEditor from "./ParamsEditor";
+import HeadersEditor from "./HeadersEditor";
+import BodyEditor from "./BodyEditor";
 
 export const requestTabs: TabType[] = [
     {
@@ -45,7 +48,7 @@ export function RequestConfig() {
     }, [request?.values.headers]);
 
     return (
-        <>
+        <div className={left}>
             <div className={container}>
                 <div className={urlSelector}>
                     <UrlSelector />
@@ -54,30 +57,9 @@ export function RequestConfig() {
                     <Tabs tabs={requestTabs} active={tab} onChange={setTab} />
                 </div>
             </div>
-            {tab == 'query' && <ParamsGroup>
-                {request?.values.params.map((p, i) => <Param
-                    key={i}
-                    name={p.name}
-                    value={p.value}
-                    enabled={p.enabled}
-                    onNameChange={(e) => request.setFieldValue(`params.${i}.name`, e.target.value)}
-                    onValueChange={(e) => request.setFieldValue(`params.${i}.value`, e.target.value)}
-                    onEnabledChange={(e) => request.setFieldValue(`params.${i}.enabled`, e.target.checked)}
-                    onRemove={() => request.removeListItem('params', i)}
-                />)}
-            </ParamsGroup>}
-            {tab == 'headers' && <ParamsGroup>
-                {request?.values.headers.map((p, i) => <Param
-                    key={i}
-                    name={p.name}
-                    value={p.value}
-                    enabled={p.enabled}
-                    onNameChange={(e) => request.setFieldValue(`headers.${i}.name`, e.target.value)}
-                    onValueChange={(e) => request.setFieldValue(`headers.${i}.value`, e.target.value)}
-                    onEnabledChange={(e) => request.setFieldValue(`headers.${i}.enabled`, e.target.checked)}
-                    onRemove={() => request.removeListItem('headers', i)}
-                />)}
-            </ParamsGroup>}
-        </>
+            {tab == 'query' && <ParamsEditor />}
+            {tab == 'headers' && <HeadersEditor />}
+            {tab == 'body' && <BodyEditor />}
+        </div>
     )
 }
