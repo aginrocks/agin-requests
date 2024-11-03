@@ -9,6 +9,7 @@ import { RequestConfig } from "./RequestConfig";
 import Response from "./Response";
 import VscodeProvider from "@lib/providers/VSCodeProvider";
 import RequestConfigProvider from "@lib/providers/RequestConfigProvider";
+import Welcome from "@lib/components/Welcome";
 
 export const requestTabs: TabType[] = [
     {
