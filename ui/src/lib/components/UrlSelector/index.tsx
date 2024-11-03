@@ -1,5 +1,5 @@
 import { VSCodeButton, VSCodeDropdown, VSCodeOption, VSCodeTextField } from "@vscode/webview-ui-toolkit/react";
-import { useRequest } from "@lib/hooks";
+import { useRequest, useRequestController } from "@lib/hooks";
 import { container, input, inputGroup, methodSelector, sendButton } from "./styles";
 import Input from "@lib/components/Input";
 import Divider from "../Divider";
@@ -40,6 +40,7 @@ export const methods: Option[] = [
 
 export default function UrlSelector() {
     const request = useRequest();
+    const controller = useRequestController();
     const vscode = useVsCodeApi();
 
     return (
@@ -59,7 +60,7 @@ export default function UrlSelector() {
                     withRightRadius={false}
                     {...request?.getInputProps('url')}
                 />
-                <VSCodeButton className={sendButton} onClick={() => vscode.postMessage({ niga: 'cock' })}>
+                <VSCodeButton className={sendButton} onClick={() => controller.send()}>
                     Send
                 </VSCodeButton>
             </div>

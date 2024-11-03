@@ -10,6 +10,7 @@ import Response from "./Response";
 import RequestConfigProvider from "@lib/providers/RequestConfigProvider";
 import Welcome from "@lib/components/Welcome";
 import { VsCodeApiProvider } from "@lib/providers/VsCodeApiProvider";
+import RequestController from "@lib/providers/RequestController";
 
 export const requestTabs: TabType[] = [
     {
@@ -33,10 +34,12 @@ export function Request() {
 
     return (
         <RequestConfigProvider>
-            <Columns
-                left={<RequestConfig />}
-                right={<Response />}
-            />
+            <RequestController>
+                <Columns
+                    left={<RequestConfig />}
+                    right={<Response />}
+                />
+            </RequestController>
         </RequestConfigProvider>
     )
 }
