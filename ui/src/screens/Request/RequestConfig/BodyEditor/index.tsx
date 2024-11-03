@@ -1,5 +1,5 @@
 import { useRequest } from "@lib/hooks"
-import { container, paramsContainer } from "./styles";
+import { container, editor, paramsContainer } from "./styles";
 import Tabs, { TabType } from "@lib/components/Tabs";
 import { RequestBodyType } from "@lib/types";
 import Divider from "@lib/components/Divider";
@@ -7,6 +7,7 @@ import EditorContainer from "@lib/components/EditorContainer";
 import ParamsGroup from "@lib/components/ParamsGroup";
 import Param from "@lib/components/Param";
 import SecondaryTabs from "@lib/components/SecondaryTabs";
+import ThemedEditor from "@lib/components/ThemedEditor";
 //  'none' | 'json' | 'xml' | 'text' | 'urlencoded' | 'formdata' | 'binary'
 export const bodyTypes: TabType[] = [
     {
@@ -54,7 +55,18 @@ export default function BodyEditor() {
                     connected={conenctedTabs.includes(request?.values.requestBodyType as RequestBodyType)}
                 />
                 {['json', 'xml', 'text'].includes(request?.values?.requestBodyType as RequestBodyType) && <EditorContainer>
-                    TODO: Editor
+                    <ThemedEditor
+                        height="100%"
+                        className={editor}
+                        defaultLanguage="json"
+                        defaultValue={`{}`}
+                        options={{
+                            minimap: {
+                                enabled: false,
+                            },
+
+                        }}
+                    />
                 </EditorContainer>}
             </div>
             {['formdata', 'urlencoded'].includes(request?.values?.requestBodyType as RequestBodyType) && <div className={paramsContainer}>

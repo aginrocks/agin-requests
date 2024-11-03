@@ -5,6 +5,7 @@ import Input from "@lib/components/Input";
 import Divider from "../Divider";
 import Select from "../Select";
 import type { Option } from "../Select";
+import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
 
 export const methods: Option[] = [
     {
@@ -39,6 +40,7 @@ export const methods: Option[] = [
 
 export default function UrlSelector() {
     const request = useRequest();
+    const vscode = useVsCodeApi();
 
     return (
         <div className={container}>
@@ -55,8 +57,9 @@ export default function UrlSelector() {
                     withRightBorder={false}
                     withLeftRadius={false}
                     withRightRadius={false}
+                    {...request?.getInputProps('url')}
                 />
-                <VSCodeButton className={sendButton}>
+                <VSCodeButton className={sendButton} onClick={() => vscode.postMessage({ niga: 'cock' })}>
                     Send
                 </VSCodeButton>
             </div>

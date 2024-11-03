@@ -21,3 +21,7 @@ export const container = cva({
 export const paramsContainer = css({
     marginTop: '10px'
 });
+
+export const editor = css({
+    flex: 1,
+});

@@ -1,123 +1,73 @@
-import { useVscode } from "@lib/hooks";
+import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
 import { getCSSVariable } from "@lib/util";
 import { Editor, EditorProps, useMonaco } from "@monaco-editor/react";
 import { css } from "@styled-system/css";
 import { useCallback, useEffect, useState } from "react";
 
-interface ThemedEditorProps extends EditorProps {
+interface ThemedEditorProps extends EditorProps { }
 
-}
-
-export default function ThemedEditor({ options, ...props }: EditorProps) {
+// TODO: Forward ref
+export default function ThemedEditor({ options, ...props }: ThemedEditorProps) {
     const monaco = useMonaco();
-    const vscode = useVscode();
+    const vscode = useVsCodeApi();
 
-    const [gotTheme, setGotTheme] = useState<boolean>(true);
+    const [gotTheme, setGotTheme] = useState<boolean>(false);
 
     const refreshTheme = useCallback(() => {
         if (!monaco) return;
-        monaco.editor.defineTheme('userTheme', {
-            base: 'vs-dark', // Base theme, can be 'vs-dark' or 'hc-black'
-            inherit: true, // Inherit from base theme
+
+        monaco.editor.defineTheme("userTheme", {
+            base: "vs-dark",
+            inherit: true,
             rules: [
-                // Token colors
-                // { token: 'comment', foreground: getCSSVariable('--vscode-commentForeground') },
-                // { token: 'keyword', foreground: getCSSVariable('--vscode-keywordForeground') },
-                // { token: 'variable', foreground: getCSSVariable('--vscode-variableForeground') },
-                // { token: 'variable.parameter', foreground: getCSSVariable('--vscode-variableParameterForeground') },
-                // { token: 'function', foreground: getCSSVariable('--vscode-functionForeground') },
-                // { token: 'function.call', foreground: getCSSVariable('--vscode-functionCallForeground') },
-                // { token: 'string', foreground: getCSSVariable('--vscode-stringForeground') },
-                // { token: 'string.escape', foreground: getCSSVariable('--vscode-stringEscapeForeground') },
-                // { token: 'number', foreground: getCSSVariable('--vscode-numberForeground') },
-                // { token: 'type', foreground: getCSSVariable('--vscode-typeForeground') },
-                // { token: 'type.identifier', foreground: getCSSVariable('--vscode-typeIdentifierForeground') },
-                // { token: 'class', foreground: getCSSVariable('--vscode-classForeground') },
-                // { token: 'interface', foreground: getCSSVariable('--vscode-interfaceForeground') },
-                // { token: 'enum', foreground: getCSSVariable('--vscode-enumForeground') },
-                // { token: 'enum.member', foreground: getCSSVariable('--vscode-enumMemberForeground') },
-                // { token: 'method', foreground: getCSSVariable('--vscode-methodForeground') },
-                // { token: 'property', foreground: getCSSVariable('--vscode-propertyForeground') },
-                // { token: 'namespace', foreground: getCSSVariable('--vscode-namespaceForeground') },
-                // { token: 'macro', foreground: getCSSVariable('--vscode-macroForeground') },
-                // { token: 'attribute', foreground: getCSSVariable('--vscode-attributeForeground') },
-                // { token: 'operator', foreground: getCSSVariable('--vscode-operatorForeground') },
-                // { token: 'function.parameter', foreground: getCSSVariable('--vscode-functionParameterForeground') },
-                // { token: 'type.parameter', foreground: getCSSVariable('--vscode-typeParameterForeground') },
-                // Add more tokens as needed
+                // Define any additional token colors as needed
             ],
             colors: {
-                'editor.background': getCSSVariable('--vscode-editor-background'),
-                'editor.lineHighlightBackground': getCSSVariable('--vscode-editorWidget-background'),
-                // 'editor.foreground': getCSSVariable('--vscode-editorForeground'),
-                // 'editorCursor.foreground': getCSSVariable('--vscode-editorCursorForeground'),
-                // 'editor.selectionBackground': getCSSVariable('--vscode-editorSelectionBackground'),
-                // 'editor.selectionForeground': getCSSVariable('--vscode-editorSelectionForeground'),
-                // 'editor.inactiveSelectionBackground': getCSSVariable('--vscode-inactiveSelectionBackground'),
-                // 'editor.wordHighlightBackground': getCSSVariable('--vscode-editorWordHighlightBackground'),
-                // 'editor.wordHighlightStrongBackground': getCSSVariable('--vscode-editorWordHighlightStrongBackground'),
-                // 'editor.findMatchBackground': getCSSVariable('--vscode-findMatchBackground'),
-                // 'editor.findMatchHighlightBackground': getCSSVariable('--vscode-findMatchHighlightBackground'),
-                // 'editor.hoverHighlightBackground': getCSSVariable('--vscode-hoverHighlightBackground'),
-                // 'editor.lineHighlightBorder': getCSSVariable('--vscode-editorLineHighlightBorder'),
-                // 'editor.rangeHighlightBackground': getCSSVariable('--vscode-rangeHighlightBackground'),
-                // 'editorWhitespace.foreground': getCSSVariable('--vscode-editorWhitespaceForeground'),
-                // 'editorIndentGuide.activeBackground': getCSSVariable('--vscode-editorIndentGuideActiveBackground'),
-                // 'editorIndentGuide.background': getCSSVariable('--vscode-editorIndentGuideBackground'),
-                // 'editor.selectionHighlightBackground': getCSSVariable('--vscode-editorSelectionHighlightBackground'),
-                // 'editorError.foreground': getCSSVariable('--vscode-editorErrorForeground'),
-                // 'editorWarning.foreground': getCSSVariable('--vscode-editorWarningForeground'),
-                // 'editorInfo.foreground': getCSSVariable('--vscode-editorInfoForeground'),
-                // 'editorHint.foreground': getCSSVariable('--vscode-editorHintForeground'),
-                // Add more color rules as needed
-            }
+                "editor.background": getCSSVariable("--vscode-editor-background"),
+                "editor.lineHighlightBackground": getCSSVariable("--vscode-editorWidget-background"),
+            },
         });
 
-        monaco.editor.setTheme('userTheme');
+        monaco.editor.setTheme("userTheme");
+        setGotTheme(true);
     }, [monaco]);
+
+    useEffect(() => {
+        if (!monaco) return;
+        refreshTheme();
+    }, [monaco, refreshTheme]);
 
     useEffect(() => {
         if (!vscode) return;
 
         const onMessage = (event: MessageEvent) => {
             const message = event.data;
-            if (message.command === 'themeChanged') {
-                // FIXME: Color theme switching
+            if (message.command === "themeChanged") {
+                setGotTheme(false); // Reset theme to ensure reapplication
                 refreshTheme();
             }
-            // if (message.command === 'theme') {
-            //     console.log('GOT THEME', message.theme);
-
-            //     if (monaco) {
-            //         // Define the received theme
-            //         console.log('got theme', message.theme);
-            //         // setGotTheme(true);
-            //         monaco.editor.defineTheme('userTheme', message.theme);
-            //         monaco.editor.setTheme('userTheme'); // Set the new theme
-            //     }
-            // }
-        }
-        // Set up a message listener to receive the theme
-        window.addEventListener('message', onMessage);
-
-        // Clean up the listener on unmount
-        return () => {
-            window.removeEventListener('message', onMessage);
-            console.log('cleanup');
-
         };
-    }, [vscode, monaco]);
+
+        window.addEventListener("message", onMessage);
+        return () => {
+            window.removeEventListener("message", onMessage);
+        };
+    }, [vscode, refreshTheme]);
 
     useEffect(() => {
-        if (!monaco) return;
-
-        refreshTheme();
-    }, [monaco]);
+        if (monaco && !gotTheme) {
+            refreshTheme();
+        }
+    }, [monaco, gotTheme, refreshTheme]);
 
     return (
-        <Editor className={css({ flex: 1 })} {...props} options={{
-            theme: 'userTheme',
-            ...options,
-        }} />
-    )
+        <Editor
+            className={css({ flex: 1 })}
+            {...props}
+            options={{
+                theme: "userTheme",
+                ...options,
+            }}
+        />
+    );
 }

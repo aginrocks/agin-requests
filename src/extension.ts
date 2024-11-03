@@ -31,23 +31,23 @@ export function activate(context: vscode.ExtensionContext) {
 
     const codiconsUri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'node_modules', '@vscode/codicons', 'dist', 'codicon.css'));
 
-    // panel.webview.onDidReceiveMessage(
-    //   message => {
-    //     console.log('got message', message);
+    panel.webview.onDidReceiveMessage(
+      message => {
+        console.log('got message', message);
 
-    //     if (message.command === 'theme.get') {
-    //       console.log('getting theme');
+        // if (message.command === 'theme.get') {
+        //   console.log('getting theme');
 
-    //       const themeSettings = vscode.workspace.getConfiguration('workbench.colorCustomizations');
-    //       // console.log({ themeSettings: themeSettings.inspect('') });
+        //   const themeSettings = vscode.workspace.getConfiguration('workbench.colorCustomizations');
+        //   // console.log({ themeSettings: themeSettings.inspect('') });
 
-    //       const monacoTheme = getMonacoTheme();
-    //       console.log({ command: 'theme', theme: monacoTheme });
+        //   const monacoTheme = getMonacoTheme();
+        //   console.log({ command: 'theme', theme: monacoTheme });
 
-    //       panel.webview.postMessage({ command: 'theme', theme: monacoTheme });
-    //     }
-    //   }
-    // );
+        //   panel.webview.postMessage({ command: 'theme', theme: monacoTheme });
+        // }
+      }
+    );
 
     const themeChangeListener = vscode.workspace.onDidChangeConfiguration((event) => {
       if (event.affectsConfiguration('workbench.colorTheme')) {

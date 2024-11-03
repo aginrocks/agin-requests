@@ -1,13 +1,15 @@
 import { createContext, useEffect, useReducer } from "react";
 import type { RequestConfig } from "@lib/types";
 import { useForm } from "@mantine/form";
-import { useVscode } from "@lib/hooks";
+import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
 
 export type RequestConfigContext = ReturnType<typeof useForm<RequestConfig>>;
 
 export const RequestConfigContext = createContext<RequestConfigContext | null>(null);
 
 export default function RequestConfigProvider({ children }: { children: React.ReactNode }) {
+    const vscode = useVsCodeApi();
+
     const config = useForm<RequestConfig>({
         initialValues: {
             type: 'http',
@@ -50,19 +52,21 @@ export default function RequestConfigProvider({ children }: { children: React.Re
             }
         },
     });
-
-    const vscode = useVscode();
-
     useEffect(() => {
-        if (!vscode) return;
-        vscode.setState({ requestConfig: config.values });
-    }, [config.values, vscode]);
-
-    useEffect(() => {
-        if (vscode == null) return;
+        if (!vscode?.getState) return;
         const savedState = vscode.getState();
+        console.log({ savedState });
+
         config.setValues(savedState?.requestConfig);
-    }, [vscode == null]);
+    }, []);
+
+    useEffect(() => {
+        console.log({ saving: config.values });
+        if (vscode == null) return;
+
+        vscode.setState({ requestConfig: config.values });
+    }, [config.values]);
+
 
     return (
         <RequestConfigContext.Provider value={config}>
