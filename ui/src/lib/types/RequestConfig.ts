@@ -15,14 +15,14 @@ export type RequestConfig = {
     requestBodyType: RequestBodyType,
     requestBody?: FormItem[] | string,
     authType: AuthType,
-    auth?: {
-        basic?: {
-            username?: string,
-            password?: string,
+    auth: {
+        basic: {
+            username: string,
+            password: string,
         },
         bearer?: {
-            token?: string,
-            prefix?: 'Bearer' | string,
+            token: string,
+            prefix: 'Bearer' | string,
         }
     }
 };

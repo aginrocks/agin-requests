@@ -8,6 +8,7 @@ import Tabs, { TabType } from "@lib/components/Tabs";
 import { RequestConfig } from "./RequestConfig";
 import Response from "./Response";
 import VscodeProvider from "@lib/providers/VSCodeProvider";
+import RequestConfigProvider from "@lib/providers/RequestConfigProvider";
 
 export const requestTabs: TabType[] = [
     {
@@ -31,10 +32,12 @@ export function Request() {
 
     return (
         <VscodeProvider>
-            <Columns
-                left={<RequestConfig />}
-                right={<Response />}
-            />
+            <RequestConfigProvider>
+                <Columns
+                    left={<RequestConfig />}
+                    right={<Response />}
+                />
+            </RequestConfigProvider>
         </VscodeProvider>
     )
 }

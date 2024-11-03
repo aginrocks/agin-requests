@@ -4,9 +4,7 @@ import { Request } from "./screens";
 export default function App() {
   return (
     <div>
-      <RequestConfigProvider>
-        <Request />
-      </RequestConfigProvider>
+      <Request />
     </div>
   );
 }

@@ -18,6 +18,6 @@ export const container = cva({
     }
 });
 
-export const paramsContainer = css({
+export const authContainer = css({
     marginTop: '10px'
 });

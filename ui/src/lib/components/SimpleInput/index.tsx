@@ -1,14 +1,18 @@
 import React, { forwardRef, Ref } from "react";
-import { input, simpleInputContainer } from "./styles";
+import { actionsContainer, input, simpleInputContainer } from "./styles";
+import ActionIcon, { ActionIconProps } from "../ActionIcon";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-
+export interface SimpleInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    actions?: ActionIconProps[],
 }
 
-const SimpleInput = forwardRef<HTMLInputElement, InputProps>(({ ...props }, ref: Ref<HTMLInputElement>) => {
+const SimpleInput = forwardRef<HTMLInputElement, SimpleInputProps>(({ actions, ...props }, ref: Ref<HTMLInputElement>) => {
     return (
         <div className={simpleInputContainer}>
             <input className={input} ref={ref} {...props} />
+            {actions && <div className={actionsContainer}>
+                {actions.map((a, i) => <ActionIcon key={i} {...a} />)}
+            </div>}
         </div>
     );
 });

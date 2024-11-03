@@ -2,9 +2,9 @@ import React, { createContext, useContext, useRef, useEffect } from 'react';
 
 export const VscodeContext = createContext<any>(null);
 
-declare const acquireVsCodeApi: () => {
-    postMessage: (message: { command: string }) => void;
-};
+// declare const acquireVsCodeApi: () => {
+//     postMessage: (message: { command: string }) => void;
+// };
 
 const VscodeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const vscode = useRef<any>(null);

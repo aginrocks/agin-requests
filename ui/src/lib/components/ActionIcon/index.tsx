@@ -1,7 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 import { actionIcon } from './styles';
 
-interface ActionIconProps extends HTMLAttributes<HTMLDivElement> {
+export interface ActionIconProps extends HTMLAttributes<HTMLDivElement> {
     icon: string;
 }
 

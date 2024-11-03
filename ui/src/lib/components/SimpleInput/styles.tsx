@@ -7,6 +7,7 @@ export const simpleInputContainer = css({
     display: 'flex',
     alignItems: 'center',
     padding: '0px',
+    position: 'relative',
     '&:focus-within': {
         borderBottomColor: 'var(--vscode-focusBorder)',
     }
@@ -19,4 +20,15 @@ export const input = css({
     fontWeight: 500,
     padding: '8px',
     paddingLeft: '10px'
+});
+
+export const actionsContainer = css({
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
+    display: 'flex',
+    alignItems: 'center',
+    gap: '5px',
+    paddingRight: '5px',
 });
