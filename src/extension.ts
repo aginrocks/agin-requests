@@ -35,6 +35,10 @@ export function activate(context: vscode.ExtensionContext) {
       message => {
         console.log('got message', message);
 
+        if (message.command === 'request.execute') {
+          // TODO: Making request
+        }
+
         // if (message.command === 'theme.get') {
         //   console.log('getting theme');
 
@@ -51,7 +55,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     const themeChangeListener = vscode.workspace.onDidChangeConfiguration((event) => {
       if (event.affectsConfiguration('workbench.colorTheme')) {
-        panel.webview.postMessage({ command: 'themeChanged' })
+        panel.webview.postMessage({ command: 'themeChanged' });
       }
     });
 
