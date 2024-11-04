@@ -70,6 +70,9 @@ export function activate(context: vscode.ExtensionContext) {
                             config.data = qs.stringify(convertCheckableFields(request.requestBody, {
                                 urlencodedMode: true,
                             }));
+                        } else if (request.requestBodyType == 'xml') {
+                            headers['content-type'] = 'application/xml';
+                            config.data = request.requestBody;
                         }
 
                         config.headers = headers;

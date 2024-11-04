@@ -8,6 +8,9 @@ import ParamsGroup from "@lib/components/ParamsGroup";
 import Param from "@lib/components/Param";
 import SecondaryTabs from "@lib/components/SecondaryTabs";
 import ThemedEditor from "@lib/components/ThemedEditor";
+import { useMemo, useRef } from "react";
+import * as monaco from 'monaco-editor';
+import { v4 } from "uuid";
 //  'none' | 'json' | 'xml' | 'text' | 'urlencoded' | 'formdata' | 'binary'
 export const bodyTypes: TabType[] = [
     {
@@ -18,10 +21,10 @@ export const bodyTypes: TabType[] = [
         id: 'json',
         label: 'JSON',
     },
-    // {
-    //     id: 'xml',
-    //     label: 'XML',
-    // },
+    {
+        id: 'xml',
+        label: 'XML',
+    },
     // {
     //     id: 'text',
     //     label: 'Text',
@@ -60,7 +63,8 @@ export default function BodyEditor() {
                     <ThemedEditor
                         height="100%"
                         className={editor}
-                        defaultLanguage="json"
+                        defaultLanguage={request?.values?.requestBodyType}
+                        path={request?.values?.requestBodyType}
                         defaultValue={typeof request?.values.requestBody == 'string' ? request?.values.requestBody : ''}
                         onChange={(value) => request?.setFieldValue('requestBody', value)}
                         options={{

@@ -3,13 +3,14 @@ import { useRequest } from "@lib/hooks/useRequest";
 import UrlSelector from "@lib/components/UrlSelector";
 import Tabs, { TabType } from "@lib/components/Tabs";
 import { container, left, tabs, urlSelector } from "./styles";
-import Param from "@lib/components/Param";
 import ParamsGroup from "@lib/components/ParamsGroup";
 import ParamsEditor from "./ParamsEditor";
 import HeadersEditor from "./HeadersEditor";
 import BodyEditor from "./BodyEditor";
 import AuthEditor from "./AuthEditor";
-import { RequestBodyType } from "@lib/types";
+import { Param, RequestBodyType } from "@lib/types";
+import isEqual from 'lodash/isEqual';
+import qs from 'qs';
 
 export const requestTabs: TabType[] = [
     {
