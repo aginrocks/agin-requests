@@ -11,6 +11,7 @@ import ThemedEditor from "@lib/components/ThemedEditor";
 import { useMemo, useRef } from "react";
 import * as monaco from 'monaco-editor';
 import { v4 } from "uuid";
+import { TailSpin } from "react-loader-spinner";
 //  'none' | 'json' | 'xml' | 'text' | 'urlencoded' | 'formdata' | 'binary'
 export const bodyTypes: TabType[] = [
     {
@@ -29,10 +30,10 @@ export const bodyTypes: TabType[] = [
     //     id: 'text',
     //     label: 'Text',
     // },
-    // {
-    //     id: 'formdata',
-    //     label: 'Form',
-    // },
+    {
+        id: 'formdata',
+        label: 'Form',
+    },
     {
         id: 'urlencoded',
         label: 'URL-encoded',
@@ -76,6 +77,17 @@ export default function BodyEditor() {
                     />
                 </EditorContainer>}
             </div>
+            {/* <TailSpin
+                visible={true}
+                height="40"
+                width="40"
+                strokeWidth="3"
+                color="#4fa94d"
+                ariaLabel="tail-spin-loading"
+                radius="4"
+                wrapperStyle={{}}
+                wrapperClass=""
+            /> */}
             {['formdata', 'urlencoded'].includes(request?.values?.requestBodyType as RequestBodyType) && <div className={paramsContainer}>
                 <ParamsGroup>
                     {request?.values.requestBody instanceof Object && request?.values.requestBody?.map((p, i) => <Param
@@ -87,6 +99,15 @@ export default function BodyEditor() {
                         onValueChange={(e) => request.setFieldValue(`requestBody.${i}.value`, e.target.value)}
                         onEnabledChange={(e) => request.setFieldValue(`requestBody.${i}.enabled`, e.target.checked)}
                         onRemove={() => request.removeListItem('requestBody', i)}
+                        {...(request?.values?.requestBodyType == 'formdata' ? {
+                            valueProps: {
+                                actions: [
+                                    {
+                                        icon: 'new-file',
+                                    }
+                                ]
+                            }
+                        } : {})}
                     />)}
                 </ParamsGroup>
             </div>}
