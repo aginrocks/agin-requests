@@ -6,5 +6,5 @@ export type HTTPResponse<T = string | Object> = {
     data: T
     status: number,
     statusText?: string,
-    headers: Object,
+    headers: { [key: string]: string },
 };

@@ -66,9 +66,15 @@ export function activate(context: vscode.ExtensionContext) {
 
                         console.log(res.data);
 
+                        const resData = {
+                            data: res.data,
+                            status: res.status,
+                            statusText: res.statusText,
+                            headers: res.headers,
+                        }
 
                         // TODO: Include response and timing
-                        panel.webview.postMessage({ command: 'request.finished', });
+                        panel.webview.postMessage({ command: 'request.finished', data: resData });
                     }
                 }
 

@@ -32,7 +32,7 @@ export const requestTabs: TabType[] = [
         id: 'settings',
         label: 'Settings',
     },
-]
+];
 
 export function RequestConfig() {
     const request = useRequest();
