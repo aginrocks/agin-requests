@@ -12,7 +12,3 @@ export const container = css({
     flexDir: 'column',
     height: '100%',
 });
-
-export const editor = css({
-    flex: 1,
-});

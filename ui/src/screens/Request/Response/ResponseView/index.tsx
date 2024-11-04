@@ -3,13 +3,12 @@ import Metric from "@lib/components/ResponseMetrics/Metric";
 import Tabs, { TabType } from "@lib/components/Tabs";
 import { useRequestController } from "@lib/hooks"
 import { useHTTPResponse } from "@lib/hooks/useHTTPResponse";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { container, editor } from "./styles";
-import ThemedEditor from "@lib/components/ThemedEditor";
+import { useMemo, useRef, useState } from "react";
+import { container } from "./styles";
 import * as monaco from 'monaco-editor';
 import { mapContentType } from '@lib/util';
 import { v4 } from 'uuid';
-import { css } from "@styled-system/css";
+import ResponseContent from "./ResponseContent";
 
 export const responseTabs: TabType[] = [
     {
@@ -49,16 +48,6 @@ export default function ResponseView() {
         return mapContentType(response.headers['content-type']?.split(';')[0]);
     }, [response.data]);
 
-    // useEffect(() => {
-    //     if (!editorRef.current) return;
-
-    //     // const model = mapContentType(response.headers['content-type']);
-
-    //     // editorRef.current.setModelLanguage(editorRef.current.getModel(), model);
-
-    //     editorRef.current.setValue(typeof response.data == 'string' ? response.data : JSON.stringify(response.data, null, 4));
-    // }, [editorRef.current, response.data]);
-
     return (
         <div className={container}>
             <ResponseMetrics rightSection={<Tabs tabs={responseTabs} active={tab} onChange={setTab} />}>
@@ -78,31 +67,7 @@ export default function ResponseView() {
                     color={statusColor}
                 />
             </ResponseMetrics>
-            {/* <div className={container}>
-            </div> */}
-            <ThemedEditor
-                height="100%"
-                className={editor}
-                defaultLanguage={model}
-                defaultValue={typeof response.data == 'string' ? response.data : JSON.stringify(response.data, null, 4)}
-                onMount={(editor, monaco) => {
-                    editorRef.current = editor;
-                }}
-                path={requestId}
-                options={{
-                    readOnly: true,
-                    readOnlyMessage: {
-                        value: 'Cannot edit HTTP response'
-                    },
-                    minimap: {
-                        enabled: false,
-                    },
-                    renderFinalNewline: 'off',
-                    scrollBeyondLastLine: false,
-                    renderLineHighlight: 'none',
-                    language: model,
-                }}
-            />
+            <ResponseContent />
         </div>
     )
 }
