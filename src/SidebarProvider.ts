@@ -17,7 +17,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             localResourceRoots: [this._extensionUri],
         };
 
-        webviewView.webview.html = generateHtml(this._extensionUri, webviewView);
+        webviewView.webview.html = generateHtml(this._extensionUri, webviewView.webview, 'menu');
 
         // Listen for messages from the Sidebar component and execute action
         webviewView.webview.onDidReceiveMessage(async (data) => {

@@ -5,7 +5,7 @@ import { SidebarProvider } from './SidebarProvider';
 import path from 'path';
 import { getMonacoTheme } from './helpers';
 import axios from 'axios';
-import { convertCheckableFields } from './util';
+import { convertCheckableFields, generateHtml } from './util';
 import { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
 
@@ -114,19 +114,7 @@ export function activate(context: vscode.ExtensionContext) {
             }
         });
 
-        panel.webview.html = `<!DOCTYPE html>
-        <html lang="en">
-          <head>
-            <link rel="stylesheet" href="${cssSrc}" />
-            <link href="${codiconsUri}" rel="stylesheet" />
-          </head>
-          <body>
-            <noscript>You need to enable JavaScript to run this app.</noscript>
-            <div id="root"></div>
-            <script src="${scriptSrc}"></script>
-          </body>
-        </html>
-        `;
+        panel.webview.html = generateHtml(context.extensionUri, panel.webview, 'request');
     });
 
     context.subscriptions.push(webview);
