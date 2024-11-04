@@ -7,6 +7,7 @@ import { getMonacoTheme } from './helpers';
 import axios from 'axios';
 import { convertCheckableFields } from './util';
 import { AxiosRequestConfig } from 'axios';
+import qs from 'qs';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -40,11 +41,12 @@ export function activate(context: vscode.ExtensionContext) {
 
                 if (message.command === 'request.execute') {
                     const request = message.config;
-                    // TODO: Making request
 
                     if (request.type == 'http') {
                         // Params are not handled here, because the UI should already include them in the request URL
-                        const headers = convertCheckableFields(request.headers, true);
+                        const headers = convertCheckableFields(request.headers, {
+                            lowerCase: true,
+                        });
                         const config: AxiosRequestConfig = {
                             validateStatus: () => true,
                             url: request.url,
@@ -60,7 +62,18 @@ export function activate(context: vscode.ExtensionContext) {
                             headers['authorization'] = `${request.auth.bearer.prefix} ${request.auth.bearer.token}`
                         }
 
+                        if (request.requestBodyType == 'json') {
+                            headers['content-type'] = 'application/json';
+                            config.data = request.requestBody;
+                        } else if (request.requestBodyType == 'urlencoded') {
+                            headers['content-type'] = 'application/x-www-form-urlencoded';
+                            config.data = qs.stringify(convertCheckableFields(request.requestBody, {
+                                urlencodedMode: true,
+                            }));
+                        }
+
                         config.headers = headers;
+                        console.log(config);
 
                         const res = await axios.request(config);
 

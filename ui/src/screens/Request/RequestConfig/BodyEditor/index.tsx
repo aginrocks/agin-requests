@@ -18,32 +18,34 @@ export const bodyTypes: TabType[] = [
         id: 'json',
         label: 'JSON',
     },
-    {
-        id: 'xml',
-        label: 'XML',
-    },
-    {
-        id: 'text',
-        label: 'Text',
-    },
-    {
-        id: 'formdata',
-        label: 'Form',
-    },
+    // {
+    //     id: 'xml',
+    //     label: 'XML',
+    // },
+    // {
+    //     id: 'text',
+    //     label: 'Text',
+    // },
+    // {
+    //     id: 'formdata',
+    //     label: 'Form',
+    // },
     {
         id: 'urlencoded',
-        label: 'Form url-encoded',
+        label: 'URL-encoded',
     },
-    {
-        id: 'binary',
-        label: 'Binary',
-    },
+    // {
+    //     id: 'binary',
+    //     label: 'Binary',
+    // },
 ];
 
 const conenctedTabs = ['json', 'xml', 'text'];
 
 export default function BodyEditor() {
     const request = useRequest();
+
+    // FIXME: White flash on other instances when new instance is mounted
 
     return (
         <>
@@ -59,12 +61,13 @@ export default function BodyEditor() {
                         height="100%"
                         className={editor}
                         defaultLanguage="json"
-                        defaultValue={`{}`}
+                        defaultValue={typeof request?.values.requestBody == 'string' ? request?.values.requestBody : ''}
+                        onChange={(value) => request?.setFieldValue('requestBody', value)}
                         options={{
                             minimap: {
                                 enabled: false,
                             },
-
+                            scrollBeyondLastLine: false,
                         }}
                     />
                 </EditorContainer>}

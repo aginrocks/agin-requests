@@ -58,11 +58,17 @@ export function RequestConfig() {
     }, [request?.values.headers]);
 
     useEffect(() => {
+        // Convert between String and array of FormItems when switching between text editors (JSON, XML, Text) and graphical editors (URL-encoded, Form Data)
         if (!(request?.values.requestBody instanceof Object)) {
             if (['formdata', 'urlencoded'].includes(request?.values.requestBodyType as RequestBodyType)) {
                 request?.setFieldValue('requestBody', []);
             }
             return;
+        } else {
+            if (['json', 'xml', 'text'].includes(request?.values.requestBodyType as RequestBodyType)) {
+                request?.setFieldValue('requestBody', '');
+                return;
+            }
         }
         const last = request?.values.requestBody[request?.values.requestBody.length - 1];
         if (last?.name != '' || last?.value != '') request?.insertListItem('requestBody', {

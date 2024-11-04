@@ -6,7 +6,6 @@ import { useCallback, useEffect, useState } from "react";
 
 interface ThemedEditorProps extends EditorProps { }
 
-// TODO: Forward ref
 export default function ThemedEditor({ options, ...props }: ThemedEditorProps) {
     const monaco = useMonaco();
     const vscode = useVsCodeApi();
