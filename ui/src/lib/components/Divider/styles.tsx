@@ -22,6 +22,13 @@ export const divider = cva({
                     minH: '1px!',
                 }
             }
+        },
+        withMargin: {
+            // TODO: Add support for vertical dividers
+            true: {
+                marginTop: '5px',
+                marginBottom: '5px',
+            }
         }
     },
     defaultVariants: {

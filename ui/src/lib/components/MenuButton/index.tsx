@@ -1,6 +1,7 @@
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
 import { ComponentProps } from "react";
-import { menuButton } from "./styles";
+import { buttonContainer, buttonDivider, icon, mainButton, optionsButton } from "./styles";
+import Divider from "../Divider";
 
 // TODO: Correct typing
 export interface MenuButtonProps extends ComponentProps<typeof VSCodeButton> {
@@ -11,8 +12,14 @@ export interface MenuButtonProps extends ComponentProps<typeof VSCodeButton> {
 
 export default function MenuButton({ children, ...props }: MenuButtonProps) {
     return (
-        <VSCodeButton className={menuButton} {...props}>
-            {children}
-        </VSCodeButton>
+        <div className={buttonContainer}>
+            <VSCodeButton className={mainButton} {...props} >
+                {children}
+            </VSCodeButton>
+            <div className={buttonDivider}></div>
+            <VSCodeButton className={optionsButton}>
+                <i className={`codicon codicon-chevron-down ${icon}`} />
+            </VSCodeButton>
+        </div>
     )
 }
