@@ -1,7 +1,15 @@
+import MenuButton from "@lib/components/MenuButton";
+import MenuContainer from "@lib/components/MenuContainer";
+import { useVsCodeApi } from "@lib/hooks";
+
 export function Menu() {
+    const vscode = useVsCodeApi();
+
     return (
-        <div>
-            Welcome to Agin Requests!
-        </div>
+        <MenuContainer>
+            <MenuButton onClick={() => vscode.postMessage({ command: 'requests.new', type: 'http' })}>
+                New Request
+            </MenuButton>
+        </MenuContainer>
     )
 }

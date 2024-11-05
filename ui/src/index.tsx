@@ -4,6 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Request } from '@screens/Request';
 import App from './App';
+import { Menu } from '@screens/Menu';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -19,7 +20,7 @@ if (screen == 'request') {
 } else if (screen == 'menu') {
     root.render(
         <App>
-            <div>MENU</div>
+            <Menu />
         </App>
     );
 }

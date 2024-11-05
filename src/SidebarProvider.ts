@@ -1,11 +1,18 @@
 import * as vscode from "vscode";
 import { generateHtml } from "./util";
+import createRequestWebview from "./createRequestView";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
     _view?: vscode.WebviewView;
     _doc?: vscode.TextDocument;
 
-    constructor(private readonly _extensionUri: vscode.Uri) { }
+    private _extensionUri: vscode.Uri;
+    private context: vscode.ExtensionContext;
+
+    constructor(context: vscode.ExtensionContext) {
+        this.context = context;
+        this._extensionUri = context.extensionUri;
+    }
 
     public resolveWebviewView(webviewView: vscode.WebviewView) {
         this._view = webviewView;
@@ -21,24 +28,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
         // Listen for messages from the Sidebar component and execute action
         webviewView.webview.onDidReceiveMessage(async (data) => {
-            switch (data.type) {
-                // case "onSomething: {
-                //     // code here...
-                //     break;
-                // }
-                case "onInfo": {
-                    if (!data.value) {
-                        return;
-                    }
-                    vscode.window.showInformationMessage(data.value);
-                    break;
-                }
-                case "onError": {
-                    if (!data.value) {
-                        return;
-                    }
-                    vscode.window.showErrorMessage(data.value);
-                    break;
+            if (data.command == 'requests.new') {
+                if (data.type == 'http') {
+                    createRequestWebview(this.context);
                 }
             }
         });
