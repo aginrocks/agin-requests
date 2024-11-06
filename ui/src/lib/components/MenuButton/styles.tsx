@@ -11,6 +11,7 @@ export const mainButton = css({
 export const optionsButton = css({
     borderRadius: '5px',
     borderLeftRadius: '0px',
+    flex: 1,
     '& *': {
         padding: '0px !important',
     }
@@ -28,4 +29,10 @@ export const buttonContainer = css({
 
 export const icon = css({
     minWidth: '16px'
+});
+
+export const optionsTarget = css({
+    // TODO: Better handling
+    height: '30px',
+    display: 'flex',
 });

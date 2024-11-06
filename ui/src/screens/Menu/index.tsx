@@ -14,15 +14,6 @@ export function Menu() {
             <MenuButton onClick={() => vscode.postMessage({ command: 'requests.new', type: 'http' })}>
                 New Request
             </MenuButton>
-            <OptionsList>
-                <Option label="HTTP Request" value="nigger" icon={IconHttpGet} />
-                <Option label="SSE Request" value="nigger" icon={IconServer} />
-                <Option label="WebSocket Connection" value="nigger" icon={IconPlugConnected} />
-                <Option label="Socket.IO Connection" value="nigger" icon={IconBrandSocketIo} />
-                <Divider withMargin />
-                <Option label="Import from cURL" value="nigger" icon={IconTerminal} />
-                <Option label="Import from Thunder Client" value="nigger" icon={IconBolt} />
-            </OptionsList>
         </MenuContainer>
     )
 }
