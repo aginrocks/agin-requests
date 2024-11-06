@@ -1,4 +1,3 @@
-import { css } from "@styled-system/css";
 import { metricsLeftStyles, metricsRightStyles, metricsStyles } from "./styles";
 
 export default function ResponseMetrics({ children, rightSection }: { children: React.ReactNode, rightSection?: React.ReactNode }) {

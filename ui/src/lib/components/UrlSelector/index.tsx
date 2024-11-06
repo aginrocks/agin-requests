@@ -1,8 +1,7 @@
-import { VSCodeButton, VSCodeDropdown, VSCodeOption, VSCodeTextField } from "@vscode/webview-ui-toolkit/react";
+import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
 import { useRequest, useRequestController } from "@lib/hooks";
-import { container, input, inputGroup, methodSelector, sendButton } from "./styles";
+import { container, inputGroup, methodSelector, sendButton } from "./styles";
 import Input from "@lib/components/Input";
-import Divider from "../Divider";
 import Select from "../Select";
 import type { Option } from "../Select";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";

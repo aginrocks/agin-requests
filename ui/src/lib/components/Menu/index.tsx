@@ -1,7 +1,6 @@
 import React from "react";
 import { dropdownContainer, targetStyles } from "./styles";
 import { OptionsList } from "./OptionsList";
-import { useClickOutside } from "@mantine/hooks";
 
 export type MenuProps = {
     children: React.ReactNode,

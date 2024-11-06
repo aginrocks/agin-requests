@@ -1,7 +1,5 @@
-import { VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react";
 import SimpleInput, { SimpleInputProps } from "../SimpleInput";
 import { labelStyles, param } from "./styles";
-import ActionIcon from "../ActionIcon";
 
 export interface InputRowProps extends SimpleInputProps {
     label?: string,

@@ -1,5 +1,5 @@
-import { container } from "./styles"
-import Tab from "./Tab"
+import { container } from "./styles";
+import Tab from "./Tab";
 
 export type TabType = {
     id: string,
