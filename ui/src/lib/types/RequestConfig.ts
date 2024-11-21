@@ -7,9 +7,9 @@ export type RequestBodyType = 'none' | 'json' | 'xml' | 'text' | 'urlencoded' | 
 export type AuthType = 'none' | 'basic' | 'bearer' | 'oauth2';
 
 export type RequestConfig = {
-    type: 'ws' | 'socketio' | 'http',
+    type: 'ws' | 'socketio' | 'http' | 'sse',
     url: string,
-    method: 'get' | 'post' | 'patch' | 'put' | 'delete' | 'head' | 'options',
+    method: 'get' | 'post' | 'patch' | 'put' | 'delete' | 'head' | 'options' | 'ws',
     headers: Header[],
     params: Param[],
     requestBodyType: RequestBodyType,
