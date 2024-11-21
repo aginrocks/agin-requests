@@ -1,4 +1,4 @@
-import { css } from "@styled-system/css";
+import { css, cva } from "@styled-system/css";
 
 export const welcome = css({
     flex: 1,
@@ -6,21 +6,30 @@ export const welcome = css({
     flexDir: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%'
+    height: '100%',
 });
 
-export const logo = css({
-    color: 'var(--vscode-disabledForeground)',
-    marginBottom: '10px'
+export const logo = cva({
+    base: {
+        color: 'var(--vscode-disabledForeground)',
+        marginBottom: '10px'
+    },
+    variants: {
+        color: {
+            red: {
+                color: '#d8070b',
+            }
+        }
+    }
 });
 
-export const title = css({
+export const titleStyles = css({
     color: 'var(--vscode-activeForeground)',
     fontWeight: 600,
     fontSize: '18px',
 });
 
-export const subtitle = css({
+export const subtitleStyles = css({
     color: 'var(--vscode-disabledForeground)',
     fontSize: '14px',
 });

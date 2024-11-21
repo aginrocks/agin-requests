@@ -4,7 +4,9 @@ import * as monaco from "monaco-editor";
 import { v4 } from "uuid";
 import { mapContentType } from "@lib/util";
 import ThemedEditor from "@lib/components/ThemedEditor";
-import { editor } from "./styles";
+import { editor, hidden } from "./styles";
+import { IconExclamationCircle } from "@tabler/icons-react";
+import Welcome from "@lib/components/Welcome";
 
 export default function ResponseContent() {
     const { status, cancel } = useRequestController();
@@ -26,28 +28,36 @@ export default function ResponseContent() {
     }, [response.data]);
 
     return (
-        <ThemedEditor
-            height="100%"
-            className={editor}
-            defaultLanguage={model}
-            defaultValue={typeof response.data == 'string' ? response.data : JSON.stringify(response.data, null, 4)}
-            onMount={(editor, monaco) => {
-                editorRef.current = editor;
-            }}
-            path={requestId}
-            options={{
-                readOnly: true,
-                readOnlyMessage: {
-                    value: 'Cannot edit HTTP response'
-                },
-                minimap: {
-                    enabled: false,
-                },
-                renderFinalNewline: 'off',
-                scrollBeyondLastLine: false,
-                renderLineHighlight: 'none',
-                language: model,
-            }}
-        />
+        <>
+            <ThemedEditor
+                height={response.type == 'error' ? 0 : '100%'}
+                className={`${editor}${response.type == 'error' ? ` ${hidden}` : ''}`}
+                defaultLanguage={model}
+                defaultValue={typeof response.data == 'string' ? response.data : JSON.stringify(response.data, null, 4)}
+                onMount={(editor, monaco) => {
+                    editorRef.current = editor;
+                }}
+                path={requestId}
+                options={{
+                    readOnly: true,
+                    readOnlyMessage: {
+                        value: 'Cannot edit HTTP response'
+                    },
+                    minimap: {
+                        enabled: false,
+                    },
+                    renderFinalNewline: 'off',
+                    scrollBeyondLastLine: false,
+                    renderLineHighlight: 'none',
+                    language: model,
+                }}
+            />
+            {response.type == 'error' && <Welcome
+                title="Error"
+                subtitle={response.data}
+                icon={IconExclamationCircle}
+                color="red"
+            />}
+        </>
     )
 }

@@ -5,6 +5,8 @@ import { useHTTPResponse } from "@lib/hooks/useHTTPResponse";
 import { useState } from "react";
 import { container } from "./styles";
 import ResponseContent from "./ResponseContent";
+import Welcome from "@lib/components/Welcome";
+import { IconExclamationCircle } from "@tabler/icons-react";
 
 export const responseTabs: TabType[] = [
     {
@@ -30,14 +32,14 @@ export default function ResponseView() {
 
     const [tab, setTab] = useState<string>('body');
 
-    const statusColor = response.status < 400 ? 'green' : 'red';
+    const statusColor = response?.type == 'error' ? 'red' : response.status < 400 ? 'green' : 'red';
 
     return (
         <div className={container}>
             <ResponseMetrics rightSection={<Tabs tabs={responseTabs} active={tab} onChange={setTab} />}>
                 <Metric
                     label="Status:"
-                    value={`${response.status} ${response.statusText ?? ''}`}
+                    value={`${response.status == -1 ? '' : `${response.status} `}${response.statusText ?? ''}`}
                     color={statusColor}
                 />
                 <Metric
@@ -51,7 +53,9 @@ export default function ResponseView() {
                     color={statusColor}
                 />
             </ResponseMetrics>
-            {tab == 'body' && <ResponseContent />}
+            {tab == 'body' && <>
+                <ResponseContent />
+            </>}
         </div>
     )
 }

@@ -1,12 +1,21 @@
-import { IconFlame } from "@tabler/icons-react";
-import { logo, subtitle, title, welcome } from "./styles";
+import { Icon, IconFlame } from "@tabler/icons-react";
+import { logo, subtitleStyles, titleStyles, welcome } from "./styles";
 
-export default function Welcome() {
+export type WelcomeProps = {
+    title?: string;
+    subtitle?: string;
+    icon?: Icon;
+    color?: 'red';
+}
+
+export default function Welcome({ title, subtitle, icon, color }: WelcomeProps) {
+    const Icon = icon ?? IconFlame;
+
     return (
         <div className={welcome}>
-            <IconFlame size={50} stroke={1.4} className={logo} />
-            <div className={title}>Welcome to Agin Requests!</div>
-            <div className={subtitle}>Set request details and press Send.</div>
+            <Icon size={50} stroke={1.4} className={logo({ color })} />
+            <div className={titleStyles}>{title ?? 'Welcome to Agin Requests!'}</div>
+            <div className={subtitleStyles}>{subtitle ?? 'Set request details and press Send.'}</div>
         </div>
     )
 }
