@@ -7,7 +7,6 @@ export const metricsStyles = css({
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
 
     border: 'calc(var(--border-width)* 1px) solid var(--dropdown-border)',
     padding: '10px 15px',

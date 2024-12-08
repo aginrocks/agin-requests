@@ -7,6 +7,7 @@ import { container } from "./styles";
 import ResponseContent from "./ResponseContent";
 import Welcome from "@lib/components/Welcome";
 import { IconExclamationCircle } from "@tabler/icons-react";
+import ResponseHeaders from "./ResponseHeaders";
 
 export const responseTabs: TabType[] = [
     {
@@ -21,10 +22,10 @@ export const responseTabs: TabType[] = [
         id: 'cookies',
         label: 'Cookies',
     },
-    {
-        id: 'tests',
-        label: 'Tests',
-    },
+    // {
+    //     id: 'tests',
+    //     label: 'Tests',
+    // },
 ];
 
 export default function ResponseView() {
@@ -55,6 +56,9 @@ export default function ResponseView() {
             </ResponseMetrics>
             {tab == 'body' && <>
                 <ResponseContent />
+            </>}
+            {tab == 'headers' && <>
+                <ResponseHeaders />
             </>}
         </div>
     )
