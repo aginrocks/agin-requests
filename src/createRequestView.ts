@@ -32,10 +32,12 @@ export default function createRequestWebview(context: vscode.ExtensionContext) {
                     const headers = convertCheckableFields(request.headers, {
                         lowerCase: true,
                     });
+
                     const config: AxiosRequestConfig = {
                         validateStatus: () => true,
                         url: request.url,
                         method: request.method,
+                        responseType: 'arraybuffer', // Get raw binary data as a buffer
                     };
 
                     if (request.authType === 'basic') {
@@ -52,9 +54,11 @@ export default function createRequestWebview(context: vscode.ExtensionContext) {
                         config.data = request.requestBody;
                     } else if (request.requestBodyType === 'urlencoded') {
                         headers['content-type'] = 'application/x-www-form-urlencoded';
-                        config.data = qs.stringify(convertCheckableFields(request.requestBody, {
-                            urlencodedMode: true,
-                        }));
+                        config.data = qs.stringify(
+                            convertCheckableFields(request.requestBody, {
+                                urlencodedMode: true,
+                            })
+                        );
                     } else if (request.requestBodyType === 'xml') {
                         headers['content-type'] = 'application/xml';
                         config.data = request.requestBody;
@@ -64,19 +68,44 @@ export default function createRequestWebview(context: vscode.ExtensionContext) {
                     console.log(config);
 
                     try {
+                        const startTime = performance.now();
                         const res = await axios.request(config);
+                        const endTime = performance.now();
 
-                        console.log(res.data);
+                        // Body size is the raw binary data length
+                        const bodySize = res.data.byteLength;
+
+                        // Convert response to JSON if necessary
+                        let responseData: any;
+                        const contentType = res.headers['content-type'];
+                        if (contentType && contentType.includes('application/json')) {
+                            responseData = JSON.parse(new TextDecoder().decode(res.data));
+                        } else {
+                            responseData = new TextDecoder().decode(res.data); // Fallback to string
+                        }
+
+                        // Calculate headers size
+                        const headersSize = Object.entries(res.headers).reduce((total, [key, value]) => {
+                            return total + Buffer.byteLength(`${key}: ${value}\r\n`);
+                        }, 0) + 2; // Adding 2 for the final '\r\n' after headers
+
+                        // Total size includes headers and body
+                        const totalSize = headersSize + bodySize;
 
                         const resData = {
                             type: 'success',
-                            data: res.data,
+                            data: responseData,
                             status: res.status,
                             statusText: res.statusText,
                             headers: res.headers,
+                            metrics: {
+                                bodySize,
+                                headersSize,
+                                totalSize,
+                                time: endTime - startTime, // Time in milliseconds
+                            },
                         };
 
-                        // TODO: Include response and timing
                         panel.webview.postMessage({ command: 'request.finished', data: resData });
                     } catch (error) {
                         let message = 'Unknown Error';
@@ -87,6 +116,12 @@ export default function createRequestWebview(context: vscode.ExtensionContext) {
                             status: -1,
                             statusText: 'ERROR',
                             headers: {},
+                            metrics: {
+                                bodySize: 0,
+                                headersSize: 0,
+                                totalSize: 0,
+                                time: 0,
+                            },
                         };
                         panel.webview.postMessage({ command: 'request.finished', data: resData, });
                     }
