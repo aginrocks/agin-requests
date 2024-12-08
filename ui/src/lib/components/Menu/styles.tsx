@@ -7,7 +7,8 @@ export const targetStyles = css({
 export const dropdownContainer = cva({
     base: {
         position: 'absolute',
-        transition: 'scale .3s ease, opacity .3s ease',
+        visibility: 'hidden',
+        transition: 'scale .3s ease, opacity .3s ease, visibility .3s ease',
         // transformOrigin: 'top right',
         scale: .95,
         opacity: 0,
@@ -25,6 +26,7 @@ export const dropdownContainer = cva({
             true: {
                 scale: 1,
                 opacity: 1,
+                visibility: 'visible',
             }
         }
     },

@@ -14,12 +14,6 @@ export default function createRequestWebview(context: vscode.ExtensionContext) {
 
     panel.iconPath = iconPath;
 
-    const scriptSrc = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'ui', 'dist', 'index.js'));
-
-    const cssSrc = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'ui', 'dist', 'index.css'));
-
-    const codiconsUri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'node_modules', '@vscode/codicons', 'dist', 'codicon.css'));
-
     panel.webview.onDidReceiveMessage(
         async message => {
             console.log('got message', message);

@@ -3,8 +3,9 @@ import { ComponentProps, useState } from "react";
 import { buttonContainer, buttonDivider, icon, mainButton, optionsButton, optionsTarget } from "./styles";
 import Divider from "../Divider";
 import Menu from "../Menu";
-import { IconBolt, IconBrandSocketIo, IconHttpGet, IconPlugConnected, IconServer, IconTerminal } from "@tabler/icons-react";
+import { IconBolt, IconBrandSocketIo, IconFileText, IconHttpGet, IconPlugConnected, IconServer, IconTerminal } from "@tabler/icons-react";
 import { Option } from "../Menu/Option";
+import { useVsCodeApi } from "@lib/hooks";
 
 // TODO: Correct typing
 export interface MenuButtonProps extends ComponentProps<typeof VSCodeButton> {
@@ -15,6 +16,8 @@ export interface MenuButtonProps extends ComponentProps<typeof VSCodeButton> {
 
 export default function MenuButton({ children, ...props }: MenuButtonProps) {
     const [opened, setOpened] = useState(false);
+
+    const vscode = useVsCodeApi();
 
     return (
         <div className={buttonContainer}>
@@ -30,13 +33,20 @@ export default function MenuButton({ children, ...props }: MenuButtonProps) {
                 onClose={() => setOpened(false)}
                 targetClass={optionsTarget}
             >
-                <Option label="HTTP Request" value="" icon={IconHttpGet} />
+                <Option label="HTTP Request" value="" icon={IconHttpGet} onClick={() => {
+                    vscode.postMessage({ command: 'requests.new', type: 'http' });
+                    setOpened(false);
+                }} />
                 <Option label="SSE Request" value="" icon={IconServer} />
                 <Option label="WebSocket Connection" value="" icon={IconPlugConnected} />
                 <Option label="Socket.IO Connection" value="" icon={IconBrandSocketIo} />
                 <Divider withMargin />
-                <Option label="Import from cURL" value="" icon={IconTerminal} />
-                <Option label="Import from Thunder Client" value="" icon={IconBolt} />
+                <Option label="Import from cURL" value="" icon={IconTerminal} onClick={() => {
+                    vscode.postMessage({ command: 'import.curl' });
+                    setOpened(false);
+                }} />
+                {/* <Option label="Import from Thunder Client" value="" icon={IconBolt} /> */}
+                <Option label="Import OpenAPI Document" value="" icon={IconFileText} />
             </Menu>
         </div >
     )
