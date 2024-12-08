@@ -1,5 +1,5 @@
 export function formatSize(size: number): string {
-    if (size == 0) return '0.00 B';
+    if (size == 0) return '0 B';
     const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     let unitIndex = 0;
 
@@ -8,5 +8,5 @@ export function formatSize(size: number): string {
         unitIndex++;
     }
 
-    return `${size.toFixed(2)} ${units[unitIndex]}`;
+    return `${unitIndex == 0 ? size : size.toFixed(2)} ${units[unitIndex]}`;
 }
