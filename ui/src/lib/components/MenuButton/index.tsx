@@ -30,13 +30,13 @@ export default function MenuButton({ children, ...props }: MenuButtonProps) {
                 onClose={() => setOpened(false)}
                 targetClass={optionsTarget}
             >
-                <Option label="HTTP Request" value="nigger" icon={IconHttpGet} />
-                <Option label="SSE Request" value="nigger" icon={IconServer} />
-                <Option label="WebSocket Connection" value="nigger" icon={IconPlugConnected} />
-                <Option label="Socket.IO Connection" value="nigger" icon={IconBrandSocketIo} />
+                <Option label="HTTP Request" value="" icon={IconHttpGet} />
+                <Option label="SSE Request" value="" icon={IconServer} />
+                <Option label="WebSocket Connection" value="" icon={IconPlugConnected} />
+                <Option label="Socket.IO Connection" value="" icon={IconBrandSocketIo} />
                 <Divider withMargin />
-                <Option label="Import from cURL" value="nigger" icon={IconTerminal} />
-                <Option label="Import from Thunder Client" value="nigger" icon={IconBolt} />
+                <Option label="Import from cURL" value="" icon={IconTerminal} />
+                <Option label="Import from Thunder Client" value="" icon={IconBolt} />
             </Menu>
         </div >
     )
