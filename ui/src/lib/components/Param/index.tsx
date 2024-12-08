@@ -5,8 +5,8 @@ import ActionIcon from "../ActionIcon";
 
 export type ParamProps = {
     name: string,
-    onNameChange: (e: any) => void,
-    onValueChange: (e: any) => void,
+    onNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    onValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     value: string,
     namePlaceholder?: string,
     valuePlaceholder?: string,

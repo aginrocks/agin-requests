@@ -9,7 +9,7 @@ export default function Select({ options, withLeftBorder, withRightBorder, withL
     return (
         <div className={inputContainer({ withLeftBorder, withRightBorder, withLeftRadius, withRightRadius })}>
             <select {...props} className={select}>
-                {options.map((o: Option) => <option value={o.value}>{o.label}</option>)}
+                {options.map((o: Option) => <option value={o.value} key={o.value}>{o.label}</option>)}
             </select>
         </div>
     )

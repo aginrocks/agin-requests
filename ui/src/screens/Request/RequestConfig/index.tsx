@@ -40,6 +40,7 @@ export function RequestConfig() {
 
     const [tab, setTab] = useState<string>('query');
 
+    // TODO: Optimize last item generation
     useEffect(() => {
         const last = request?.values.params[request?.values.params.length - 1];
         if (last?.name != '' || last?.value != '') request?.insertListItem('params', {
