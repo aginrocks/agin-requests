@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import type { RequestConfig } from "@lib/types";
 import { useForm } from "@mantine/form";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
@@ -9,6 +9,8 @@ export const RequestConfigContext = createContext<RequestConfigContext | null>(n
 
 export default function RequestConfigProvider({ children }: { children: React.ReactNode }) {
     const vscode = useVsCodeApi();
+
+    const [loadedFromCode, setLoadedFromCode] = useState<boolean>(false);
 
     const config = useForm<RequestConfig>({
         initialValues: {
@@ -58,17 +60,26 @@ export default function RequestConfigProvider({ children }: { children: React.Re
         console.log({ savedState });
 
         config.setValues(savedState?.requestConfig);
+
+        setLoadedFromCode(true);
     }, []);
 
     useEffect(() => {
-        if (!vscode) return;
+        if (!vscode.postMessage || !loadedFromCode) return;
 
-        vscode.postMessage('initial.get');
+        console.log('listening on initial.get', !!vscode);
+
+        vscode.postMessage({ command: 'initial.get' });
 
         const onMessage = (event: MessageEvent) => {
+            console.log('got event1', event);
+
             const message = event.data;
+            console.log('cmd', message.command, message);
+
             if (message.command === 'initial') {
                 config.setValues(message.data);
+                setLoadedFromCode(true);
             }
         };
 
@@ -76,7 +87,7 @@ export default function RequestConfigProvider({ children }: { children: React.Re
         return () => {
             window.removeEventListener('message', onMessage);
         };
-    }, [vscode]);
+    }, [loadedFromCode]);
 
     useEffect(() => {
         console.log({ saving: config.values });

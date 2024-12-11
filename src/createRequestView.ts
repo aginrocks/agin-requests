@@ -121,6 +121,8 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
                     }
                 }
             } else if (message.command == 'initial.get') {
+                console.log('initial.get received', initialData);
+
                 panel.webview.postMessage({ command: 'initial', data: initialData });
             }
 

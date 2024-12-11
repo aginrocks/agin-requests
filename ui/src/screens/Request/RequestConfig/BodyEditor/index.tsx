@@ -26,10 +26,10 @@ export const bodyTypes: TabType[] = [
         id: 'xml',
         label: 'XML',
     },
-    // {
-    //     id: 'text',
-    //     label: 'Text',
-    // },
+    {
+        id: 'text',
+        label: 'Text',
+    },
     {
         id: 'formdata',
         label: 'Form',
