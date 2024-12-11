@@ -9,10 +9,16 @@ type HTTPResponseContextType = [
     React.Dispatch<React.SetStateAction<HTTPResponse<any>>>
 ];
 
-const defaultResponse = {
+const defaultResponse: HTTPResponse = {
     headers: {},
     data: {},
     status: 0,
+    metrics: {
+        bodySize: 0,
+        headersSize: 0,
+        totalSize: 0,
+        time: 0,
+    }
 }
 
 export const HTTPResponseContext = createContext<HTTPResponseContextType>([defaultResponse, () => { }]);

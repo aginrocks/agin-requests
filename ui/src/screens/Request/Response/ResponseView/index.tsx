@@ -7,6 +7,8 @@ import { container } from "./styles";
 import ResponseContent from "./ResponseContent";
 import Welcome from "@lib/components/Welcome";
 import { IconExclamationCircle } from "@tabler/icons-react";
+import ResponseHeaders from "./ResponseHeaders";
+import { formatSize, formatTime } from "@lib/util";
 
 export const responseTabs: TabType[] = [
     {
@@ -21,10 +23,10 @@ export const responseTabs: TabType[] = [
         id: 'cookies',
         label: 'Cookies',
     },
-    {
-        id: 'tests',
-        label: 'Tests',
-    },
+    // {
+    //     id: 'tests',
+    //     label: 'Tests',
+    // },
 ];
 
 export default function ResponseView() {
@@ -44,17 +46,20 @@ export default function ResponseView() {
                 />
                 <Metric
                     label="Size:"
-                    value="TODO"
+                    value={formatSize(response.metrics.bodySize)}
                     color={statusColor}
                 />
                 <Metric
                     label="Time:"
-                    value="TODO"
+                    value={formatTime(response.metrics.time)}
                     color={statusColor}
                 />
             </ResponseMetrics>
             {tab == 'body' && <>
                 <ResponseContent />
+            </>}
+            {tab == 'headers' && <>
+                <ResponseHeaders />
             </>}
         </div>
     )

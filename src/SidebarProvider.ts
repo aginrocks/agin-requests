@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { generateHtml } from "./util";
 import createRequestWebview from "./createRequestView";
+import parseCurl from "@bany/curl-to-json";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
     _view?: vscode.WebviewView;
@@ -32,6 +33,21 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                 if (data.type == 'http') {
                     createRequestWebview(this.context);
                 }
+            } else if (data.command == 'import.curl') {
+                const userInput = await vscode.window.showInputBox({
+                    prompt: 'Paste cURL command',
+                    placeHolder: 'curl https://example.com',
+                    validateInput: (value) => {
+                        if (!value || value.trim() === '') {
+                            return 'Command cannot be empty';
+                        }
+                        return null;
+                    },
+                });
+
+                const request = parseCurl(userInput ?? '');
+                console.log(request);
+
             }
         });
 

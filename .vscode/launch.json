@@ -16,6 +16,22 @@
 				"${workspaceFolder}/out/**/*.js"
 			],
 			"preLaunchTask": "${defaultBuildTask}"
+		},
+		{
+			"name": "Start UI",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "npm start",
+			"cwd": "${workspaceFolder}/ui"
+		}
+	],
+	"compounds": [
+		{
+			"name": "Run Extension and UI",
+			"configurations": [
+				"Run Extension",
+				"Start UI"
+			]
 		}
 	]
 }

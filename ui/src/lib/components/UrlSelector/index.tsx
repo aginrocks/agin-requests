@@ -5,6 +5,9 @@ import Input from "@lib/components/Input";
 import Select from "../Select";
 import type { Option } from "../Select";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
+import { useCallback } from "react";
+import { parseParams } from "@lib/util";
+import { Param } from "@lib/types";
 
 export const methods: Option[] = [
     {
@@ -42,6 +45,16 @@ export default function UrlSelector() {
     const controller = useRequestController();
     const vscode = useVsCodeApi();
 
+    const onUrlChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        request?.setFieldValue('url', e.target.value);
+
+        const rawParams = parseParams(e.target.value);
+        const params = rawParams.map(p => ({ ...p, enabled: true }));
+
+        request?.setFieldValue('params', params);
+        // TODO: Add support for disabling params
+    }, [request]);
+
     return (
         <div className={container}>
             <div className={inputGroup}>
@@ -58,6 +71,7 @@ export default function UrlSelector() {
                     withLeftRadius={false}
                     withRightRadius={false}
                     {...request?.getInputProps('url')}
+                    onChange={onUrlChange}
                 />
                 <VSCodeButton className={sendButton} onClick={() => controller.send()}>
                     Send
