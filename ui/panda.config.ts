@@ -17,6 +17,24 @@ export default defineConfig({
         colors: {
           border: {
             value: '#E6EDF3'
+          },
+          methods: {
+            get: {
+              foreground: {
+                value: '#0969ff',
+              },
+              background: {
+                value: '#004ecd20',
+              }
+            },
+            post: {
+              foreground: {
+                value: '#2bdd66',
+              },
+              background: {
+                value: '#0bae4a20',
+              }
+            },
           }
         }
       }
