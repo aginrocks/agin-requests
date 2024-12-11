@@ -24,7 +24,7 @@ export default defineConfig({
                 value: '#0969ff',
               },
               background: {
-                value: '#004ecd20',
+                value: '#0969ff20',
               }
             },
             post: {
@@ -32,7 +32,55 @@ export default defineConfig({
                 value: '#2bdd66',
               },
               background: {
-                value: '#0bae4a20',
+                value: '#2bdd6620',
+              }
+            },
+            put: {
+              foreground: {
+                value: '#fc8c0c',
+              },
+              background: {
+                value: '#fc8c0c20',
+              }
+            },
+            patch: {
+              foreground: {
+                value: '#d9d02f',
+              },
+              background: {
+                value: '#d9d02f20',
+              }
+            },
+            delete: {
+              foreground: {
+                value: '#f21616',
+              },
+              background: {
+                value: '#f2161620',
+              }
+            },
+            head: {
+              foreground: {
+                value: 'var(--vscode-disabledForeground)',
+              },
+              background: {
+                value: 'color-mix(in srgb, var(--vscode-list-hoverBackground), white 5%)',
+              }
+            },
+            options: {
+              foreground: {
+                value: 'var(--vscode-disabledForeground)',
+              },
+              background: {
+                value: 'color-mix(in srgb, var(--vscode-list-hoverBackground), white 5%)',
+              }
+            },
+            ws: {
+              foreground: {
+                value: '#6bd731',
+              },
+              background: {
+                value: '#6bd7320',
               }
             },
           }

@@ -1,5 +1,14 @@
+import Request from "@lib/components/Request";
+import { history } from "./styles";
+
 export default function History() {
     return (
-        <div></div>
+        <div className={history}>
+            <Request
+                method="get"
+                type="http"
+                url="https://example.com"
+            />
+        </div>
     )
 }

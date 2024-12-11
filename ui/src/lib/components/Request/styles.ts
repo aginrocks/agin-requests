@@ -3,9 +3,10 @@ import { css, cva } from "@styled-system/css";
 export const request = css({
     borderRadius: '10px',
     cursor: 'pointer',
-    padding: '12px',
+    padding: '10px',
+    transition: 'background-color .3s ease',
     '&:hover': {
-        backgroundColor: 'var(--vscode-list-hoverBackground)'
+        backgroundColor: 'color-mix(in srgb, var(--vscode-list-hoverBackground), white 1%)'
     }
 });
 
@@ -23,8 +24,10 @@ export const requestTop = css({
 
 export const methodBadge = cva({
     base: {
-        borderRadius: '9999999px',
-        padding: '8px 12px',
+        borderRadius: '9999px',
+        padding: '4px 8px',
+        fontSize: '10px',
+        fontWeight: 600,
     },
     variants: {
         method: {
@@ -35,6 +38,30 @@ export const methodBadge = cva({
             post: {
                 backgroundColor: 'methods.post.background',
                 color: 'methods.post.foreground',
+            },
+            put: {
+                backgroundColor: 'methods.put.background',
+                color: 'methods.put.foreground',
+            },
+            patch: {
+                backgroundColor: 'methods.patch.background',
+                color: 'methods.patch.foreground',
+            },
+            delete: {
+                backgroundColor: 'methods.delete.background',
+                color: 'methods.delete.foreground',
+            },
+            head: {
+                backgroundColor: 'methods.head.background',
+                color: 'methods.head.foreground',
+            },
+            options: {
+                backgroundColor: 'methods.options.background',
+                color: 'methods.options.foreground',
+            },
+            ws: {
+                backgroundColor: 'methods.ws.background',
+                color: 'methods.ws.foreground',
             },
         }
     }
