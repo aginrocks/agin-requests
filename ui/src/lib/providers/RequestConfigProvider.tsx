@@ -61,6 +61,24 @@ export default function RequestConfigProvider({ children }: { children: React.Re
     }, []);
 
     useEffect(() => {
+        if (!vscode) return;
+
+        vscode.postMessage('initial.get');
+
+        const onMessage = (event: MessageEvent) => {
+            const message = event.data;
+            if (message.command === 'initial') {
+                config.setValues(message.data);
+            }
+        };
+
+        window.addEventListener('message', onMessage);
+        return () => {
+            window.removeEventListener('message', onMessage);
+        };
+    }, [vscode]);
+
+    useEffect(() => {
         console.log({ saving: config.values });
         if (vscode == null) return;
 

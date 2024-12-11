@@ -5,7 +5,7 @@ import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import qs from "qs";
 
 // TODO: Create a provider
-export default function createRequestWebview(context: vscode.ExtensionContext) {
+export default function createRequestWebview(context: vscode.ExtensionContext, initialData?: any) {
     const panel = vscode.window.createWebviewPanel('webview', 'New Request', vscode.ViewColumn.One, {
         enableScripts: true
     });
@@ -13,12 +13,6 @@ export default function createRequestWebview(context: vscode.ExtensionContext) {
     const iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets', 'tab.svg'));
 
     panel.iconPath = iconPath;
-
-    const scriptSrc = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'ui', 'dist', 'index.js'));
-
-    const cssSrc = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'ui', 'dist', 'index.css'));
-
-    const codiconsUri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'node_modules', '@vscode/codicons', 'dist', 'codicon.css'));
 
     panel.webview.onDidReceiveMessage(
         async message => {
@@ -76,7 +70,6 @@ export default function createRequestWebview(context: vscode.ExtensionContext) {
                             headers: res.headers,
                         };
 
-                        // TODO: Include response and timing
                         panel.webview.postMessage({ command: 'request.finished', data: resData });
                     } catch (error) {
                         let message = 'Unknown Error';
@@ -91,6 +84,8 @@ export default function createRequestWebview(context: vscode.ExtensionContext) {
                         panel.webview.postMessage({ command: 'request.finished', data: resData, });
                     }
                 }
+            } else if (message.command == 'initial.get') {
+                panel.webview.postMessage({ command: 'initial', data: initialData });
             }
 
             // if (message.command === 'theme.get') {
