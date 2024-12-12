@@ -74,7 +74,7 @@ export default function UrlSelector() {
                     onChange={onUrlChange}
                 />
                 <VSCodeButton className={sendButton} onClick={() => controller.send()}>
-                    Send
+                    {request?.values.type == 'sse' ? 'Connect' : 'Send'}
                 </VSCodeButton>
             </div>
         </div>

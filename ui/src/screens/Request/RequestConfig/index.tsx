@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRequest } from "@lib/hooks/useRequest";
 import UrlSelector from "@lib/components/UrlSelector";
 import Tabs, { TabType } from "@lib/components/Tabs";
@@ -12,31 +12,33 @@ import { Param, RequestBodyType } from "@lib/types";
 import isEqual from 'lodash/isEqual';
 import qs from 'qs';
 
-export const requestTabs: TabType[] = [
-    {
-        id: 'query',
-        label: 'Query',
-    },
-    {
-        id: 'headers',
-        label: 'Headers',
-    },
-    {
-        id: 'auth',
-        label: 'Authorization',
-    },
-    {
-        id: 'body',
-        label: 'Body',
-    },
-    {
-        id: 'settings',
-        label: 'Settings',
-    },
-];
-
 export function RequestConfig() {
     const request = useRequest();
+
+    const requestTabs = useMemo<TabType[]>(() => [
+        {
+            id: 'query',
+            label: 'Query',
+        },
+        {
+            id: 'headers',
+            label: 'Headers',
+        },
+        {
+            id: 'auth',
+            label: 'Authorization',
+        },
+        ...(request?.values.type != 'sse' ? [
+            {
+                id: 'body',
+                label: 'Body',
+            },
+        ] : []),
+        {
+            id: 'settings',
+            label: 'Settings',
+        },
+    ], [request?.values.type]);
 
     const [tab, setTab] = useState<string>('query');
 

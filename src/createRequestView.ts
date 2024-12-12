@@ -3,6 +3,14 @@ import { convertCheckableFields, generateHtml } from "./util";
 import path from "path";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import qs from "qs";
+import { EventSource } from "eventsource";
+
+type ServerEvent<T> = {
+    type: 'incoming' | 'outgoing' | 'connected' | 'disconnected';
+    receivedAt: Date;
+    event?: string;
+    data: T;
+};
 
 // TODO: Create a provider
 export default function createRequestWebview(context: vscode.ExtensionContext, initialData?: any) {
@@ -13,6 +21,16 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
     const iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets', 'tab.svg'));
 
     panel.iconPath = iconPath;
+
+    let es: EventSource | undefined;
+    let esMessages: ServerEvent<any>[] = [];
+
+    function addEventsMessage(message: ServerEvent<any>) {
+        esMessages.push(message);
+        console.log('sending');
+
+        panel.webview.postMessage({ command: 'sse.message', data: message });
+    }
 
     panel.webview.onDidReceiveMessage(
         async message => {
@@ -124,6 +142,43 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
                 console.log('initial.get received', initialData);
 
                 panel.webview.postMessage({ command: 'initial', data: initialData });
+            } else if (message.command == 'sse.connect') {
+                // TODO: Support named events
+                const request = message.config;
+                console.log('sse', request);
+
+                if (es) es.close();
+                es = new EventSource(request.url), {
+                    headers: convertCheckableFields(request.headers, {
+                        lowerCase: true,
+                    }),
+                };
+                es.addEventListener('open', () => {
+                    addEventsMessage({
+                        receivedAt: new Date(),
+                        type: 'connected',
+                        data: 'Connected',
+                    });
+                });
+                es.addEventListener('message', (message) => {
+                    const data = message.data;
+                    console.log(data);
+
+                    addEventsMessage({
+                        receivedAt: new Date(),
+                        type: 'incoming',
+                        data: data,
+                    });
+                });
+                es.addEventListener('error', (err) => {
+                    console.log({ err });
+
+                    addEventsMessage({
+                        receivedAt: new Date(),
+                        type: 'disconnected',
+                        data: err.message || 'Connection Error',
+                    });
+                });
             }
 
             // if (message.command === 'theme.get') {

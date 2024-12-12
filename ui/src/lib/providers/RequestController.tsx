@@ -1,9 +1,10 @@
 import { useRequest } from "@lib/hooks";
+import { useEventResponse } from "@lib/hooks/useEventResponse";
 import { useHTTPResponse } from "@lib/hooks/useHTTPResponse";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
-export type RequestStatus = 'idle' | 'pending' | 'ws-connected' | 'finished' | 'canceled';
+export type RequestStatus = 'idle' | 'pending' | 'sse' | 'ws-connected' | 'finished' | 'canceled';
 
 export type RequestStateValue = {
     status: RequestStatus,
@@ -20,13 +21,19 @@ export const RequestState = createContext<RequestStateValue>({
 export default function RequestController({ children }: { children: React.ReactNode }) {
     const request = useRequest();
     const [res, setRes] = useHTTPResponse();
+    const eventResponse = useEventResponse();
     const vscode = useVsCodeApi();
 
     const [status, setStatus] = useState<RequestStatus>('idle');
 
     const send = useCallback(() => {
-        setStatus('pending');
-        vscode.postMessage({ command: 'request.execute', config: request?.values });
+        if (request?.values.type == 'http') {
+            setStatus('pending');
+            vscode.postMessage({ command: 'request.execute', config: request?.values });
+        } else if (request?.values.type == 'sse') {
+            setStatus('sse');
+            vscode.postMessage({ command: 'sse.connect', config: request?.values });
+        }
     }, [request?.values]);
 
     const cancel = useCallback(() => {
@@ -40,6 +47,8 @@ export default function RequestController({ children }: { children: React.ReactN
             if (message.command === 'request.finished') {
                 setStatus('finished');
                 setRes(message.data);
+            } else if (message.command === 'sse.message') {
+                eventResponse.addEvent({ ...message.data, receivedAt: new Date(message.data.receivedAt) });
             }
         };
 

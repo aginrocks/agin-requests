@@ -9,6 +9,8 @@ import Welcome from "@lib/components/Welcome";
 import { IconExclamationCircle } from "@tabler/icons-react";
 import ResponseHeaders from "./ResponseHeaders";
 import { formatSize, formatTime } from "@lib/util";
+import { useRequest } from "@lib/hooks";
+import EventResponseContent from "./EventResponseContent";
 
 export const responseTabs: TabType[] = [
     {
@@ -30,6 +32,9 @@ export const responseTabs: TabType[] = [
 ];
 
 export default function ResponseView() {
+    const request = useRequest();
+    const type = request?.values.type;
+
     const [response] = useHTTPResponse();
 
     const [tab, setTab] = useState<string>('body');
@@ -44,19 +49,21 @@ export default function ResponseView() {
                     value={`${response.status == -1 ? '' : `${response.status} `}${response.statusText ?? ''}`}
                     color={statusColor}
                 />
-                <Metric
-                    label="Size:"
-                    value={formatSize(response.metrics.bodySize)}
-                    color={statusColor}
-                />
-                <Metric
-                    label="Time:"
-                    value={formatTime(response.metrics.time)}
-                    color={statusColor}
-                />
+                {type != 'sse' && <>
+                    <Metric
+                        label="Size:"
+                        value={formatSize(response.metrics.bodySize)}
+                        color={statusColor}
+                    />
+                    <Metric
+                        label="Time:"
+                        value={formatTime(response.metrics.time)}
+                        color={statusColor}
+                    />
+                </>}
             </ResponseMetrics>
             {tab == 'body' && <>
-                <ResponseContent />
+                {type == 'sse' ? <EventResponseContent /> : <ResponseContent />}
             </>}
             {tab == 'headers' && <>
                 <ResponseHeaders />

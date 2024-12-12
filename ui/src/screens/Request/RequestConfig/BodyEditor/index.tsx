@@ -44,7 +44,7 @@ export const bodyTypes: TabType[] = [
     // },
 ];
 
-const conenctedTabs = ['json', 'xml', 'text'];
+const connectedTabs = ['json', 'xml', 'text'];
 
 export default function BodyEditor() {
     const request = useRequest();
@@ -58,7 +58,7 @@ export default function BodyEditor() {
                     tabs={bodyTypes}
                     active={request?.values.requestBodyType ?? ''}
                     onChange={(tab) => request?.setFieldValue('requestBodyType', tab as RequestBodyType)}
-                    connected={conenctedTabs.includes(request?.values.requestBodyType as RequestBodyType)}
+                    connected={connectedTabs.includes(request?.values.requestBodyType as RequestBodyType)}
                 />
                 {['json', 'xml', 'text'].includes(request?.values?.requestBodyType as RequestBodyType) && <EditorContainer>
                     <ThemedEditor

@@ -49,6 +49,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             if (data.command == 'requests.new') {
                 if (data.type == 'http') {
                     createRequestWebview(this.context);
+                } else if (data.type == 'sse') {
+                    createRequestWebview(this.context, {
+                        type: 'sse',
+                    });
                 }
             } else if (data.command == 'import.curl') {
                 const userInput = await vscode.window.showInputBox({

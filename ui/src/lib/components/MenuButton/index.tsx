@@ -37,7 +37,10 @@ export default function MenuButton({ children, ...props }: MenuButtonProps) {
                     vscode.postMessage({ command: 'requests.new', type: 'http' });
                     setOpened(false);
                 }} />
-                <Option label="SSE Request" value="" icon={IconServer} />
+                <Option label="SSE Request" value="" icon={IconServer} onClick={() => {
+                    vscode.postMessage({ command: 'requests.new', type: 'sse' });
+                    setOpened(false);
+                }} />
                 <Option label="WebSocket Connection" value="" icon={IconPlugConnected} />
                 <Option label="Socket.IO Connection" value="" icon={IconBrandSocketIo} />
                 <Divider withMargin />

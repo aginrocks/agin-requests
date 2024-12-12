@@ -10,7 +10,7 @@ export default function Response() {
         <div className={resStyles}>
             {status == 'idle' && <Welcome />}
             <PendingRequest visible={status == 'pending'} />
-            {(status == 'finished' || status == 'ws-connected' || status == 'pending') && <ResponseView />}
+            {(status == 'finished' || status == 'ws-connected' || status == 'pending' || status == 'sse') && <ResponseView />}
         </div>
     )
 }
