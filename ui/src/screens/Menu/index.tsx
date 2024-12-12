@@ -20,7 +20,7 @@ const tabs: MenuTab[] = [
     {
         id: 'environments',
         icon: IconBox,
-        label: 'environment',
+        label: 'Environment',
     },
 ];
 

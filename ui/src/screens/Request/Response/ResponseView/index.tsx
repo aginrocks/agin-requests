@@ -11,6 +11,7 @@ import ResponseHeaders from "./ResponseHeaders";
 import { formatSize, formatTime } from "@lib/util";
 import { useRequest } from "@lib/hooks";
 import EventResponseContent from "./EventResponseContent";
+import { useEventResponse } from "@lib/hooks/useEventResponse";
 
 export const responseTabs: TabType[] = [
     {
@@ -37,6 +38,8 @@ export default function ResponseView() {
 
     const [response] = useHTTPResponse();
 
+    const eventResponse = useEventResponse();
+
     const [tab, setTab] = useState<string>('body');
 
     const statusColor = response?.type == 'error' ? 'red' : response.status < 400 ? 'green' : 'red';
@@ -46,8 +49,8 @@ export default function ResponseView() {
             <ResponseMetrics rightSection={<Tabs tabs={responseTabs} active={tab} onChange={setTab} />}>
                 <Metric
                     label="Status:"
-                    value={`${response.status == -1 ? '' : `${response.status} `}${response.statusText ?? ''}`}
-                    color={statusColor}
+                    value={eventResponse.connected ? 'Conencted' : 'Not Connected'}
+                    color={eventResponse.connected ? 'green' : 'red'}
                 />
                 {type != 'sse' && <>
                     <Metric

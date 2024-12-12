@@ -37,9 +37,13 @@ export default function RequestController({ children }: { children: React.ReactN
     }, [request?.values]);
 
     const cancel = useCallback(() => {
-        setStatus('canceled');
-        vscode.postMessage({ command: 'request.cancel', });
-    }, []);
+        if (request?.values.type == 'http') {
+            setStatus('canceled');
+            vscode.postMessage({ command: 'request.cancel' });
+        } else if (request?.values.type == 'sse') {
+            vscode.postMessage({ command: 'sse.disconnect' });
+        }
+    }, [request?.values]);
 
     useEffect(() => {
         const onMessage = (event: MessageEvent) => {
@@ -49,6 +53,8 @@ export default function RequestController({ children }: { children: React.ReactN
                 setRes(message.data);
             } else if (message.command === 'sse.message') {
                 eventResponse.addEvent({ ...message.data, receivedAt: new Date(message.data.receivedAt) });
+            } else if (message.command === 'sse.connected') {
+                eventResponse.setConnected(!!message.data);
             }
         };
 

@@ -147,13 +147,17 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
                 const request = message.config;
                 console.log('sse', request);
 
-                if (es) es.close();
+                if (es) {
+                    es.close();
+                    panel.webview.postMessage({ command: 'sse.connected', data: false });
+                }
                 es = new EventSource(request.url), {
                     headers: convertCheckableFields(request.headers, {
                         lowerCase: true,
                     }),
                 };
                 es.addEventListener('open', () => {
+                    panel.webview.postMessage({ command: 'sse.connected', data: true });
                     addEventsMessage({
                         receivedAt: new Date(),
                         type: 'connected',
@@ -173,12 +177,24 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
                 es.addEventListener('error', (err) => {
                     console.log({ err });
 
+                    panel.webview.postMessage({ command: 'sse.connected', data: false });
+
                     addEventsMessage({
                         receivedAt: new Date(),
                         type: 'disconnected',
                         data: err.message || 'Connection Error',
                     });
                 });
+            } else if (message.command == 'sse.disconnect') {
+                if (es) {
+                    es.close();
+                    panel.webview.postMessage({ command: 'sse.connected', data: false });
+                    addEventsMessage({
+                        receivedAt: new Date(),
+                        type: 'disconnected',
+                        data: 'Disconnected',
+                    });
+                }
             }
 
             // if (message.command === 'theme.get') {

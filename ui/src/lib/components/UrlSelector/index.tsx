@@ -8,6 +8,7 @@ import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
 import { useCallback } from "react";
 import { parseParams } from "@lib/util";
 import { Param } from "@lib/types";
+import { useEventResponse } from "@lib/hooks/useEventResponse";
 
 export const methods: Option[] = [
     {
@@ -43,6 +44,7 @@ export const methods: Option[] = [
 export default function UrlSelector() {
     const request = useRequest();
     const controller = useRequestController();
+    const eventResponse = useEventResponse();
     const vscode = useVsCodeApi();
 
     const onUrlChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,8 +75,8 @@ export default function UrlSelector() {
                     {...request?.getInputProps('url')}
                     onChange={onUrlChange}
                 />
-                <VSCodeButton className={sendButton} onClick={() => controller.send()}>
-                    {request?.values.type == 'sse' ? 'Connect' : 'Send'}
+                <VSCodeButton className={sendButton} onClick={() => (request?.values.type == 'sse' && eventResponse.connected) ? controller.cancel() : controller.send()}>
+                    {request?.values.type == 'sse' ? eventResponse.connected ? 'Disconnect' : 'Connect' : 'Send'}
                 </VSCodeButton>
             </div>
         </div>
