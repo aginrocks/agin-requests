@@ -4,5 +4,7 @@ export const menuTabs = css({
     display: 'flex',
     flexGrow: 'grow',
     alignItems: 'center',
-    padding: '10px 0',
+    padding: '0 20px',
+    gap: '2px',
+    marginTop: '10px'
 });

@@ -9,6 +9,26 @@ export default function History() {
                 type="http"
                 url="https://example.com"
             />
+            <Request
+                method="get"
+                type="http"
+                url="https://example.com"
+            />
+            <Request
+                method="get"
+                type="http"
+                url="https://example.com"
+            />
+            <Request
+                method="get"
+                type="http"
+                url="https://example.com"
+            />
+            <Request
+                method="get"
+                type="http"
+                url="https://example.com"
+            />
         </div>
     )
 }

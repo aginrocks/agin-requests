@@ -10,7 +10,6 @@ export default function Request({ type, url, method }: RequestProps) {
     return (
         <div className={request}>
             <div className={requestTop}>
-                {/* TODO: Add all methods */}
                 <div className={methodBadge({ method })}>
                     {method.toUpperCase()}
                 </div>

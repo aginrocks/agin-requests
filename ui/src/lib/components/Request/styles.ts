@@ -3,7 +3,8 @@ import { css, cva } from "@styled-system/css";
 export const request = css({
     borderRadius: '10px',
     cursor: 'pointer',
-    padding: '10px',
+    // padding: '10px',
+    padding: '8px 10px',
     transition: 'background-color .3s ease',
     '&:hover': {
         backgroundColor: 'color-mix(in srgb, var(--vscode-list-hoverBackground), white 1%)'
@@ -11,7 +12,7 @@ export const request = css({
 });
 
 export const requestTitle = css({
-    fontSize: 14,
+    fontSize: 13,
     // color: 'var(--vscode-disabledForeground)',
     fontWeight: 500
 });
@@ -19,6 +20,7 @@ export const requestTitle = css({
 export const requestTop = css({
     display: 'flex',
     gap: '8px',
+    alignItems: 'center'
     // TODO
 });
 
