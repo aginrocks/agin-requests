@@ -60,23 +60,23 @@ export default function UrlSelector() {
     return (
         <div className={container}>
             <div className={inputGroup}>
-                <div className={methodSelector}>
+                {request?.values.type != 'ws' && request?.values.type != 'socketio' && <div className={methodSelector}>
                     <Select
                         options={methods}
                         withRightRadius={false}
                         {...request?.getInputProps('method')}
                     />
-                </div>
+                </div>}
                 <Input
                     placeholder="Enter Url..."
                     withRightBorder={false}
-                    withLeftRadius={false}
+                    withLeftRadius={!(request?.values.type != 'ws' && request?.values.type != 'socketio')}
                     withRightRadius={false}
                     {...request?.getInputProps('url')}
                     onChange={onUrlChange}
                 />
                 <VSCodeButton className={sendButton} onClick={() => (request?.values.type == 'sse' && eventResponse.connected) ? controller.cancel() : controller.send()}>
-                    {request?.values.type == 'sse' ? eventResponse.connected ? 'Disconnect' : 'Connect' : 'Send'}
+                    {(request?.values.type == 'sse' || request?.values.type == 'ws' || request?.values.type == 'socketio') ? eventResponse.connected ? 'Disconnect' : 'Connect' : 'Send'}
                 </VSCodeButton>
             </div>
         </div>
