@@ -9,7 +9,7 @@ import Welcome from "@lib/components/Welcome";
 import { IconExclamationCircle } from "@tabler/icons-react";
 import ResponseHeaders from "./ResponseHeaders";
 import { formatSize, formatTime } from "@lib/util";
-import { useRequest } from "@lib/hooks";
+import { useRequest, useRequestController } from "@lib/hooks";
 import EventResponseContent from "./EventResponseContent";
 import { useEventResponse } from "@lib/hooks/useEventResponse";
 
@@ -40,6 +40,8 @@ export default function ResponseView() {
 
     const eventResponse = useEventResponse();
 
+    const { status, cancel } = useRequestController();
+
     const [tab, setTab] = useState<string>('body');
 
     const statusColor = response?.type == 'error' ? 'red' : response.status < 400 ? 'green' : 'red';
@@ -66,7 +68,7 @@ export default function ResponseView() {
                 </>}
             </ResponseMetrics>
             {tab == 'body' && <>
-                {type == 'sse' ? <EventResponseContent /> : <ResponseContent />}
+                {status == 'realtime' ? <EventResponseContent /> : <ResponseContent />}
             </>}
             {tab == 'headers' && <>
                 <ResponseHeaders />

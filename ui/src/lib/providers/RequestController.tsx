@@ -3,8 +3,9 @@ import { useEventResponse } from "@lib/hooks/useEventResponse";
 import { useHTTPResponse } from "@lib/hooks/useHTTPResponse";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { RealtimeMessage } from "./RealtimeMessagesProvider";
 
-export type RequestStatus = 'idle' | 'pending' | 'sse' | 'ws-connected' | 'finished' | 'canceled';
+export type RequestStatus = 'idle' | 'pending' | 'realtime' | 'finished' | 'canceled';
 
 export type RequestStateValue = {
     status: RequestStatus,
@@ -31,13 +32,21 @@ export default function RequestController({ children }: { children: React.ReactN
             setStatus('pending');
             vscode.postMessage({ command: 'request.execute', config: request?.values });
         } else if (request?.values.type == 'sse') {
-            setStatus('sse');
+            setStatus('realtime');
             vscode.postMessage({ command: 'sse.connect', config: request?.values });
         } else if (request?.values.type == 'ws') {
-            setStatus('ws-connected');
+            setStatus('realtime');
             vscode.postMessage({ command: 'ws.connect', config: request?.values });
         }
     }, [request?.values]);
+
+    const sendMessage = useCallback((message: RealtimeMessage) => {
+        if (request?.values.type == 'ws') {
+            vscode.postMessage({ command: 'ws.send', config: message });
+        } else if (request?.values.type == 'socketio') {
+            vscode.postMessage({ command: 'io.send', config: message });
+        }
+    }, [request]);
 
     const cancel = useCallback(() => {
         if (request?.values.type == 'http') {
@@ -56,9 +65,9 @@ export default function RequestController({ children }: { children: React.ReactN
             if (message.command === 'request.finished') {
                 setStatus('finished');
                 setRes(message.data);
-            } else if (message.command === 'sse.message') {
+            } else if (message.command === 'realtime.message') {
                 eventResponse.addEvent({ ...message.data, receivedAt: new Date(message.data.receivedAt) });
-            } else if (message.command === 'sse.connected') {
+            } else if (message.command === 'realtime.connected') {
                 eventResponse.setConnected(!!message.data);
             }
         };

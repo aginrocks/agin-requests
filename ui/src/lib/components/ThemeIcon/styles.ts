@@ -25,6 +25,15 @@ export const themeIconContainer = cva({
                 color: 'blue.6',
                 backgroundColor: 'dimmed.blue.6',
             },
+            theme: {
+                backgroundColor: 'color-mix(in srgb, var(--button-primary-background), var(--vscode-editor-background) 80%)',
+                color: 'var(--button-primary-background)',
+            }
         },
+        clickable: {
+            true: {
+                cursor: 'pointer',
+            }
+        }
     }
 });

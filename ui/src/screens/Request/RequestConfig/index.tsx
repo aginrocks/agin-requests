@@ -11,6 +11,7 @@ import AuthEditor from "./AuthEditor";
 import { Param, RequestBodyType } from "@lib/types";
 import isEqual from 'lodash/isEqual';
 import qs from 'qs';
+import WSMessageEditor from "./WSMessageEditor";
 
 export function RequestConfig() {
     const request = useRequest();
@@ -20,6 +21,12 @@ export function RequestConfig() {
             id: 'query',
             label: 'Query',
         },
+        ...(request?.values.type == 'ws' || request?.values.type == 'socketio' ? [
+            {
+                id: 'message',
+                label: 'Message',
+            },
+        ] : []),
         {
             id: 'headers',
             label: 'Headers',
@@ -97,6 +104,7 @@ export function RequestConfig() {
             {tab == 'headers' && <HeadersEditor />}
             {tab == 'body' && <BodyEditor />}
             {tab == 'auth' && <AuthEditor />}
+            {tab == 'message' && (request?.values.type == 'socketio' ? <div></div> : <WSMessageEditor />)}
         </div>
     )
 }

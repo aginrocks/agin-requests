@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { tooltip } from "./styles";
+import { createPortal } from "react-dom";
 
 export type TooltipProps = {
     label: string;
@@ -54,16 +55,18 @@ export default function Tooltip({ label, children }: TooltipProps) {
             {React.cloneElement(React.Children.only(children as React.ReactElement), {
                 ref: childRef
             })}
-            <div className={classes.container} style={{
-                position: 'absolute',
-                top: tooltipPosition?.top,
-                left: tooltipPosition?.left,
-                width: tooltipPosition?.width,
-            }}>
-                <div className={classes.tooltip}>
-                    {label}
+            {createPortal(<>
+                <div className={classes.container} style={{
+                    position: 'absolute',
+                    top: tooltipPosition?.top,
+                    left: tooltipPosition?.left,
+                    width: tooltipPosition?.width,
+                }}>
+                    <div className={classes.tooltip}>
+                        {label}
+                    </div>
                 </div>
-            </div>
+            </>, document.body)}
         </>
     )
 }

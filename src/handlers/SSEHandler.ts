@@ -23,14 +23,14 @@ export class SSEHandler extends Handler {
 
             if (this.es) {
                 this.es.close();
-                this.panel.webview.postMessage({ command: 'sse.connected', data: false });
+                this.panel.webview.postMessage({ command: 'realtime.connected', data: false });
             }
             this.es = new EventSource(request.url, {
                 // TODO: Add headers
                 // headers,
             });
             this.es.addEventListener('open', () => {
-                this.panel.webview.postMessage({ command: 'sse.connected', data: true });
+                this.panel.webview.postMessage({ command: 'realtime.connected', data: true });
                 this.addMessage({
                     receivedAt: new Date(),
                     type: 'connected',
@@ -50,7 +50,7 @@ export class SSEHandler extends Handler {
             this.es.addEventListener('error', (err) => {
                 console.log({ err });
 
-                this.panel.webview.postMessage({ command: 'sse.connected', data: false });
+                this.panel.webview.postMessage({ command: 'realtime.connected', data: false });
 
                 this.addMessage({
                     receivedAt: new Date(),
@@ -61,7 +61,7 @@ export class SSEHandler extends Handler {
         } else if (message.command == 'sse.disconnect') {
             if (this.es) {
                 this.es.close();
-                this.panel.webview.postMessage({ command: 'sse.connected', data: false });
+                this.panel.webview.postMessage({ command: 'realtime.connected', data: false });
                 this.addMessage({
                     receivedAt: new Date(),
                     type: 'disconnected',

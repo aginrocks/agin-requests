@@ -1,4 +1,4 @@
-import { cva } from "@styled-system/css";
+import { css, cva } from "@styled-system/css";
 
 export const tabs = cva({
     base: {
@@ -6,6 +6,10 @@ export const tabs = cva({
         padding: '10px 15px',
         paddingBottom: '3px',
         borderRadius: '10px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        position: 'relative',
     },
     variants: {
         connected: {
@@ -16,4 +20,15 @@ export const tabs = cva({
             }
         }
     }
+});
+
+export const right = css({
+    position: 'absolute',
+    right: '10px',
+    top: '0px',
+    bottom: '0px',
+    display: 'flex',
+    alignItems: 'center',
+    zIndex: 100,
+    gap: '5px'
 });

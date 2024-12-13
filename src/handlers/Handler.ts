@@ -25,6 +25,6 @@ export class Handler {
         this.messages.push(message);
         console.log('sending');
 
-        this.panel.webview.postMessage({ command: `${this.prefix}.message`, data: message });
+        this.panel.webview.postMessage({ command: 'realtime.message', data: message });
     }
 }

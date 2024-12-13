@@ -8,6 +8,7 @@ import RequestConfigProvider from "@lib/providers/RequestConfigProvider";
 import RequestController from "@lib/providers/RequestController";
 import HTTPResponseProvider from "@lib/providers/HTTPResponseProvider";
 import EventResponseProvider from "@lib/providers/EventResponseProvider";
+import RealtimeMessagesProvider from "@lib/providers/RealtimeMessagesProvider";
 
 export const requestTabs: TabType[] = [
     {
@@ -33,12 +34,14 @@ export function Request() {
         <RequestConfigProvider>
             <HTTPResponseProvider>
                 <EventResponseProvider>
-                    <RequestController>
-                        <Columns
-                            left={<RequestConfig />}
-                            right={<Response />}
-                        />
-                    </RequestController>
+                    <RealtimeMessagesProvider>
+                        <RequestController>
+                            <Columns
+                                left={<RequestConfig />}
+                                right={<Response />}
+                            />
+                        </RequestController>
+                    </RealtimeMessagesProvider>
                 </EventResponseProvider>
             </HTTPResponseProvider>
         </RequestConfigProvider>

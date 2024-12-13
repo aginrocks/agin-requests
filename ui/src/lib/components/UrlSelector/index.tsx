@@ -57,6 +57,8 @@ export default function UrlSelector() {
         // TODO: Add support for disabling params
     }, [request]);
 
+    const isRealtime = request?.values.type == 'sse' || request?.values.type == 'ws' || request?.values.type == 'socketio';
+
     return (
         <div className={container}>
             <div className={inputGroup}>
@@ -75,8 +77,8 @@ export default function UrlSelector() {
                     {...request?.getInputProps('url')}
                     onChange={onUrlChange}
                 />
-                <VSCodeButton className={sendButton} onClick={() => (request?.values.type == 'sse' && eventResponse.connected) ? controller.cancel() : controller.send()}>
-                    {(request?.values.type == 'sse' || request?.values.type == 'ws' || request?.values.type == 'socketio') ? eventResponse.connected ? 'Disconnect' : 'Connect' : 'Send'}
+                <VSCodeButton className={sendButton} onClick={() => (isRealtime && eventResponse.connected) ? controller.cancel() : controller.send()}>
+                    {isRealtime ? eventResponse.connected ? 'Disconnect' : 'Connect' : 'Send'}
                 </VSCodeButton>
             </div>
         </div>
