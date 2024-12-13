@@ -18,7 +18,7 @@ export default function Welcome({ title, subtitle, icon, color }: WelcomeProps) 
         <div className={welcome}>
             <Icon size={50} stroke={1.4} className={logo({ color })} />
             <div className={titleStyles}>{title ?? 'Welcome to Agin Requests!'}</div>
-            <div className={subtitleStyles}>{subtitle ?? `Set request details and press ${request?.values.type == 'sse' ? 'Connect' : 'Send'}.`}</div>
+            <div className={subtitleStyles}>{subtitle ?? `Set request details and press ${(request?.values.type == 'sse' || request?.values.type == 'ws' || request?.values.type == 'socketio') ? 'Connect' : 'Send'}.`}</div>
         </div>
     )
 }

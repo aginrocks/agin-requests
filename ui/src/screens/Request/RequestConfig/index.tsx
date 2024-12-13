@@ -28,7 +28,7 @@ export function RequestConfig() {
             id: 'auth',
             label: 'Authorization',
         },
-        ...(request?.values.type != 'sse' ? [
+        ...(request?.values.type != 'sse' && request?.values.type != 'ws' && request?.values.type != 'socketio' ? [
             {
                 id: 'body',
                 label: 'Body',

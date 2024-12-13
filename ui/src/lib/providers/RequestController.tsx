@@ -33,6 +33,9 @@ export default function RequestController({ children }: { children: React.ReactN
         } else if (request?.values.type == 'sse') {
             setStatus('sse');
             vscode.postMessage({ command: 'sse.connect', config: request?.values });
+        } else if (request?.values.type == 'ws') {
+            setStatus('ws-connected');
+            vscode.postMessage({ command: 'ws.connect', config: request?.values });
         }
     }, [request?.values]);
 
@@ -42,6 +45,8 @@ export default function RequestController({ children }: { children: React.ReactN
             vscode.postMessage({ command: 'request.cancel' });
         } else if (request?.values.type == 'sse') {
             vscode.postMessage({ command: 'sse.disconnect' });
+        } else if (request?.values.type == 'ws') {
+            vscode.postMessage({ command: 'ws.disconnect' });
         }
     }, [request?.values]);
 
