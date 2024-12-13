@@ -38,11 +38,11 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
             if (message.command == 'initial.get') {
                 console.log('initial.get received', initialData);
                 panel.webview.postMessage({ command: 'initial', data: initialData });
-            } else if (message.command.startsWith('request')) {
+            } else if (message.command.startsWith('request.')) {
                 await httpHandler.onMessage(message);
-            } else if (message.command.startsWith('sse')) {
+            } else if (message.command.startsWith('sse.')) {
                 await sseHandler.onMessage(message);
-            } else if (message.command.startsWith('ws')) {
+            } else if (message.command.startsWith('ws.')) {
                 await wsHandler.onMessage(message);
             }
         }

@@ -11,12 +11,14 @@ export type RequestStateValue = {
     status: RequestStatus,
     send: () => void,
     cancel: () => void,
+    sendMessage: (message: RealtimeMessage) => void,
 }
 
 export const RequestState = createContext<RequestStateValue>({
     status: 'idle',
     send: () => { },
     cancel: () => { },
+    sendMessage: () => { },
 });
 
 export default function RequestController({ children }: { children: React.ReactNode }) {
@@ -41,10 +43,12 @@ export default function RequestController({ children }: { children: React.ReactN
     }, [request?.values]);
 
     const sendMessage = useCallback((message: RealtimeMessage) => {
+        console.log('sending', message);
+
         if (request?.values.type == 'ws') {
-            vscode.postMessage({ command: 'ws.send', config: message });
+            vscode.postMessage({ command: 'ws.send', data: message });
         } else if (request?.values.type == 'socketio') {
-            vscode.postMessage({ command: 'io.send', config: message });
+            vscode.postMessage({ command: 'io.send', data: message });
         }
     }, [request]);
 
@@ -80,7 +84,7 @@ export default function RequestController({ children }: { children: React.ReactN
     }, []);
 
     return (
-        <RequestState.Provider value={{ status: status, send, cancel }}>
+        <RequestState.Provider value={{ status: status, send, sendMessage, cancel }}>
             {children}
         </RequestState.Provider>
     )

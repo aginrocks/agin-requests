@@ -69,6 +69,13 @@ export class WSHandler extends Handler {
             });
         } else if (message.command == 'ws.disconnect') {
             this.ws?.close();
+        } else if (message.command == 'ws.send') {
+            this.ws?.send(message.data.data);
+            this.addMessage({
+                data: message.data,
+                receivedAt: new Date(),
+                type: 'outgoing',
+            });
         }
     }
 }

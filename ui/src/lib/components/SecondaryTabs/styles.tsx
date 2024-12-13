@@ -30,5 +30,5 @@ export const right = css({
     display: 'flex',
     alignItems: 'center',
     zIndex: 100,
-    gap: '5px'
+    gap: '3px'
 });

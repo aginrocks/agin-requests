@@ -1,0 +1,94 @@
+/*
+ * Highlight.js theme adapted from VS Code,
+ * designed to work with any theme by using VS Code's variables.
+ * TODO: Add compatibility with more VS Code themes
+ */
+
+.hljs {
+    display: block;
+    overflow-x: auto;
+    /* padding: 0.5em; */
+    /* add padding like vscode does */
+    background: var(--vscode-editor-background);
+    color: var(--vscode-editor-foreground);
+    font-family: var(--vscode-editor-font-family);
+    font-weight: var(--vscode-editor-font-weight);
+    font-size: var(--vscode-editor-font-size);
+    line-height: 1.5em;
+    /* Add line height for readability like vscode*/
+}
+
+/* Comments */
+.hljs-comment,
+.hljs-quote {
+    color: var(--vscode-descriptionForeground);
+    /* Comment color */
+}
+
+/* JSON Keys (Properties) - Property */
+.hljs-attr,
+.hljs-attribute,
+.hljs-property {
+    color: var(--vscode-symbolIcon-propertyForeground);
+    /* Uses property symbol color */
+}
+
+/* JSON Strings (values) */
+.hljs-string,
+.hljs-regexp {
+    color: var(--vscode-symbolIcon-stringForeground);
+    /* Use string symbol color */
+}
+
+/* JSON Numbers */
+.hljs-number {
+    color: var(--vscode-symbolIcon-numberForeground);
+    /* use number symbol color */
+}
+
+/* JSON Boolean and null values */
+.hljs-literal,
+.hljs-boolean,
+.hljs-null {
+    color: var(--vscode-symbolIcon-booleanForeground);
+    /* use boolean symbol color*/
+}
+
+/* JSON Punctuation/Containers and Braces */
+.hljs-punctuation,
+.hljs-container {
+    color: var(--vscode-foreground);
+}
+
+/* JSON Separators like commas */
+.hljs-separator {
+    color: var(--vscode-textSeparator-foreground);
+    /* use textSeparator color */
+}
+
+/* Highlighted */
+.hljs-highlighted,
+.hljs-strong {
+    background-color: var(--vscode-editor-selectionBackground);
+    color: var(--vscode-foreground);
+    font-weight: bold;
+}
+
+/* markup bold/italics etc */
+.hljs-strong,
+.hljs-emphasis {
+    color: var(--vscode-foreground);
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Diff stuff */
+.hljs-addition,
+.hljs-inserted {
+    background-color: var(--vscode-diffEditor-insertedLineBackground)
+}
+
+.hljs-deletion,
+.hljs-removed {
+    background-color: var(--vscode-diffEditor-removedLineBackground)
+}

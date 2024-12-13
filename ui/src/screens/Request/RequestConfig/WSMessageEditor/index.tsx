@@ -1,15 +1,13 @@
-import { useRequest } from "@lib/hooks"
-import { container, editor, paramsContainer } from "./styles";
+import { useRequestController } from "@lib/hooks"
+import { container, editor } from "./styles";
 import { TabType } from "@lib/components/Tabs";
-import { RequestBodyType, WSMessage, WSType } from "@lib/types";
+import { WSType } from "@lib/types";
 import EditorContainer from "@lib/components/EditorContainer";
-import ParamsGroup from "@lib/components/ParamsGroup";
-import Param from "@lib/components/Param";
 import SecondaryTabs from "@lib/components/SecondaryTabs";
 import ThemedEditor from "@lib/components/ThemedEditor";
 import { useRealtimeMessages } from "@lib/hooks/useRealtimeMessages";
 import ThemeIcon from "@lib/components/ThemeIcon";
-import { IconArrowRight, IconPlus, IconSend2 } from "@tabler/icons-react";
+import { IconPlus, IconSend2 } from "@tabler/icons-react";
 import Tooltip from "@lib/components/Tooltip";
 
 export const wsMessageTypes: TabType[] = [
@@ -31,6 +29,8 @@ export default function WSMessageEditor() {
     const msg = useRealtimeMessages();
 
     const activeMessage = msg?.values?.activeMessage;
+
+    const controller = useRequestController();
 
     return (
         <>
@@ -55,6 +55,7 @@ export default function WSMessageEditor() {
                                     icon={IconSend2}
                                     iconColor="theme"
                                     clickable
+                                    onClick={() => activeMessage ? controller.sendMessage(activeMessage) : {}}
                                 />
                             </div>
                         </Tooltip>

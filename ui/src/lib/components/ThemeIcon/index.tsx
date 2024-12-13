@@ -10,7 +10,7 @@ export interface ThemeIconProps extends React.HTMLAttributes<HTMLDivElement>, Th
 
 export default function ThemeIcon({ icon: Icon, iconColor, clickable, ...props }: ThemeIconProps) {
     return (
-        <div className={themeIconContainer({ iconColor, clickable })}>
+        <div className={themeIconContainer({ iconColor, clickable })} {...props}>
             <Icon size={16} />
         </div>
     )
