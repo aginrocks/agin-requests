@@ -40,6 +40,11 @@ export const inputContainer = cva({
                 padding: '0 10px',
             }
         },
+        radius: {
+            sm: {
+                borderRadius: '10px',
+            }
+        }
     }
 });
 

@@ -7,18 +7,19 @@ export type WelcomeProps = {
     subtitle?: string;
     icon?: Icon;
     color?: 'red';
+    size?: 'sm';
 }
 
-export default function Welcome({ title, subtitle, icon, color }: WelcomeProps) {
+export default function Welcome({ title, subtitle, icon, color, size }: WelcomeProps) {
     const Icon = icon ?? IconFlame;
 
     const request = useRequest();
 
     return (
         <div className={welcome}>
-            <Icon size={50} stroke={1.4} className={logo({ color })} />
-            <div className={titleStyles}>{title ?? 'Welcome to Agin Requests!'}</div>
-            <div className={subtitleStyles}>{subtitle ?? `Set request details and press ${(request?.values.type == 'sse' || request?.values.type == 'ws' || request?.values.type == 'socketio') ? 'Connect' : 'Send'}.`}</div>
+            <Icon size={size == 'sm' ? 40 : 50} stroke={1.4} className={logo({ color })} />
+            <div className={titleStyles({ size })}>{title ?? 'Welcome to Agin Requests!'}</div>
+            <div className={subtitleStyles({ size })}>{subtitle ?? `Set request details and press ${(request?.values.type == 'sse' || request?.values.type == 'ws' || request?.values.type == 'socketio') ? 'Connect' : 'Send'}.`}</div>
         </div>
     )
 }

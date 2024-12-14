@@ -6,6 +6,6 @@ export type SocketIOArgument = {
 }
 
 export type SocketIOMessage = {
-    arguments: SocketIOArgument[];
+    args: SocketIOArgument[];
     label?: string;
 }

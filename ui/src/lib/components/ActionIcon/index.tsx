@@ -1,14 +1,15 @@
 import React, { HTMLAttributes } from 'react';
 import { actionIcon } from './styles';
+import { Icon } from '@tabler/icons-react';
 
 export interface ActionIconProps extends HTMLAttributes<HTMLDivElement> {
-    icon: string;
+    icon: string | Icon;
 }
 
-export default function ActionIcon({ icon, ...props }: ActionIconProps) {
+export default function ActionIcon({ icon: Icon, ...props }: ActionIconProps) {
     return (
         <div className={actionIcon} {...props}>
-            <i className={`codicon codicon-${icon}`} />
+            {typeof Icon == 'string' ? <i className={`codicon codicon-${Icon}`} /> : <Icon size={16} />}
         </div>
     );
 }

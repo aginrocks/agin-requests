@@ -27,6 +27,8 @@ export const drawer = sva({
             width: '400px',
             zIndex: 9999999,
             boxShadow: 'rgba(0, 0, 0, 0.15) 0px 5px 15px 0px',
+            display: 'flex',
+            flexDir: 'column',
         },
         header: {
             padding: '20px',

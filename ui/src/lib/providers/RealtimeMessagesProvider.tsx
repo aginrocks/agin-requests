@@ -19,7 +19,7 @@ export default function RealtimeMessagesProvider({ children }: { children: React
             activeMessage: {
                 data: '',
                 type: 'json',
-                arguments: [],
+                args: [],
             }
         }
     });

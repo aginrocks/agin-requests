@@ -9,7 +9,8 @@
     overflow-x: auto;
     /* padding: 0.5em; */
     /* add padding like vscode does */
-    background: var(--vscode-editor-background);
+    /* background: var(--vscode-editor-background); */
+    background: transparent;
     color: var(--vscode-editor-foreground);
     font-family: var(--vscode-editor-font-family);
     font-weight: var(--vscode-editor-font-weight);

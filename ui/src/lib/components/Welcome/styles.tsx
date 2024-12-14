@@ -6,7 +6,7 @@ export const welcome = css({
     flexDir: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
+    // height: '100%',
 });
 
 export const logo = cva({
@@ -23,13 +23,31 @@ export const logo = cva({
     }
 });
 
-export const titleStyles = css({
-    color: 'var(--vscode-activeForeground)',
-    fontWeight: 600,
-    fontSize: '18px',
+export const titleStyles = cva({
+    base: {
+        color: 'var(--vscode-activeForeground)',
+        fontWeight: 600,
+        fontSize: '18px',
+    },
+    variants: {
+        size: {
+            sm: {
+                fontSize: '15px',
+            }
+        }
+    }
 });
 
-export const subtitleStyles = css({
-    color: 'var(--vscode-disabledForeground)',
-    fontSize: '14px',
+export const subtitleStyles = cva({
+    base: {
+        color: 'var(--vscode-disabledForeground)',
+        fontSize: '14px',
+    },
+    variants: {
+        size: {
+            sm: {
+                fontSize: '11px',
+            }
+        }
+    }
 });

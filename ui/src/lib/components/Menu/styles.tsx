@@ -12,6 +12,7 @@ export const dropdownContainer = cva({
         // transformOrigin: 'top right',
         scale: .95,
         opacity: 0,
+        zIndex: 999999,
     },
     variants: {
         position: {
