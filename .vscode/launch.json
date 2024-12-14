@@ -23,6 +23,13 @@
 			"request": "launch",
 			"command": "npm start",
 			"cwd": "${workspaceFolder}/ui"
+		},
+		{
+			"name": "Start Docs",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "npm run dev",
+			"cwd": "${workspaceFolder}/docs"
 		}
 	],
 	"compounds": [

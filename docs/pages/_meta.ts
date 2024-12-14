@@ -1,9 +1,10 @@
 export default {
   index: 'Home',
-  about: {
-    title: 'About',
-    type: 'page'
-  },
+  // about: {
+  //   title: 'About',
+  //   type: 'page'
+  // },
+  features: 'Features',
   contact: {
     title: 'Website ↗',
     type: 'page',
