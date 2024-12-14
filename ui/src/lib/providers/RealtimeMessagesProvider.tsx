@@ -1,6 +1,6 @@
 import { SocketIOMessage, WSMessage } from "@lib/types"
 import { useForm } from "@mantine/form";
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 
 export type RealtimeMessage = WSMessage & SocketIOMessage;
 type RealtimeMessagesForm = {
@@ -23,6 +23,10 @@ export default function RealtimeMessagesProvider({ children }: { children: React
             }
         }
     });
+
+    useEffect(() => {
+        messages.resetDirty();
+    }, [messages.values.activeMessage.label]);
 
     return (
         <RealtimeMessagesContext.Provider value={messages}>

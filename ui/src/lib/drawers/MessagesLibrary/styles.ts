@@ -5,7 +5,14 @@ export const messagesList = css({
     paddingTop: '0px',
     display: 'flex',
     flexDir: 'column',
-    gap: '10px',
-    overflow: 'auto',
     flex: 1,
+    maxH: '100%',
+    gap: '10px',
+    overflow: 'scroll',
+});
+
+export const messagesListInner = css({
+    display: 'flex',
+    flexDir: 'column',
+    gap: '10px',
 });

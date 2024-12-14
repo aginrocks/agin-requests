@@ -10,6 +10,7 @@ export const tooltip = sva({
             transition: 'opacity .3s ease, visibility .3s ease, scale .3s ease',
             transformOrigin: 'top',
             textWrap: 'nowrap',
+            zIndex: 999999999,
         },
         tooltip: {
             borderRadius: '8px',

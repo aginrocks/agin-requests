@@ -12,6 +12,9 @@ export const urlSelector = css({
 
 export const tabs = css({
     // marginBottom: '5px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
 });
 
 export const left = css({

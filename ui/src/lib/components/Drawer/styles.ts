@@ -29,6 +29,7 @@ export const drawer = sva({
             boxShadow: 'rgba(0, 0, 0, 0.15) 0px 5px 15px 0px',
             display: 'flex',
             flexDir: 'column',
+            maxH: '100%',
         },
         header: {
             padding: '20px',

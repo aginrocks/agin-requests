@@ -28,6 +28,7 @@ export const titleStyles = cva({
         color: 'var(--vscode-activeForeground)',
         fontWeight: 600,
         fontSize: '18px',
+        textAlign: 'center',
     },
     variants: {
         size: {
@@ -42,6 +43,7 @@ export const subtitleStyles = cva({
     base: {
         color: 'var(--vscode-disabledForeground)',
         fontSize: '14px',
+        textAlign: 'center',
     },
     variants: {
         size: {

@@ -51,10 +51,10 @@ export default function ResponseView() {
             <ResponseMetrics rightSection={<Tabs tabs={responseTabs} active={tab} onChange={setTab} />}>
                 <Metric
                     label="Status:"
-                    value={type == 'sse' ? eventResponse.connected ? 'Conencted' : 'Not Connected' : `${response.status == -1 ? '' : `${response.status} `}${response.statusText ?? ''}`}
-                    color={type == 'sse' ? eventResponse.connected ? 'green' : 'red' : statusColor}
+                    value={(type == 'sse' || type == 'ws' || type == 'socketio') ? eventResponse.connected ? 'Connected' : 'Not Connected' : `${response.status == -1 ? '' : `${response.status} `}${response.statusText ?? ''}`}
+                    color={(type == 'sse' || type == 'ws' || type == 'socketio') ? eventResponse.connected ? 'green' : 'red' : statusColor}
                 />
-                {type != 'sse' && <>
+                {(type != 'sse' && type != 'ws' && type != 'socketio') && <>
                     <Metric
                         label="Size:"
                         value={formatSize(response.metrics.bodySize)}

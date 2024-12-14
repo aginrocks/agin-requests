@@ -11,11 +11,11 @@ import { Option } from "../Menu/Option";
 
 type MessageVariants = Exclude<Parameters<typeof savedMessage>[0], undefined>;
 
-export interface SavedMessageProps extends RealtimeMessage, MessageVariants {
+export interface SavedMessageProps extends RealtimeMessage, MessageVariants, React.HTMLAttributes<HTMLDivElement> {
 
 }
 
-export default function SavedMessage({ data, type, args, label, selected }: SavedMessageProps) {
+export default function SavedMessage({ data, type, args, label, selected, ...props }: SavedMessageProps) {
     const overflowing = data.split('\n').length > 4;
 
     const classes = savedMessage({ selected, overflowing });
@@ -23,7 +23,7 @@ export default function SavedMessage({ data, type, args, label, selected }: Save
     const [opened, setOpened] = useState(false);
 
     return (
-        <div className={classes.message}>
+        <div className={classes.message} {...props}>
             <div className={classes.top}>
                 <div className={classes.label}>{label}</div>
                 {/* <Menu

@@ -38,10 +38,20 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
             if (message.command == 'initial.get') {
                 console.log('initial.get received', initialData);
                 panel.webview.postMessage({ command: 'initial', data: initialData });
+
+            } else if (message.command == 'window.showInputBox') {
+                const input = await vscode.window.showInputBox(message.data);
+                panel.webview.postMessage({ command: 'window.showInputBox.value', data: input });
+
+            } else if (message.command == 'window.showErrorMessage') {
+                vscode.window.showErrorMessage(message.data);
+
             } else if (message.command.startsWith('request.')) {
                 await httpHandler.onMessage(message);
+
             } else if (message.command.startsWith('sse.')) {
                 await sseHandler.onMessage(message);
+
             } else if (message.command.startsWith('ws.')) {
                 await wsHandler.onMessage(message);
             }

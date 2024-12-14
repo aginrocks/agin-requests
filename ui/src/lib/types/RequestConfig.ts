@@ -1,3 +1,4 @@
+import { RealtimeMessage } from "@lib/providers/RealtimeMessagesProvider";
 import { FormItem } from "./FormItem";
 import { Header } from "./Header";
 import { Param } from "./Param";
@@ -15,6 +16,7 @@ export type RequestConfig = {
     requestBodyType: RequestBodyType,
     requestBody?: FormItem[] | string,
     authType: AuthType,
+    messages: RealtimeMessage[],
     auth: {
         basic: {
             username: string,

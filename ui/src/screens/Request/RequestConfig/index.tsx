@@ -12,9 +12,16 @@ import { Param, RequestBodyType } from "@lib/types";
 import isEqual from 'lodash/isEqual';
 import qs from 'qs';
 import WSMessageEditor from "./WSMessageEditor";
+import Tooltip from "@lib/components/Tooltip";
+import ThemeIcon from "@lib/components/ThemeIcon";
+import { IconBooks } from "@tabler/icons-react";
+import ActionIcon from "@lib/components/ActionIcon";
+import useMessagesLibrary from "@lib/hooks/useMessagesLibrary";
 
 export function RequestConfig() {
     const request = useRequest();
+
+    const lib = useMessagesLibrary();
 
     const requestTabs = useMemo<TabType[]>(() => [
         {
@@ -98,6 +105,14 @@ export function RequestConfig() {
                 </div>
                 <div className={tabs}>
                     <Tabs tabs={requestTabs} active={tab} onChange={setTab} />
+                    {(request?.values.type == 'ws' || request?.values.type == 'socketio') && <Tooltip label="Messages Library">
+                        <div>
+                            <ActionIcon
+                                icon={IconBooks}
+                                onClick={lib.toggle}
+                            />
+                        </div>
+                    </Tooltip>}
                 </div>
             </div>
             {tab == 'query' && <ParamsEditor />}

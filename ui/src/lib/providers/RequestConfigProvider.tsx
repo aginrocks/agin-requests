@@ -42,6 +42,7 @@ export default function RequestConfigProvider({ children }: { children: React.Re
             params: [],
             requestBodyType: 'none',
             authType: 'none',
+            messages: [],
             auth: {
                 basic: {
                     username: '',

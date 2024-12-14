@@ -1,24 +1,23 @@
 import MessagesLibrary from "@lib/drawers/MessagesLibrary";
+import { useDisclosure } from "@mantine/hooks";
 import React, { createContext, useState } from "react";
 
-export type MessagesLibraryContextType = [
-    boolean,
-    React.Dispatch<React.SetStateAction<boolean>>,
-]
+export type MessagesLibraryContextType = ReturnType<typeof useDisclosure>;
 
-export const MessagesLibraryContext = createContext<MessagesLibraryContextType>([
-    false,
-    () => { },
-]);
+export const MessagesLibraryContext = createContext<MessagesLibraryContextType[1]>({
+    close: () => { },
+    open: () => { },
+    toggle: () => { },
+});
 
 export default function MessagesLibraryProvider({ children }: { children: React.ReactNode }) {
-    const [opened, setOpened] = useState(false);
+    const [opened, lib] = useDisclosure(false);
 
     return (
-        <MessagesLibraryContext.Provider value={[opened, setOpened]}>
+        <MessagesLibraryContext.Provider value={lib}>
             <MessagesLibrary
                 opened={opened}
-                onClose={() => setOpened(false)}
+                onClose={lib.close}
             />
             {children}
         </MessagesLibraryContext.Provider>
