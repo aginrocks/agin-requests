@@ -9,7 +9,7 @@ import { useMemo, useState } from "react";
 type Color = 'green' | 'red' | 'blue';
 
 export default function Event({ data, receivedAt, type, event }: ServerEvent<any>) {
-    const [icon, color]: [Icon, Color] = type == 'connected' ? [IconPlug, 'green'] : type == 'incoming' ? [IconArrowDown, 'blue'] : type == 'outgoing' ? [IconArrowUp, 'blue'] : [IconX, 'red'];
+    const [icon, color]: [Icon, Color] = type == 'connected' ? [IconPlug, 'green'] : type == 'incoming' ? [IconArrowDown, 'blue'] : type == 'outgoing' ? [IconArrowUp, 'green'] : [IconX, 'red'];
 
     const lang = useMemo(() => {
         let lang = typeof data == 'object' ? data.type : 'text';

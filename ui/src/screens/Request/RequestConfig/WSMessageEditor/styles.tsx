@@ -25,3 +25,8 @@ export const paramsContainer = css({
 export const editor = css({
     flex: 1,
 });
+
+export const secondaryActions = css({
+    display: 'flex',
+    alignItems: 'center',
+});

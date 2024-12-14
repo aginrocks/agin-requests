@@ -1,5 +1,5 @@
 import { useRequestController } from "@lib/hooks"
-import { container, editor } from "./styles";
+import { container, editor, secondaryActions } from "./styles";
 import { TabType } from "@lib/components/Tabs";
 import { WSType } from "@lib/types";
 import EditorContainer from "@lib/components/EditorContainer";
@@ -7,8 +7,9 @@ import SecondaryTabs from "@lib/components/SecondaryTabs";
 import ThemedEditor from "@lib/components/ThemedEditor";
 import { useRealtimeMessages } from "@lib/hooks/useRealtimeMessages";
 import ThemeIcon from "@lib/components/ThemeIcon";
-import { IconPlus, IconSend2 } from "@tabler/icons-react";
+import { IconBooks, IconLayoutGrid, IconPlus, IconSend2 } from "@tabler/icons-react";
 import Tooltip from "@lib/components/Tooltip";
+import useMessagesLibrary from "@lib/hooks/useMessagesLibrary";
 
 export const wsMessageTypes: TabType[] = [
     {
@@ -32,6 +33,8 @@ export default function WSMessageEditor() {
 
     const controller = useRequestController();
 
+    const [lib, setLib] = useMessagesLibrary();
+
     return (
         <>
             <div className={container({ full: true })}>
@@ -41,14 +44,25 @@ export default function WSMessageEditor() {
                     onChange={(tab) => msg?.setFieldValue('activeMessage.type', tab as WSType)}
                     connected={true}
                     rightSection={<>
-                        <Tooltip label="Save in Request">
-                            <div>
-                                <ThemeIcon
-                                    icon={IconPlus}
-                                    clickable
-                                />
-                            </div>
-                        </Tooltip>
+                        <div className={secondaryActions}>
+                            <Tooltip label="Save in Library">
+                                <div>
+                                    <ThemeIcon
+                                        icon={IconPlus}
+                                        clickable
+                                    />
+                                </div>
+                            </Tooltip>
+                            <Tooltip label="Messages Library">
+                                <div>
+                                    <ThemeIcon
+                                        icon={IconBooks}
+                                        clickable
+                                        onClick={() => setLib(x => !x)}
+                                    />
+                                </div>
+                            </Tooltip>
+                        </div>
                         <Tooltip label="Send">
                             <div>
                                 <ThemeIcon
