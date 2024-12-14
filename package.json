@@ -1,7 +1,8 @@
 {
   "name": "agin-requests",
   "displayName": "Agin Requests",
-  "description": "",
+  "description": "Simplify API and real-time testing in VS Code",
+  "publisher": "agin",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.95.0"
