@@ -50,21 +50,30 @@ export default function WSMessageEditor() {
         editorRef.current?.setValue(activeMessage?.data ?? '');
     }, [activeMessage?.label]);
 
-    const saveInLibrary = useCallback(async () => {
+    const saveInLibrary = useCallback(async (mode: 'create' | 'overwrite') => {
         if (!msg || !request) return;
         if (msg.values.activeMessage.data.length == 0 && request.values.type == 'ws') return vscode.postMessage({ command: 'window.showErrorMessage', data: 'The body cannot be empty.' });
 
-        const name = await input.showInputBox({
-            placeHolder: 'Name this message...',
-            prompt: 'This message will be saved in this request\'s Messages Library'
-        });
+        if (mode == 'create') {
+            const name = await input.showInputBox({
+                placeHolder: 'Name this message...',
+                prompt: 'This message will be saved in this request\'s Messages Library'
+            });
 
-        if (!name) return;
-        const alreadyExists = request.values.messages.some(x => x.label == name);
-        if (alreadyExists) return vscode.postMessage({ command: 'window.showErrorMessage', data: 'A message with this name already exists. Choose a different name.' });
+            if (!name) return;
+            const alreadyExists = request.values.messages.some(x => x.label == name);
+            if (alreadyExists) return vscode.postMessage({ command: 'window.showErrorMessage', data: 'A message with this name already exists. Choose a different name.' });
 
-        msg.setFieldValue('activeMessage.label', name);
-        request.insertListItem('messages', { ...msg.values.activeMessage, label: name });
+            msg.setFieldValue('activeMessage.label', name);
+            request.insertListItem('messages', { ...msg.values.activeMessage, label: name });
+        } else if (mode == 'overwrite') {
+            const messageIndex = request.values.messages.findIndex(m => m.label == msg.values.activeMessage.label);
+            if (messageIndex == -1) return vscode.postMessage({ command: 'window.showErrorMessage', data: 'Message not found' });
+
+            request.setFieldValue(`messages.${messageIndex}`, msg.values.activeMessage);
+            msg.resetDirty();
+        }
+
         lib.open();
     }, [msg, request]);
 
@@ -89,6 +98,7 @@ export default function WSMessageEditor() {
                                         <ThemeIcon
                                             icon={IconDeviceFloppy}
                                             clickable
+                                            onClick={() => saveInLibrary('overwrite')}
                                         />
                                     </div>
                                 </Tooltip>
@@ -98,7 +108,7 @@ export default function WSMessageEditor() {
                                     <ThemeIcon
                                         icon={IconPlus}
                                         clickable
-                                        onClick={saveInLibrary}
+                                        onClick={() => saveInLibrary('create')}
                                     />
                                 </div>
                             </Tooltip>

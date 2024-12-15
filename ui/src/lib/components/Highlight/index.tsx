@@ -12,9 +12,14 @@ const Highlight: React.FC<HighlightProps> = ({ language, code }) => {
 
     useEffect(() => {
         if (codeRef.current) {
-            hljs.highlightBlock(codeRef.current);
+            // Remove the existing language class
+            codeRef.current.className = '';
+            codeRef.current.classList.add(language);
+
+            // Highlight the code block
+            hljs.highlightElement(codeRef.current);
         }
-    }, [code]);
+    }, [code, language]);
 
     return (
         <pre>
