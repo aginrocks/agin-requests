@@ -5,6 +5,7 @@ export type Message = {
     command: string;
     config?: any;
     data?: any;
+    _id?: string;
 }
 
 export class Handler {

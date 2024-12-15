@@ -8,6 +8,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useRequest } from "@lib/hooks";
 import { useRealtimeMessages } from "@lib/hooks/useRealtimeMessages";
 import { RealtimeMessage } from "@lib/providers/RealtimeMessagesProvider";
+import useInput from "@lib/hooks/useInput";
 
 export type MessagesLibraryProps = {
     opened: boolean;
@@ -26,9 +27,21 @@ export default function MessagesLibrary({ opened, onClose }: MessagesLibraryProp
 
     const filteredMessages = useMemo(() => messages?.filter(m => filter == '' ? true : m.label?.includes(filter) || m.data.includes(filter)), [messages, filter]);
 
+    const input = useInput();
+
     const setMessage = useCallback((m: RealtimeMessage) => {
         msg?.setFieldValue('activeMessage', m);
     }, [msg]);
+
+    const deleteConfirm = useCallback(async (i: number) => {
+        const selectedOption = await input.confirm({
+            message: 'Are you sure you want to delete this message?',
+            options: ['Delete', 'Cancel'],
+        });
+
+        if (selectedOption != 'Delete') return;
+        request?.removeListItem('messages', i);
+    }, [input, request]);
 
     return (
         <Drawer
@@ -56,7 +69,7 @@ export default function MessagesLibrary({ opened, onClose }: MessagesLibraryProp
                     subtitle="Check the spelling or try a new search."
                 />}
                 <div className={messagesListInner}>
-                    {filteredMessages?.map(m => <SavedMessage {...m} selected={activeMessage?.label == m.label} onClick={() => setMessage(m)} />)}
+                    {filteredMessages?.map((m, i) => <SavedMessage {...m} selected={activeMessage?.label == m.label} onClick={() => setMessage(m)} onDelete={() => deleteConfirm(i)} />)}
                 </div>
             </div>}
         </Drawer>

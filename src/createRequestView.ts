@@ -46,14 +46,28 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
             } else if (message.command == 'window.showErrorMessage') {
                 vscode.window.showErrorMessage(message.data);
 
-            } else if (message.command.startsWith('request.')) {
-                await httpHandler.onMessage(message);
+            } else if (message.command == 'window.showInformationMessage') {
+                vscode.window.showInformationMessage(message.data);
 
-            } else if (message.command.startsWith('sse.')) {
-                await sseHandler.onMessage(message);
+            } else if (message.command == 'window.confirm') {
+                if (message.data instanceof Array) {
+                    const [msg, ...actions] = message.data;
+                    if (typeof msg === 'string' && actions.every(action => typeof action === 'string')) {
+                        const result = await vscode.window.showInformationMessage(msg, ...actions);
+                        console.log({ result });
 
-            } else if (message.command.startsWith('ws.')) {
-                await wsHandler.onMessage(message);
+                        panel.webview.postMessage({ command: 'window.confirm.value', _id: message._id, data: result });
+                    }
+
+                } else if (message.command.startsWith('request.')) {
+                    await httpHandler.onMessage(message);
+
+                } else if (message.command.startsWith('sse.')) {
+                    await sseHandler.onMessage(message);
+
+                } else if (message.command.startsWith('ws.')) {
+                    await wsHandler.onMessage(message);
+                }
             }
         }
     );

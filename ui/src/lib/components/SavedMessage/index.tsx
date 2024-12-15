@@ -12,10 +12,10 @@ import { Option } from "../Menu/Option";
 type MessageVariants = Exclude<Parameters<typeof savedMessage>[0], undefined>;
 
 export interface SavedMessageProps extends RealtimeMessage, MessageVariants, React.HTMLAttributes<HTMLDivElement> {
-
+    onDelete: () => void;
 }
 
-export default function SavedMessage({ data, type, args, label, selected, ...props }: SavedMessageProps) {
+export default function SavedMessage({ data, type, args, label, selected, onDelete, ...props }: SavedMessageProps) {
     const overflowing = data.split('\n').length > 4;
 
     const classes = savedMessage({ selected, overflowing });
@@ -26,6 +26,11 @@ export default function SavedMessage({ data, type, args, label, selected, ...pro
         <div className={classes.message} {...props}>
             <div className={classes.top}>
                 <div className={classes.label}>{label}</div>
+                <ActionIcon icon={IconTrash} onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete();
+                }} />
+                {/* TODO: Fix the menu */}
                 {/* <Menu
                     target={<ActionIcon icon={IconDots} onClick={() => setOpened(x => !x)} />}
                     opened={opened}
