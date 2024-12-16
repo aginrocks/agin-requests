@@ -4,6 +4,7 @@ import { Title } from "../Title";
 import { content, hero, heroSubtitle, heroTextBox, heroTitle, screenshot, screenshotContainer, secondaryGrid } from "./styles";
 
 export function Hero() {
+    // FIXME: Background highlighting when the page is scrolled
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
     const handleMouseMove = (event: MouseEvent) => {

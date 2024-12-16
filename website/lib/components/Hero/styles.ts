@@ -6,7 +6,6 @@ export const hero = css({
     backgroundSize: '40px 40px',
     position: 'relative', // Allows positioning of child elements
     overflow: 'hidden',
-    borderBottom: '1px solid token(colors.border)',
 });
 
 export const secondaryGrid = css({
