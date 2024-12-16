@@ -6,12 +6,13 @@ import { useState } from "react";
 import { container } from "./styles";
 import ResponseContent from "./ResponseContent";
 import Welcome from "@lib/components/Welcome";
-import { IconExclamationCircle } from "@tabler/icons-react";
+import { IconExclamationCircle, IconPlaylistX } from "@tabler/icons-react";
 import ResponseHeaders from "./ResponseHeaders";
 import { formatSize, formatTime } from "@lib/util";
 import { useRequest, useRequestController } from "@lib/hooks";
 import EventResponseContent from "./EventResponseContent";
 import { useEventResponse } from "@lib/hooks/useEventResponse";
+import ActionIcon from "@lib/components/ActionIcon";
 
 export const responseTabs: TabType[] = [
     {
@@ -46,15 +47,17 @@ export default function ResponseView() {
 
     const statusColor = response?.type == 'error' ? 'red' : response.status < 400 ? 'green' : 'red';
 
+    const isRealtime = type == 'sse' || type == 'ws' || type == 'socketio';
+
     return (
         <div className={container}>
             <ResponseMetrics rightSection={<Tabs tabs={responseTabs} active={tab} onChange={setTab} />}>
                 <Metric
                     label="Status:"
-                    value={(type == 'sse' || type == 'ws' || type == 'socketio') ? eventResponse.connected ? 'Connected' : 'Not Connected' : `${response.status == -1 ? '' : `${response.status} `}${response.statusText ?? ''}`}
-                    color={(type == 'sse' || type == 'ws' || type == 'socketio') ? eventResponse.connected ? 'green' : 'red' : statusColor}
+                    value={isRealtime ? eventResponse.connected ? 'Connected' : 'Not Connected' : `${response.status == -1 ? '' : `${response.status} `}${response.statusText ?? ''}`}
+                    color={isRealtime ? eventResponse.connected ? 'green' : 'red' : statusColor}
                 />
-                {(type != 'sse' && type != 'ws' && type != 'socketio') && <>
+                {!isRealtime && <>
                     <Metric
                         label="Size:"
                         value={formatSize(response.metrics.bodySize)}

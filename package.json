@@ -17,6 +17,22 @@
       {
         "command": "agin-requests.new",
         "title": "Agin Requests: New Request"
+      },
+      {
+        "command": "agin-requests.new-sse",
+        "title": "Agin Requests: New SSE Request"
+      },
+      {
+        "command": "agin-requests.new-websocket",
+        "title": "Agin Requests: New WebSocket Connection"
+      },
+      {
+        "command": "agin-requests.new-socketio",
+        "title": "Agin Requests: New Socket.IO Connection"
+      },
+      {
+        "command": "agin-requests.import-curl",
+        "title": "Agin Requests: Import from cURL"
       }
     ],
     "viewsContainers": {

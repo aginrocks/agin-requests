@@ -2,16 +2,8 @@ import * as vscode from "vscode";
 import { generateHtml } from "./util";
 import createRequestWebview from "./createRequestView";
 import parseCurl from "@proxymanllc/better-curl-to-json";
-import qs from "qs";
+import { importCurl } from "./util/importCurl";
 
-function getRequestBodyType(contentType: string) {
-    // TODO: Add binary
-    if (contentType == 'application/json') return 'json';
-    if (contentType == 'application/xml') return 'xml';
-    if (contentType == 'application/x-www-form-urlencoded') return 'urlencoded';
-    if (contentType == 'multipart/form-data') return 'formdata';
-    return 'text';
-}
 
 export type FormItem = {
     name: string,
@@ -59,42 +51,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                     });
                 }
             } else if (data.command == 'import.curl') {
-                const userInput = await vscode.window.showInputBox({
-                    prompt: 'Paste cURL command',
-                    placeHolder: 'curl https://example.com',
-                    validateInput: (value) => {
-                        if (!value || value.trim() === '') {
-                            return 'Command cannot be empty';
-                        }
-                        return null;
-                    },
-                });
-
-                const request = parseCurl(userInput ?? '');
-
-                const bodyType = getRequestBodyType(request.header?.['content-type'] ?? request.header?.['Content-Type'] ?? '');
-
-                let parsedData: string | FormItem[] = '';
-                if (['formdata', 'urlencoded'].includes(bodyType)) {
-                    const parsed = qs.parse(request.data);
-                    parsedData = Object.keys(parsed).map((key) => ({ name: key ?? '', value: parsed[key] as string ?? '', enabled: true }));
-                    // TODO: Complete
-                } else {
-                    parsedData = request.data;
-                }
-
-                const requestConfig = {
-                    type: 'http',
-                    url: request.url,
-                    method: request.method,
-                    headers: request.header ? Object.keys(request.header).map((key) => ({ name: key, value: request.header?.[key], enabled: true })) : [],
-                    requestBodyType: bodyType,
-                    requestBody: parsedData,
-                }
-                console.log(requestConfig);
-
-                createRequestWebview(this.context, requestConfig);
-
+                await importCurl(this.context);
             }
         });
 
@@ -103,13 +60,4 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     public revive(panel: vscode.WebviewView) {
         this._view = panel;
     }
-}
-
-function getNonce() {
-    let text = '';
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < 32; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
 }
