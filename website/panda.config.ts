@@ -30,6 +30,12 @@ export default defineConfig({
           background: {
             value: '#0A0A0B',
           },
+          primary: {
+            value: '#0969FF',
+            dark: {
+              value: '#0058e4',
+            }
+          },
           tile: {
             0: { value: '#121212' },
             1: { value: '#242424' },
@@ -54,8 +60,14 @@ export default defineConfig({
           },
           border: {
             value: '#ffffff10',
+            1: {
+              value: '#ffffff15',
+            }
           },
           dimmed: {
+            primary: {
+              value: '#0969FF20'
+            },
             green: {
               0: { value: '#e6ffee20' },
               1: { value: '#d3f9e020' },

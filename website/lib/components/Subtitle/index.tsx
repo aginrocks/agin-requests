@@ -7,7 +7,7 @@ export interface SubtitleProps extends SubtitleVariants {
 }
 
 
-export default function Subtitle({ size, weight, color, children }: SubtitleProps) {
+export function Subtitle({ size, weight, color, children }: SubtitleProps) {
     return (
         <div className={subtitle({ size, weight, color })}>{children}</div>
     )
