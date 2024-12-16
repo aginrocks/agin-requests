@@ -1,3 +1,4 @@
+import useSynced from "@lib/hooks/useSynced";
 import { SocketIOMessage, WSMessage } from "@lib/types"
 import { useForm } from "@mantine/form";
 import React, { createContext, useEffect } from "react";
@@ -23,6 +24,8 @@ export default function RealtimeMessagesProvider({ children }: { children: React
             }
         }
     });
+
+    useSynced('realtimeMessages', messages.values, messages.setValues);
 
     useEffect(() => {
         messages.resetDirty();

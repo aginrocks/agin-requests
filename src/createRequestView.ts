@@ -27,6 +27,8 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
 
     panel.iconPath = iconPath;
 
+    let initial = { ...initialData };
+
     const httpHandler = new HTTPHandler('request', panel);
     const sseHandler = new SSEHandler('sse', panel);
     const wsHandler = new WSHandler('ws', panel);
@@ -36,8 +38,10 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
             console.log('got message', message);
 
             if (message.command == 'initial.get') {
-                console.log('initial.get received', initialData);
-                panel.webview.postMessage({ command: 'initial', data: initialData });
+                if (!initial) return;
+                console.log('initial.get received', initial);
+                panel.webview.postMessage({ command: 'initial', data: initial });
+                initial = null;
 
             } else if (message.command == 'window.showInputBox') {
                 const input = await vscode.window.showInputBox(message.data);
@@ -59,15 +63,15 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
                         panel.webview.postMessage({ command: 'window.confirm.value', _id: message._id, data: result });
                     }
 
-                } else if (message.command.startsWith('request.')) {
-                    await httpHandler.onMessage(message);
-
-                } else if (message.command.startsWith('sse.')) {
-                    await sseHandler.onMessage(message);
-
-                } else if (message.command.startsWith('ws.')) {
-                    await wsHandler.onMessage(message);
                 }
+            } else if (message.command.startsWith('request.')) {
+                await httpHandler.onMessage(message);
+
+            } else if (message.command.startsWith('sse.')) {
+                await sseHandler.onMessage(message);
+
+            } else if (message.command.startsWith('ws.')) {
+                await wsHandler.onMessage(message);
             }
         }
     );

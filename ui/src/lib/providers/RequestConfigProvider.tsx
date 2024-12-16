@@ -1,7 +1,9 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useContext, useEffect, useReducer, useState } from "react";
 import type { RequestConfig } from "@lib/types";
 import { useForm } from "@mantine/form";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
+import useSynced from "@lib/hooks/useSynced";
+import { SyncedStateContext } from "./SycnedStateProvider";
 
 export type RequestConfigContext = ReturnType<typeof useForm<RequestConfig>>;
 
@@ -55,18 +57,22 @@ export default function RequestConfigProvider({ children }: { children: React.Re
             }
         },
     });
+    // useEffect(() => {
+    //     if (!vscode?.getState) return;
+    //     const savedState = vscode.getState();
+    //     console.log({ savedState });
+
+    //     config.setValues(savedState?.requestConfig);
+
+    //     setLoadedFromCode(true);
+    // }, []);
+
+    useSynced('requestConfig', config.values, config.setValues);
+
+    const synced = useContext(SyncedStateContext);
+
     useEffect(() => {
-        if (!vscode?.getState) return;
-        const savedState = vscode.getState();
-        console.log({ savedState });
-
-        config.setValues(savedState?.requestConfig);
-
-        setLoadedFromCode(true);
-    }, []);
-
-    useEffect(() => {
-        if (!vscode.postMessage || !loadedFromCode) return;
+        if (!vscode.postMessage || !synced.isLoaded) return;
 
         console.log('listening on initial.get', !!vscode);
 
@@ -80,7 +86,6 @@ export default function RequestConfigProvider({ children }: { children: React.Re
 
             if (message.command === 'initial') {
                 config.setValues(message.data);
-                setLoadedFromCode(true);
             }
         };
 
@@ -88,14 +93,14 @@ export default function RequestConfigProvider({ children }: { children: React.Re
         return () => {
             window.removeEventListener('message', onMessage);
         };
-    }, [loadedFromCode]);
+    }, [synced.isLoaded]);
 
-    useEffect(() => {
-        console.log({ saving: config.values });
-        if (vscode == null) return;
+    // useEffect(() => {
+    //     console.log({ saving: config.values });
+    //     if (vscode == null) return;
 
-        vscode.setState({ requestConfig: config.values });
-    }, [config.values]);
+    //     vscode.setState({ requestConfig: config.values });
+    // }, [config.values]);
 
 
     return (

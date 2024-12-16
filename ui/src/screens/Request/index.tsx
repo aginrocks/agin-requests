@@ -10,6 +10,7 @@ import HTTPResponseProvider from "@lib/providers/HTTPResponseProvider";
 import EventResponseProvider from "@lib/providers/EventResponseProvider";
 import RealtimeMessagesProvider from "@lib/providers/RealtimeMessagesProvider";
 import MessagesLibraryProvider from "@lib/providers/MessagesLibraryProvider";
+import SyncedStateProvider from "@lib/providers/SycnedStateProvider";
 
 export const requestTabs: TabType[] = [
     {
@@ -34,21 +35,23 @@ export function Request() {
     const [drawer, setDrawer] = useState(true);
 
     return (
-        <RequestConfigProvider>
-            <HTTPResponseProvider>
-                <EventResponseProvider>
-                    <RealtimeMessagesProvider>
-                        <RequestController>
-                            <MessagesLibraryProvider>
-                                <Columns
-                                    left={<RequestConfig />}
-                                    right={<Response />}
-                                />
-                            </MessagesLibraryProvider>
-                        </RequestController>
-                    </RealtimeMessagesProvider>
-                </EventResponseProvider>
-            </HTTPResponseProvider>
-        </RequestConfigProvider>
+        <SyncedStateProvider>
+            <RequestConfigProvider>
+                <HTTPResponseProvider>
+                    <EventResponseProvider>
+                        <RealtimeMessagesProvider>
+                            <RequestController>
+                                <MessagesLibraryProvider>
+                                    <Columns
+                                        left={<RequestConfig />}
+                                        right={<Response />}
+                                    />
+                                </MessagesLibraryProvider>
+                            </RequestController>
+                        </RealtimeMessagesProvider>
+                    </EventResponseProvider>
+                </HTTPResponseProvider>
+            </RequestConfigProvider>
+        </SyncedStateProvider>
     )
 }

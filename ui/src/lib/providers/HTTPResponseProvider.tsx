@@ -3,6 +3,7 @@ import type { RequestConfig } from "@lib/types";
 import { useForm } from "@mantine/form";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
 import { HTTPResponse } from "@lib/types/HTTPResponse";
+import useSynced from "@lib/hooks/useSynced";
 
 type HTTPResponseContextType = [
     HTTPResponse<any>,
@@ -27,6 +28,9 @@ export default function HTTPResponseProvider({ children }: { children: React.Rea
     const vscode = useVsCodeApi();
 
     const [res, setRes] = useState<HTTPResponse<any>>(defaultResponse);
+
+    // FIXME
+    useSynced('httpResponse', res, setRes);
 
     // useEffect(() => {
     //     if (!vscode?.getState) return;
