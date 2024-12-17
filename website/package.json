@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mantine/hooks": "^7.15.1",
     "@tabler/icons-react": "^3.24.0",
     "axios": "^1.7.9",
     "next": "15.0.4",

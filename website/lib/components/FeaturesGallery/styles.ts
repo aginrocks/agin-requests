@@ -8,6 +8,7 @@ export const gallery = css({
     paddingBottom: '80px',
     paddingLeft: '60px',
     paddingRight: 0,
+    overflow: 'hidden',
 
     display: 'flex',
     alignItems: 'center',

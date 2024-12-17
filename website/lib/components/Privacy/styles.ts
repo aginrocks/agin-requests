@@ -31,4 +31,5 @@ export const privacyHeader = css({
     flexDir: 'column',
     alignItems: 'center',
     position: 'relative',
+    marginBottom: '30px',
 });
