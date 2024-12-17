@@ -55,7 +55,9 @@ export const heroSubtitle = css({
 });
 
 export const heroTextBox = css({
-    maxWidth: '900px'
+    maxWidth: '900px',
+    paddingLeft: '30px',
+    paddingRight: '30px',
 });
 
 export const screenshotContainer = css({
