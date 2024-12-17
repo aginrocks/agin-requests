@@ -1,20 +1,27 @@
+import React, { forwardRef } from "react";
 import { featureStyles } from "./styles";
 
 type FeatureVaraints = Exclude<Parameters<typeof featureStyles>[0], undefined>;
 
-export interface FeatureProps extends FeatureVaraints {
+export interface FeatureProps extends FeatureVaraints, React.HTMLAttributes<HTMLDivElement> {
     label: string;
     description: string;
     image: string;
 }
 
-export default function Feature({ label, description, image, active }: FeatureProps) {
-    const classes = featureStyles({ active });
+const Feature = forwardRef<HTMLDivElement, FeatureProps>(
+    ({ label, description, image, active, ...props }, ref) => {
+        const classes = featureStyles({ active });
 
-    return (
-        <div className={classes.container}>
-            <div className={classes.label}>{label}</div>
-            <div className={classes.description}>{description}</div>
-        </div>
-    )
-}
+        return (
+            <div ref={ref} className={classes.container} {...props}>
+                <div className={classes.label}>{label}</div>
+                <div className={classes.description}>{description}</div>
+            </div>
+        );
+    }
+);
+
+Feature.displayName = "Feature";
+
+export default Feature;

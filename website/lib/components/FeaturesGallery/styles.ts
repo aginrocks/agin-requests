@@ -23,6 +23,25 @@ export const gallery = css({
     // }
 });
 
+export const galleryTitle = css({
+    fontSize: '25px',
+    color: 'text.0',
+    marginBottom: '10px',
+    marginTop: '15px',
+    fontWeight: 500,
+    fontFamily: 'var(--font-inter)',
+});
+
+export const gallerySubtitle = css({
+    fontSize: '15px',
+    color: '#ffffff90',
+    fontFamily: 'var(--font-inter)',
+});
+
+export const featuresHeader = css({
+    marginBottom: '10px',
+});
+
 export const features = css({
     width: '400px',
     minWidth: '400px',
@@ -32,12 +51,25 @@ export const features = css({
 });
 
 // TODO: In a smaller breakpoint, overflow the image to the right
-export const image = css({
+export const imageContainer = css({
     flex: 1,
-    objectFit: 'contain',
     maxH: '100%',
     marginRight: '-200px',
+    position: 'relative',
+    // backgroundColor: 'red',
+    height: '100%',
     xl: {
         marginRight: '0px',
     }
+});
+
+export const image = css({
+    objectFit: 'contain',
+    position: 'absolute',
+    left: '0px',
+    right: '0px',
+    top: '0px',
+    bottom: '0px',
+    width: '100%',
+    height: '100%',
 });

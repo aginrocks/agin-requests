@@ -6,3 +6,4 @@ export * from './FeaturesGallery';
 export * from './Privacy';
 export * from './FeatureIcon';
 export * from './FeaturesGrid';
+export * from './Card';
