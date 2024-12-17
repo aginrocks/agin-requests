@@ -2,6 +2,8 @@ import { IconDownload } from "@tabler/icons-react";
 import Logo from "../Logo";
 import NavbarLink from "./NavbarLink";
 import { container, linksContainer, menu, menuLogo } from "./styles";
+import Link from "next/link";
+import { docsUrl, marketplaceUrl, repoUrl } from "@/lib/config";
 
 export type NavbarLink = {
 
@@ -17,11 +19,19 @@ export function Navbar() {
                     <Logo size="sm" />
                 </div>
                 <div className={linksContainer}>
-                    <NavbarLink label="Home" active />
-                    <NavbarLink label="Docs" />
-                    <NavbarLink label="GitHub" />
+                    <Link href="/">
+                        <NavbarLink label="Home" active />
+                    </Link>
+                    <a href={docsUrl}>
+                        <NavbarLink label="Docs" />
+                    </a>
+                    <a href={repoUrl} target="_blank">
+                        <NavbarLink label="GitHub" />
+                    </a>
                 </div>
-                <NavbarLink label="Download" primary icon={IconDownload} />
+                <a href={marketplaceUrl} target="_blank">
+                    <NavbarLink label="Download" primary icon={IconDownload} />
+                </a>
             </div>
         </div>
     )

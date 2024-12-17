@@ -1,7 +1,11 @@
 import { css } from "@/styled-system/css";
 
 export const privacy = css({
-    padding: '50px 160px',
+    padding: {
+        base: '50px 30px',
+        lg: '50px 60px',
+        '2xl': '50px 160px'
+    },
     display: 'flex',
     flexDir: 'column',
     alignItems: 'center',

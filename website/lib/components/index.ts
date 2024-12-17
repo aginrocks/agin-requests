@@ -7,3 +7,6 @@ export * from './Privacy';
 export * from './FeatureIcon';
 export * from './FeaturesGrid';
 export * from './Card';
+export * from './Footer';
+export * from './Download';
+export * from './Button';

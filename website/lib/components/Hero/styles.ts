@@ -68,6 +68,7 @@ export const screenshotContainer = css({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-end',
+    maxW: '100vw',
     // outline: '1px solid red'
 });
 
@@ -75,4 +76,5 @@ export const screenshot = css({
     width: '100%',
     height: '100%',
     objectFit: 'contain',
+    maxW: '100%',
 });

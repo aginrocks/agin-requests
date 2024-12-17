@@ -4,6 +4,7 @@
   "description": "Simplify API and real-time testing in VS Code",
   "publisher": "agin",
   "version": "0.0.1",
+  "pricing": "Free",
   "engines": {
     "vscode": "^1.95.0"
   },

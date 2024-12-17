@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 import { generateHtml } from "./util";
 import createRequestWebview from "./createRequestView";
-import parseCurl from "@proxymanllc/better-curl-to-json";
 import { importCurl } from "./util/importCurl";
 
 

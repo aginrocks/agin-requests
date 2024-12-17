@@ -1,4 +1,4 @@
-import { FeaturesGallery, Hero, Privacy } from "@/lib/components";
+import { Download, FeaturesGallery, Footer, Hero, Privacy } from "@/lib/components";
 
 export default function Home() {
     return (
@@ -6,6 +6,8 @@ export default function Home() {
             <Hero />
             <FeaturesGallery />
             <Privacy />
+            <Download />
+            <Footer />
         </div>
     )
 }
