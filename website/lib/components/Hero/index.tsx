@@ -2,24 +2,15 @@
 import { useEffect, useState } from "react";
 import { Title } from "../Title";
 import { content, hero, heroSubtitle, heroTextBox, heroTitle, screenshot, screenshotContainer, secondaryGrid } from "./styles";
+import { useMouse } from "@mantine/hooks";
 
 export function Hero() {
-    // FIXME: Background highlighting when the page is scrolled
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-    const handleMouseMove = (event: MouseEvent) => {
-        setMousePosition({ x: event.clientX, y: event.clientY });
-    };
-
-    useEffect(() => {
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
+    const { ref, x, y } = useMouse();
 
     return (
-        <div className={hero}>
+        <div className={hero} ref={ref}>
             <div className={secondaryGrid} style={{
-                maskPosition: `${mousePosition.x - 200}px ${mousePosition.y - 200}px`,
+                maskPosition: `${x - 200}px ${y - 200}px`,
             }}></div>
             <div className={content}>
                 <div className={heroTextBox}>
