@@ -48,6 +48,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                     createRequestWebview(this.context, {
                         type: 'ws',
                     });
+                } else if (data.type == 'socketio') {
+                    createRequestWebview(this.context, {
+                        type: 'socketio',
+                    });
                 }
             } else if (data.command == 'import.curl') {
                 await importCurl(this.context);

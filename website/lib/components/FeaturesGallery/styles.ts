@@ -50,7 +50,6 @@ export const features = css({
     gap: '5px'
 });
 
-// TODO: In a smaller breakpoint, overflow the image to the right
 export const imageContainer = css({
     flex: 1,
     maxH: '100%',

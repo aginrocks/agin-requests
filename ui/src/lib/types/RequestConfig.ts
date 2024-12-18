@@ -25,6 +25,7 @@ export type RequestConfig = {
         bearer?: {
             token: string,
             prefix: 'Bearer' | string,
-        }
+        },
+        socketio?: string,
     }
 };

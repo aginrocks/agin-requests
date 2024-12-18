@@ -42,7 +42,9 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(websocket);
 
     const socketio = vscode.commands.registerCommand('agin-requests.new-socketio', () => {
-        // TODO: Add Socket.IO
+        createRequestWebview(context, {
+            type: 'socketio',
+        });
     });
     context.subscriptions.push(socketio);
 

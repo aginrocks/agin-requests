@@ -45,7 +45,10 @@ export default function MenuButton({ children, ...props }: MenuButtonProps) {
                     vscode.postMessage({ command: 'requests.new', type: 'ws' });
                     setOpened(false);
                 }} />
-                <Option label="Socket.IO Connection" value="" icon={IconBrandSocketIo} />
+                <Option label="Socket.IO Connection" value="" icon={IconBrandSocketIo} onClick={() => {
+                    vscode.postMessage({ command: 'requests.new', type: 'socketio' });
+                    setOpened(false);
+                }} />
                 <Divider withMargin />
                 <Option label="Import from cURL" value="" icon={IconTerminal} onClick={() => {
                     vscode.postMessage({ command: 'import.curl' });

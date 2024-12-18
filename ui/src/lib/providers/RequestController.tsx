@@ -39,6 +39,9 @@ export default function RequestController({ children }: { children: React.ReactN
         } else if (request?.values.type == 'ws') {
             setStatus('realtime');
             vscode.postMessage({ command: 'ws.connect', config: request?.values });
+        } else if (request?.values.type == 'socketio') {
+            setStatus('realtime');
+            vscode.postMessage({ command: 'io.connect', config: request?.values });
         }
     }, [request?.values]);
 
@@ -60,6 +63,8 @@ export default function RequestController({ children }: { children: React.ReactN
             vscode.postMessage({ command: 'sse.disconnect' });
         } else if (request?.values.type == 'ws') {
             vscode.postMessage({ command: 'ws.disconnect' });
+        } else if (request?.values.type == 'socketio') {
+            vscode.postMessage({ command: 'io.disconnect' });
         }
     }, [request?.values]);
 
