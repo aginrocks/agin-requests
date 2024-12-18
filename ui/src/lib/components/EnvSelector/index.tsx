@@ -1,27 +1,23 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import CompactSelect from "../CompactSelect";
 import { IconBox } from "@tabler/icons-react";
+import { useEnv } from "@lib/hooks/useEnv";
+import { OptionProps } from "../Menu/Option";
 
 export default function EnvSelector() {
-    const [environments, setEnvironments] = useState([
-        {
-            label: 'No Environment',
-            value: '_empty',
-        },
-        {
-            label: 'Test Env',
-            value: '1',
-        },
-    ]);
-
     // TODO: Move to context
-    const [env, setEnv] = useState('_empty');
+    const { currentEnv, setCurrentEnv, environments } = useEnv();
+
+    const options = useMemo(() => environments.map((e): OptionProps => ({
+        label: e.label,
+        value: e.id,
+    })), [environments]);
 
     return (
         <CompactSelect
-            value={env}
-            onChange={setEnv}
-            options={environments}
+            value={currentEnv}
+            onChange={setCurrentEnv}
+            options={options}
             icon={IconBox}
         />
     )
