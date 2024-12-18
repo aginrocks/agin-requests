@@ -19,6 +19,7 @@ import ActionIcon from "@lib/components/ActionIcon";
 import useMessagesLibrary from "@lib/hooks/useMessagesLibrary";
 import useSynced from "@lib/hooks/useSynced";
 import IOMessageEditor from "./IOMessageEditor";
+import RequestTypeSelector from "@lib/components/RequestTypeSelector";
 
 export function RequestConfig() {
     const request = useRequest();
@@ -104,6 +105,7 @@ export function RequestConfig() {
     return (
         <div className={left}>
             <div className={container}>
+                <RequestTypeSelector />
                 <div className={urlSelector}>
                     <UrlSelector />
                 </div>

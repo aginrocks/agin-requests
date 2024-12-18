@@ -2,7 +2,8 @@ import { css } from "@styled-system/css";
 
 export const container = css({
     padding: '18px',
-    paddingTop: '22px',
+    // paddingTop: '22px',
+    paddingTop: '14px',
     paddingBottom: '10px'
 });
 

@@ -8,17 +8,20 @@ export type MenuTab = {
     label?: string;
 }
 
-export type MenuTabsProps = {
+type MenuTabsVariants = Exclude<Parameters<typeof menuTabs>[0], undefined>;
+
+export interface MenuTabsProps extends MenuTabsVariants {
     tabs: MenuTab[];
     active: string;
     onChange: (id: string) => void;
+    show?: 'icon' | 'label';
+    withAnimation?: boolean;
 }
 
-
-export default function MenuTabs({ tabs, active, onChange }: MenuTabsProps) {
+export default function MenuTabs({ tabs, active, onChange, variant, show = 'icon', withAnimation }: MenuTabsProps) {
     return (
-        <div className={menuTabs}>
-            {tabs.map(t => <MenuTab {...t} key={t.id} active={active == t.id} onClick={() => onChange(t.id)} />)}
+        <div className={menuTabs({ variant })}>
+            {tabs.map(t => <MenuTab {...t} key={t.id} active={active == t.id} onClick={() => onChange(t.id)} variant={variant} show={show} withAnimation={withAnimation} />)}
         </div>
     )
 }
