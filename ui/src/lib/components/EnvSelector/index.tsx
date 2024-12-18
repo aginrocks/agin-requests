@@ -3,6 +3,7 @@ import CompactSelect from "../CompactSelect";
 import { IconBox } from "@tabler/icons-react";
 import { useEnv } from "@lib/hooks/useEnv";
 import { OptionProps } from "../Menu/Option";
+import { useEditMode } from "@lib/hooks";
 
 export default function EnvSelector() {
     // TODO: Move to context
@@ -13,12 +14,17 @@ export default function EnvSelector() {
         value: e.id,
     })), [environments]);
 
+    const [editMode] = useEditMode();
+
     return (
-        <CompactSelect
-            value={currentEnv}
-            onChange={setCurrentEnv}
-            options={options}
-            icon={IconBox}
-        />
+        <>
+            {editMode == 'test' && <CompactSelect
+                value={currentEnv}
+                onChange={setCurrentEnv}
+                options={options}
+                icon={IconBox}
+            />}
+
+        </>
     )
 }

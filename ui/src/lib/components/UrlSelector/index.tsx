@@ -1,5 +1,5 @@
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
-import { useRequest, useRequestController } from "@lib/hooks";
+import { useEditMode, useRequest, useRequestController } from "@lib/hooks";
 import { container, inputGroup, methodSelector, sendButton } from "./styles";
 import Input from "@lib/components/Input";
 import Select from "../Select";
@@ -66,6 +66,8 @@ export default function UrlSelector() {
 
     const isRealtime = request?.values.type == 'sse' || request?.values.type == 'ws' || request?.values.type == 'socketio';
 
+    const [editMode] = useEditMode();
+
     return (
         <div className={container}>
             <div className={inputGroup}>
@@ -81,15 +83,15 @@ export default function UrlSelector() {
                 </div>}
                 <Input
                     placeholder="Enter Url..."
-                    withRightBorder={false}
+                    withRightBorder={editMode != 'test'}
                     withLeftRadius={!(request?.values.type != 'ws' && request?.values.type != 'socketio')}
-                    withRightRadius={false}
+                    withRightRadius={editMode != 'test'}
                     {...request?.getInputProps('url')}
                     onChange={onUrlChange}
                 />
-                <VSCodeButton className={sendButton} onClick={() => (isRealtime && eventResponse.connected) ? controller.cancel() : controller.send()}>
+                {editMode == 'test' && <VSCodeButton className={sendButton} onClick={() => (isRealtime && eventResponse.connected) ? controller.cancel() : controller.send()}>
                     {isRealtime ? eventResponse.connected ? 'Disconnect' : 'Connect' : 'Send'}
-                </VSCodeButton>
+                </VSCodeButton>}
             </div>
         </div>
     )

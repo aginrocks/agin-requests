@@ -24,7 +24,7 @@ const initialEnvs: Environment[] = [
         id: '_empty',
         label: 'No Environment',
         variables: []
-    }
+    },
 ]
 
 export const EnvContext = createContext<EnvContextType>({
