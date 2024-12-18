@@ -1,4 +1,4 @@
-import { useRequest } from "@lib/hooks";
+import { useEditMode, useRequest } from "@lib/hooks";
 import { container, left, requestName, right, typeSelector } from "./styles";
 import ActionIcon from "../ActionIcon";
 import { IconFileText, IconHttpGet, IconPlayerPlay, IconPlugConnected } from "@tabler/icons-react";
@@ -6,6 +6,7 @@ import MenuTabs, { MenuTab } from "../MenuTabs";
 import { useState } from "react";
 import Tabs, { TabType } from "../Tabs";
 import EnvSelector from "../EnvSelector";
+import { EditMode } from "@lib/providers/EditModeProvider";
 
 const tabs: MenuTab[] = [
     {
@@ -23,7 +24,7 @@ const tabs: MenuTab[] = [
 export default function RequestTypeSelector() {
     const request = useRequest();
 
-    const [tab, setTab] = useState('test');
+    const [editMode, setEditMode] = useEditMode();
 
     return (
         <div className={container}>
@@ -37,8 +38,8 @@ export default function RequestTypeSelector() {
                 <EnvSelector />
                 <MenuTabs
                     tabs={tabs}
-                    active={tab}
-                    onChange={setTab}
+                    active={editMode}
+                    onChange={(id) => setEditMode(id as EditMode)}
                     variant="compact"
                     show="label"
                 // withAnimation={false}

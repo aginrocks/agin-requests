@@ -3,3 +3,7 @@ export * from './useRequestController';
 export * from './useHTTPResponse';
 export * from './useVsCodeApi';
 export * from './useSynced';
+export * from './useEnv';
+export * from './useInput';
+export * from './useMessagesLibrary';
+export * from './useEditMode';

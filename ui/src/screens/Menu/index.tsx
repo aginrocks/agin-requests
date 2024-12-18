@@ -8,11 +8,6 @@ import { IconBox, IconFolders, IconHistory } from "@tabler/icons-react";
 
 const tabs: MenuTab[] = [
     {
-        id: 'history',
-        icon: IconHistory,
-        label: 'History',
-    },
-    {
         id: 'collections',
         icon: IconFolders,
         label: 'Collections',
@@ -20,14 +15,19 @@ const tabs: MenuTab[] = [
     {
         id: 'environments',
         icon: IconBox,
-        label: 'Environment',
+        label: 'Environments',
+    },
+    {
+        id: 'history',
+        icon: IconHistory,
+        label: 'History',
     },
 ];
 
 export function Menu() {
     const vscode = useVsCodeApi();
 
-    const [tab, setTab] = useState('history');
+    const [tab, setTab] = useState('collections');
 
     return (
         <>

@@ -11,6 +11,7 @@ import EventResponseProvider from "@lib/providers/EventResponseProvider";
 import RealtimeMessagesProvider from "@lib/providers/RealtimeMessagesProvider";
 import MessagesLibraryProvider from "@lib/providers/MessagesLibraryProvider";
 import SyncedStateProvider from "@lib/providers/SycnedStateProvider";
+import EditModeProvider from "@lib/providers/EditModeProvider";
 
 export const requestTabs: TabType[] = [
     {
@@ -36,22 +37,24 @@ export function Request() {
 
     return (
         <SyncedStateProvider>
-            <RequestConfigProvider>
-                <HTTPResponseProvider>
-                    <EventResponseProvider>
-                        <RealtimeMessagesProvider>
-                            <RequestController>
-                                <MessagesLibraryProvider>
-                                    <Columns
-                                        left={<RequestConfig />}
-                                        right={<Response />}
-                                    />
-                                </MessagesLibraryProvider>
-                            </RequestController>
-                        </RealtimeMessagesProvider>
-                    </EventResponseProvider>
-                </HTTPResponseProvider>
-            </RequestConfigProvider>
+            <EditModeProvider>
+                <RequestConfigProvider>
+                    <HTTPResponseProvider>
+                        <EventResponseProvider>
+                            <RealtimeMessagesProvider>
+                                <RequestController>
+                                    <MessagesLibraryProvider>
+                                        <Columns
+                                            left={<RequestConfig />}
+                                            right={<Response />}
+                                        />
+                                    </MessagesLibraryProvider>
+                                </RequestController>
+                            </RealtimeMessagesProvider>
+                        </EventResponseProvider>
+                    </HTTPResponseProvider>
+                </RequestConfigProvider>
+            </EditModeProvider>
         </SyncedStateProvider>
     )
 }

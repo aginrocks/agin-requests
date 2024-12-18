@@ -1,3 +1,4 @@
+import useSynced from "@lib/hooks/useSynced";
 import { createContext, useState } from "react";
 
 type EnvVariable = {
@@ -36,6 +37,8 @@ export default function EnvProvider({ children }: { children: React.ReactNode })
     const [currentEnv, setCurrentEnv] = useState('');
 
     const [envs, setEnvs] = useState<Environment[]>(initialEnvs);
+
+    useSynced('currentEnv', currentEnv, setCurrentEnv);
 
     // TODO: Add fetching ENVs
 
