@@ -1,0 +1,18 @@
+version: '3'
+services:
+  docs:
+    build:
+      context: ./docs
+      dockerfile: Dockerfile
+    container_name: agin-requests-docs
+    ports:
+      - '8502:3000'
+    restart: always
+  website:
+    build:
+      context: ./website
+      dockerfile: Dockerfile
+    container_name: agin-requests-website
+    ports:
+      - '8503:3000'
+    restart: always

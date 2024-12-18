@@ -9,6 +9,7 @@ import { convertCheckableFields, generateHtml } from './util';
 import { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
 import createRequestWebview from './createRequestView';
+import { importCurl } from './util/importCurl';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -24,8 +25,33 @@ export function activate(context: vscode.ExtensionContext) {
     const webview = vscode.commands.registerCommand('agin-requests.new', () => {
         createRequestWebview(context);
     });
-
     context.subscriptions.push(webview);
+
+    const sse = vscode.commands.registerCommand('agin-requests.new-sse', () => {
+        createRequestWebview(context, {
+            type: 'sse',
+        });
+    });
+    context.subscriptions.push(sse);
+
+    const websocket = vscode.commands.registerCommand('agin-requests.new-websocket', () => {
+        createRequestWebview(context, {
+            type: 'ws',
+        });
+    });
+    context.subscriptions.push(websocket);
+
+    const socketio = vscode.commands.registerCommand('agin-requests.new-socketio', () => {
+        createRequestWebview(context, {
+            type: 'socketio',
+        });
+    });
+    context.subscriptions.push(socketio);
+
+    const importCurlCmd = vscode.commands.registerCommand('agin-requests.import-curl', async () => {
+        await importCurl(context);
+    });
+    context.subscriptions.push(importCurlCmd);
 }
 
 // This method is called when your extension is deactivated

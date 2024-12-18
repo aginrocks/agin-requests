@@ -16,6 +16,7 @@
 	},
 	"exclude": [
 		"ui",
-		"docs"
+		"docs",
+		"website"
 	]
 }

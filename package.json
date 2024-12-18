@@ -4,6 +4,7 @@
   "description": "Simplify API and real-time testing in VS Code",
   "publisher": "agin",
   "version": "0.0.1",
+  "pricing": "Free",
   "engines": {
     "vscode": "^1.95.0"
   },
@@ -17,6 +18,22 @@
       {
         "command": "agin-requests.new",
         "title": "Agin Requests: New Request"
+      },
+      {
+        "command": "agin-requests.new-sse",
+        "title": "Agin Requests: New SSE Request"
+      },
+      {
+        "command": "agin-requests.new-websocket",
+        "title": "Agin Requests: New WebSocket Connection"
+      },
+      {
+        "command": "agin-requests.new-socketio",
+        "title": "Agin Requests: New Socket.IO Connection"
+      },
+      {
+        "command": "agin-requests.import-curl",
+        "title": "Agin Requests: Import from cURL"
       }
     ],
     "viewsContainers": {
@@ -68,6 +85,7 @@
     "eventsource": "^3.0.1",
     "form-data": "^4.0.1",
     "qs": "^6.13.0",
+    "socket.io-client": "^4.8.1",
     "ws": "^8.18.0"
   }
 }

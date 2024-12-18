@@ -1,14 +1,11 @@
 import * as vscode from "vscode";
-import { convertCheckableFields, generateHtml } from "./util";
+import { generateHtml } from "./util";
 import path from "path";
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import qs from "qs";
-import { EventSource } from "eventsource";
-import WebSocket from "ws";
 import { HTTPHandler } from "./handlers/HTTPHandler";
 import { Message } from "./handlers/Handler";
 import { SSEHandler } from "./handlers/SSEHandler";
 import { WSHandler } from "./handlers/WSHandler";
+import { SocketIOHandler } from "./handlers/SocketIOHandler";
 
 export type ServerEvent<T> = {
     type: 'incoming' | 'outgoing' | 'connected' | 'disconnected';
@@ -32,6 +29,7 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
     const httpHandler = new HTTPHandler('request', panel);
     const sseHandler = new SSEHandler('sse', panel);
     const wsHandler = new WSHandler('ws', panel);
+    const ioHandler = new SocketIOHandler('io', panel);
 
     panel.webview.onDidReceiveMessage(
         async (message: Message) => {
@@ -72,6 +70,9 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
 
             } else if (message.command.startsWith('ws.')) {
                 await wsHandler.onMessage(message);
+
+            } else if (message.command.startsWith('io.')) {
+                await ioHandler.onMessage(message);
             }
         }
     );
