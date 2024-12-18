@@ -5,6 +5,7 @@ import { IconFileText, IconHttpGet, IconPlayerPlay, IconPlugConnected } from "@t
 import MenuTabs, { MenuTab } from "../MenuTabs";
 import { useState } from "react";
 import Tabs, { TabType } from "../Tabs";
+import EnvSelector from "../EnvSelector";
 
 const tabs: MenuTab[] = [
     {
@@ -33,6 +34,7 @@ export default function RequestTypeSelector() {
                 <div className={requestName}>New Request</div>
             </div>
             <div className={right}>
+                <EnvSelector />
                 <MenuTabs
                     tabs={tabs}
                     active={tab}

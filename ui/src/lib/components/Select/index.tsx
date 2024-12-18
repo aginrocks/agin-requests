@@ -7,7 +7,7 @@ import { useMemo } from "react"
 import { IconChevronDown } from "@tabler/icons-react"
 
 export interface SelectProps {
-    options: OptionProps[]
+    options: OptionProps[],
     withLeftBorder?: boolean,
     withRightBorder?: boolean,
     withLeftRadius?: boolean,
@@ -18,7 +18,6 @@ export interface SelectProps {
 
 export default function Select({ options, withLeftBorder, withRightBorder, withLeftRadius, withRightRadius, value, onChange, ...props }: SelectProps) {
     const [opened, { open, close, toggle }] = useDisclosure(false);
-
     const selectedOption = useMemo(() => options.find(o => o.value == value), [options, value]);
 
     return (

@@ -4,7 +4,7 @@ export const typeSelector = css({
     border: 'calc(var(--border-width)* 1px) solid var(--dropdown-border)',
     borderRadius: '6px',
     maxWidth: 'max-content',
-    marginRight: '10px'
+    marginRight: '10px',
 });
 
 export const container = css({
@@ -27,5 +27,5 @@ export const requestName = css({
 export const right = css({
     display: 'flex',
     alignItems: 'center',
-    gap: '10px',
+    gap: '6px',
 });

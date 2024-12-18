@@ -7,6 +7,7 @@ export interface OptionProps extends React.HTMLAttributes<HTMLDivElement>, Optio
     value: string,
     icon?: TablerIcon,
     description?: string,
+    selected?: boolean;
 }
 
 export function Option({ label, value, icon: Icon, description, optionColor, ...props }: OptionProps) {
