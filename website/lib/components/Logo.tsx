@@ -2,11 +2,8 @@ import { cva } from "@/styled-system/css"
 
 type LogoVariants = Exclude<Parameters<typeof logo>[0], undefined>;
 
-export interface LogoProps extends LogoVariants {
 
-}
-
-export default function Logo({ size }: LogoProps) {
+export default function Logo({ size }: LogoVariants) {
     return (
         <img src="/logo.svg" className={logo({ size })} />
     )

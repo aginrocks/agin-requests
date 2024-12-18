@@ -5,12 +5,6 @@ import { container, linksContainer, menu, menuLogo } from "./styles";
 import Link from "next/link";
 import { docsUrl, marketplaceUrl, repoUrl } from "@/lib/config";
 
-export type NavbarLink = {
-
-}
-
-const links: NavbarLink[] = [];
-
 export function Navbar() {
     return (
         <div className={container}>
