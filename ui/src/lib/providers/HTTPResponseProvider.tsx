@@ -29,7 +29,6 @@ export default function HTTPResponseProvider({ children }: { children: React.Rea
 
     const [res, setRes] = useState<HTTPResponse<any>>(defaultResponse);
 
-    // FIXME
     useSynced('httpResponse', res, setRes);
 
     // useEffect(() => {

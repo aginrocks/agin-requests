@@ -4,6 +4,7 @@ import { useHTTPResponse } from "@lib/hooks/useHTTPResponse";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { RealtimeMessage } from "./RealtimeMessagesProvider";
+import useSynced from "@lib/hooks/useSynced";
 
 export type RequestStatus = 'idle' | 'pending' | 'realtime' | 'finished' | 'canceled';
 
@@ -28,6 +29,8 @@ export default function RequestController({ children }: { children: React.ReactN
     const vscode = useVsCodeApi();
 
     const [status, setStatus] = useState<RequestStatus>('idle');
+
+    useSynced('requestStatus', status, setStatus);
 
     const send = useCallback(() => {
         if (request?.values.type == 'http') {

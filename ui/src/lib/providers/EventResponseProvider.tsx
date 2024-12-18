@@ -22,6 +22,8 @@ export default function EventResponseProvider({ children }: { children: React.Re
 
     const [connected, setConnected] = useState(false);
 
+    // TODO: Add syncing with main (to also include messages that were sent while the tab was inactive)
+
     const addEvent = useCallback((event: ServerEvent<any>) => {
         setEvents(r => [...r, event]);
     }, []);
