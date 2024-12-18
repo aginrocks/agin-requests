@@ -3,41 +3,48 @@ import { useRequest, useRequestController } from "@lib/hooks";
 import { container, inputGroup, methodSelector, sendButton } from "./styles";
 import Input from "@lib/components/Input";
 import Select from "../Select";
-import type { Option } from "../Select";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
 import { useCallback } from "react";
 import { parseParams } from "@lib/util";
 import { Param } from "@lib/types";
 import { useEventResponse } from "@lib/hooks/useEventResponse";
+import { OptionProps } from "../Menu/Option";
 
-export const methods: Option[] = [
+export const methods: OptionProps[] = [
     {
         label: 'GET',
         value: 'get',
+        optionColor: 'methods.get.foreground',
     },
     {
         label: 'POST',
         value: 'post',
+        optionColor: 'methods.post.foreground',
     },
     {
         label: 'PATCH',
         value: 'patch',
+        optionColor: 'methods.patch.foreground',
     },
     {
         label: 'PUT',
         value: 'put',
+        optionColor: 'methods.put.foreground',
     },
     {
         label: 'DELETE',
         value: 'delete',
+        optionColor: 'methods.delete.foreground',
     },
     {
         label: 'HEAD',
         value: 'head',
+        optionColor: 'methods.head.foreground',
     },
     {
         label: 'OPTIONS',
         value: 'options',
+        optionColor: 'methods.options.foreground',
     },
 ]
 
@@ -63,6 +70,9 @@ export default function UrlSelector() {
         <div className={container}>
             <div className={inputGroup}>
                 {request?.values.type != 'ws' && request?.values.type != 'socketio' && <div className={methodSelector}>
+                    {/* 
+                    TODO: Remove ts-ignore
+                    // @ts-ignore */}
                     <Select
                         options={methods}
                         withRightRadius={false}

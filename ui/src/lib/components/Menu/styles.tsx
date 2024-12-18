@@ -16,12 +16,18 @@ export const dropdownContainer = cva({
     },
     variants: {
         position: {
-            bottomStart: {
+            bottomEnd: {
                 bottom: '0px',
                 transform: 'translateY(calc(100% + 3px))',
                 right: 0,
                 width: 'max-content'
-            }
+            },
+            bottomStart: {
+                bottom: '0px',
+                transform: 'translateY(calc(100% + 3px))',
+                left: 0,
+                width: 'max-content'
+            },
         },
         opened: {
             true: {
@@ -32,6 +38,6 @@ export const dropdownContainer = cva({
         }
     },
     defaultVariants: {
-        position: 'bottomStart',
+        position: 'bottomEnd',
     }
 });
