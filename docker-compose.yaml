@@ -10,7 +10,7 @@ services:
     restart: always
   website:
     build:
-      context: ./docs
+      context: ./website
       dockerfile: Dockerfile
     container_name: agin-requests-website
     ports:
