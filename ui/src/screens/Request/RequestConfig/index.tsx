@@ -18,6 +18,7 @@ import { IconBooks } from "@tabler/icons-react";
 import ActionIcon from "@lib/components/ActionIcon";
 import useMessagesLibrary from "@lib/hooks/useMessagesLibrary";
 import useSynced from "@lib/hooks/useSynced";
+import IOMessageEditor from "./IOMessageEditor";
 
 export function RequestConfig() {
     const request = useRequest();
@@ -122,7 +123,7 @@ export function RequestConfig() {
             {tab == 'headers' && <HeadersEditor />}
             {tab == 'body' && <BodyEditor />}
             {tab == 'auth' && <AuthEditor />}
-            {tab == 'message' && (request?.values.type == 'socketio' ? <div></div> : <WSMessageEditor />)}
+            {tab == 'message' && (request?.values.type == 'socketio' ? <IOMessageEditor /> : <WSMessageEditor />)}
         </div>
     )
 }

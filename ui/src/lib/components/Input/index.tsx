@@ -1,16 +1,19 @@
 import React, { forwardRef, Ref } from "react";
-import { input, inputContainer } from "./styles";
+import { input, inputContainer, rightSectionStyles } from "./styles";
 
 type InputVariants = Exclude<Parameters<typeof inputContainer>[0], undefined>;
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>, InputVariants {
-
+    rightSection?: React.ReactNode;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({ withRightBorder, withLeftBorder, withLeftRadius, withRightRadius, radius, ...props }, ref: Ref<HTMLInputElement>) => {
+const Input = forwardRef<HTMLInputElement, InputProps>(({ withRightBorder, withLeftBorder, withLeftRadius, withRightRadius, radius, rightSection, ...props }, ref: Ref<HTMLInputElement>) => {
     return (
         <div className={inputContainer({ withRightBorder, withLeftBorder, withLeftRadius, withRightRadius, radius, })}>
             <input className={input} ref={ref} {...props} />
+            {rightSection && <div className={rightSectionStyles}>
+                {rightSection}
+            </div>}
         </div>
     );
 });

@@ -10,6 +10,7 @@ export const inputContainer = cva({
         display: 'flex',
         alignItems: 'center',
         padding: '0px',
+        pos: 'relative',
         '&:focus-within': {
             borderColor: 'var(--vscode-focusBorder)',
         }
@@ -55,4 +56,15 @@ export const input = css({
     fontWeight: 500,
     padding: '10px',
     paddingLeft: '12px'
+});
+
+export const rightSectionStyles = css({
+    position: 'absolute',
+    right: '0px',
+    top: '0px',
+    bottom: '0px',
+    padding: '4px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '3px'
 });

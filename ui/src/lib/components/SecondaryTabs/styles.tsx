@@ -18,6 +18,11 @@ export const tabs = cva({
                 borderBottomRadius: '0px',
                 marginBottom: '0px',
             }
+        },
+        withTabs: {
+            false: {
+                paddingBottom: '10px',
+            }
         }
     }
 });
