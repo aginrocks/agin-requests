@@ -1,7 +1,7 @@
 import { sva } from "@styled-system/css";
 
 export const tree = sva({
-    slots: ['header', 'headerLeft', 'icon', 'line', 'children'],
+    slots: ['header', 'headerLeft', 'icon', 'line', 'content', 'children'],
     base: {
         header: {
             borderRadius: '10px',
@@ -35,6 +35,20 @@ export const tree = sva({
         },
         icon: {
             color: 'var(--vscode-disabledForeground)',
+        },
+        content: {
+            display: 'flex',
+            alignItems: 'flex-start',
+        },
+        line: {
+            height: '100%',
+            minH: '100%',
+            width: '1px',
+            // backgroundColor: 'var(--dropdown-border)',
+            borderRight: 'calc(var(--border-width)* 1px) solid var(--dropdown-border)',
+        },
+        children: {
+            flex: 1,
         }
     },
     variants: {
