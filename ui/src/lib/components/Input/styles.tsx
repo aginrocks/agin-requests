@@ -45,6 +45,13 @@ export const inputContainer = cva({
             sm: {
                 borderRadius: '10px',
             }
+        },
+        variant: {
+            compact: {
+                height: '30px',
+                borderRadius: '10px',
+                fontSize: '12px',
+            }
         }
     }
 });

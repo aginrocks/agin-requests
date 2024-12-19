@@ -22,7 +22,6 @@ export const tree = sva({
                 visibility: 'hidden',
             },
             '&:hover': {
-                // backgroundColor: 'color-mix(in srgb, var(--vscode-list-hoverBackground), white 1%)',
                 backgroundColor: 'var(--vscode-list-hoverBackground)',
                 '& [data-more-actions]': {
                     opacity: 1,
@@ -32,7 +31,6 @@ export const tree = sva({
         },
         headerLeft: {
             fontSize: '13px',
-            // color: 'var(--vscode-disabledForeground)',
             fontWeight: 600,
             display: 'flex',
             alignItems: 'center',
@@ -50,7 +48,6 @@ export const tree = sva({
         line: {
             height: '100%',
             width: '1px',
-            // backgroundColor: 'var(--dropdown-border)',
             borderRight: 'calc(var(--border-width)* 1px) solid var(--dropdown-border)',
             position: 'absolute',
             left: '0px',
@@ -73,15 +70,15 @@ export const tree = sva({
             true: {
                 contentContainer: {
                     gridTemplateRows: '1fr',
-                    // opacity: 1,
-                    // visibility: 'visible',
+                    opacity: 1,
+                    visibility: 'visible',
                 },
             },
             false: {
                 contentContainer: {
                     gridTemplateRows: '0fr',
-                    // opacity: 0,
-                    // visibility: 'hidden',
+                    opacity: 0,
+                    visibility: 'hidden',
                 },
             },
         }

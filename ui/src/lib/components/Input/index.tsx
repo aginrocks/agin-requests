@@ -7,9 +7,9 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>, InputV
     rightSection?: React.ReactNode;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({ withRightBorder, withLeftBorder, withLeftRadius, withRightRadius, radius, rightSection, ...props }, ref: Ref<HTMLInputElement>) => {
+const Input = forwardRef<HTMLInputElement, InputProps>(({ withRightBorder, withLeftBorder, withLeftRadius, withRightRadius, radius, rightSection, variant, ...props }, ref: Ref<HTMLInputElement>) => {
     return (
-        <div className={inputContainer({ withRightBorder, withLeftBorder, withLeftRadius, withRightRadius, radius, })}>
+        <div className={inputContainer({ withRightBorder, withLeftBorder, withLeftRadius, withRightRadius, radius, variant, })}>
             <input className={input} ref={ref} {...props} />
             {rightSection && <div className={rightSectionStyles}>
                 {rightSection}

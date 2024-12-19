@@ -1,7 +1,7 @@
 import { useDisclosure } from "@mantine/hooks";
 import { tree } from "./styles";
 import { createContext } from "react";
-import { IconChevronDown, IconChevronRight, IconDots } from "@tabler/icons-react";
+import { Icon, IconChevronDown, IconChevronRight, IconDots } from "@tabler/icons-react";
 import ActionIcon from "../ActionIcon";
 
 export type TreeItemProps = {
@@ -10,12 +10,13 @@ export type TreeItemProps = {
     description?: string;
     headerComponent?: React.ReactNode;
     nestLevel?: number;
+    icon?: Icon;
 }
 
 // export const NestLevelContext = createContext<number>(0);
 
 // TODO: Fix line hiding
-export default function TreeItem({ children, label, description, headerComponent }: TreeItemProps) {
+export default function TreeItem({ children, label, icon: Icon, description, headerComponent }: TreeItemProps) {
     const [opened, { open, close, toggle }] = useDisclosure(false);
 
     const classes = tree({ expanded: opened });
@@ -27,6 +28,9 @@ export default function TreeItem({ children, label, description, headerComponent
                     <div className={classes.icon}>
                         <ActionIcon icon={opened ? IconChevronDown : IconChevronRight} size={14} onClick={toggle} />
                     </div>
+                    {Icon && <div className={classes.icon}>
+                        <Icon size={14} />
+                    </div>}
                     {/* <IconChevronRight size={14} color="var(--vscode-disabledForeground)" /> */}
                     {label}
                 </div>
