@@ -1,7 +1,7 @@
-import { RealtimeMessage } from "@lib/providers/RealtimeMessagesProvider";
 import { FormItem } from "./FormItem";
 import { Header } from "./Header";
 import { Param } from "./Param";
+import { RealtimeMessage } from "./RealtimeMessage";
 
 export type RequestBodyType = 'none' | 'json' | 'xml' | 'text' | 'urlencoded' | 'formdata' | 'binary';
 

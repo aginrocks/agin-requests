@@ -1,9 +1,8 @@
 import useSynced from "@lib/hooks/useSynced";
-import { SocketIOMessage, WSMessage } from "@lib/types"
+import { RealtimeMessage, SocketIOMessage, WSMessage } from "@shared/types";
 import { useForm } from "@mantine/form";
 import React, { createContext, useEffect } from "react";
 
-export type RealtimeMessage = WSMessage & SocketIOMessage;
 type RealtimeMessagesForm = {
     messages: RealtimeMessage[];
     activeMessage: RealtimeMessage;

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer, useState } from "react";
-import type { RequestConfig } from "@lib/types";
+import type { RequestConfig } from "@shared/types";
 import { useForm } from "@mantine/form";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
 import useSynced from "@lib/hooks/useSynced";

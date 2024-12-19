@@ -6,7 +6,6 @@ import Select from "../Select";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
 import { useCallback } from "react";
 import { parseParams } from "@lib/util";
-import { Param } from "@lib/types";
 import { useEventResponse } from "@lib/hooks/useEventResponse";
 import { OptionProps } from "../Menu/Option";
 

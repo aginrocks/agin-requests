@@ -5,3 +5,4 @@ export * from './FormItem';
 export * from './HTTPResponse';
 export * from './SocketIOMessage';
 export * from './WSMessage';
+export * from './RealtimeMessage';

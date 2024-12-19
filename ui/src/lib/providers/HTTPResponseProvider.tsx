@@ -1,8 +1,8 @@
 import { createContext, useEffect, useReducer, useState } from "react";
-import type { RequestConfig } from "@lib/types";
+import type { RequestConfig } from "@shared/types";
 import { useForm } from "@mantine/form";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
-import { HTTPResponse } from "@lib/types/HTTPResponse";
+import { HTTPResponse } from "@shared/types/HTTPResponse";
 import useSynced from "@lib/hooks/useSynced";
 
 type HTTPResponseContextType = [

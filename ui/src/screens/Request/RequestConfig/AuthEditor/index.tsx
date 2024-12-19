@@ -1,7 +1,7 @@
 import { useRequest } from "@lib/hooks"
 import { container, authContainer } from "./styles";
 import { TabType } from "@lib/components/Tabs";
-import { AuthType } from "@lib/types";
+import { AuthType } from "@shared/types";
 import ParamsGroup from "@lib/components/ParamsGroup";
 import SecondaryTabs from "@lib/components/SecondaryTabs";
 import InputRow from "@lib/components/InputRow";

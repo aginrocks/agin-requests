@@ -1,4 +1,4 @@
-import { ServerEvent } from "@lib/types/ServerEvent";
+import { ServerEvent } from "@shared/types/ServerEvent";
 import React, { createContext, useCallback, useState } from "react";
 
 type EventResponseContextType = {

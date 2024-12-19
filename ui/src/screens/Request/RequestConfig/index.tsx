@@ -8,7 +8,7 @@ import ParamsEditor from "./ParamsEditor";
 import HeadersEditor from "./HeadersEditor";
 import BodyEditor from "./BodyEditor";
 import AuthEditor from "./AuthEditor";
-import { Param, RequestBodyType } from "@lib/types";
+import { Param, RequestBodyType } from "@shared/types";
 import isEqual from 'lodash/isEqual';
 import qs from 'qs';
 import WSMessageEditor from "./WSMessageEditor";

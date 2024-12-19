@@ -29,11 +29,15 @@
       ],
       "@screens/*": [
         "screens/*"
-      ]
+      ],
+      "@shared/*": [
+        "../../src/shared/*"
+      ],
     },
   },
   "include": [
     "src",
-    "styled-system"
+    "styled-system",
+    "../src/shared"
   ]
 }

@@ -1,4 +1,4 @@
-import { ServerEvent } from "@lib/types/ServerEvent";
+import { ServerEvent } from "@shared/types/ServerEvent";
 import { Icon, IconArrowDown, IconArrowUp, IconPlug, IconX } from "@tabler/icons-react";
 import { eventCodeContainer, eventContent, eventDate, eventIcon, eventInner, eventLeft, eventName, eventStyles, seeMore, seeMoreButton, seeMoreInside } from "./styles";
 import ThemeIcon from "../ThemeIcon";

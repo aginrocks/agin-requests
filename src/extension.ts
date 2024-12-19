@@ -27,28 +27,28 @@ export function activate(context: vscode.ExtensionContext) {
     });
     context.subscriptions.push(webview);
 
-    const sse = vscode.commands.registerCommand('agin-requests.new-sse', () => {
+    const sse = vscode.commands.registerCommand('agin-requests.newSSE', () => {
         createRequestWebview(context, {
             type: 'sse',
         });
     });
     context.subscriptions.push(sse);
 
-    const websocket = vscode.commands.registerCommand('agin-requests.new-websocket', () => {
+    const websocket = vscode.commands.registerCommand('agin-requests.newWebSocket', () => {
         createRequestWebview(context, {
             type: 'ws',
         });
     });
     context.subscriptions.push(websocket);
 
-    const socketio = vscode.commands.registerCommand('agin-requests.new-socketio', () => {
+    const socketio = vscode.commands.registerCommand('agin-requests.newSocketIO', () => {
         createRequestWebview(context, {
             type: 'socketio',
         });
     });
     context.subscriptions.push(socketio);
 
-    const importCurlCmd = vscode.commands.registerCommand('agin-requests.import-curl', async () => {
+    const importCurlCmd = vscode.commands.registerCommand('agin-requests.importCurl', async () => {
         await importCurl(context);
     });
     context.subscriptions.push(importCurlCmd);

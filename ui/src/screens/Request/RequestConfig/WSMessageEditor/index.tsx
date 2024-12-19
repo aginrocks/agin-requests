@@ -1,7 +1,7 @@
 import { useRequest, useRequestController, useVsCodeApi } from "@lib/hooks"
 import { container, editor, secondaryActions } from "./styles";
 import { TabType } from "@lib/components/Tabs";
-import { WSType } from "@lib/types";
+import { WSType } from "@shared/types";
 import EditorContainer from "@lib/components/EditorContainer";
 import SecondaryTabs from "@lib/components/SecondaryTabs";
 import ThemedEditor from "@lib/components/ThemedEditor";

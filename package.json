@@ -17,23 +17,43 @@
     "commands": [
       {
         "command": "agin-requests.new",
-        "title": "Agin Requests: New Request"
+        "title": "New Request",
+        "category": "Agin Requests"
       },
       {
-        "command": "agin-requests.new-sse",
-        "title": "Agin Requests: New SSE Request"
+        "command": "agin-requests.newSSE",
+        "title": "New SSE Request",
+        "category": "Agin Requests"
       },
       {
-        "command": "agin-requests.new-websocket",
-        "title": "Agin Requests: New WebSocket Connection"
+        "command": "agin-requests.newWebSocket",
+        "title": "New WebSocket Connection",
+        "category": "Agin Requests"
       },
       {
-        "command": "agin-requests.new-socketio",
-        "title": "Agin Requests: New Socket.IO Connection"
+        "command": "agin-requests.newSocketIO",
+        "title": "New Socket.IO Connection",
+        "category": "Agin Requests"
       },
       {
-        "command": "agin-requests.import-curl",
-        "title": "Agin Requests: Import from cURL"
+        "command": "agin-requests.importCurl",
+        "title": "Import from cURL",
+        "category": "Agin Requests"
+      },
+      {
+        "command": "agin-requests.openDocs",
+        "title": "Documentation",
+        "category": "Agin Requests"
+      },
+      {
+        "command": "agin-requests.releaseNotes",
+        "title": "Release Notes",
+        "category": "Agin Requests"
+      },
+      {
+        "command": "agin-requests.settings",
+        "title": "Extension Settings",
+        "category": "Agin Requests"
       }
     ],
     "viewsContainers": {
@@ -55,7 +75,40 @@
           "contextualTitle": "Agin Requests"
         }
       ]
-    }
+    },
+    "menus": {
+      "view/title": [
+        {
+          "submenu": "agin-requests.more-options",
+          "when": "view == agin-requests-sidebar",
+          "group": "navigation"
+        }
+      ],
+      "agin-requests.more-options": [
+        {
+          "command": "agin-requests.settings",
+          "when": "view == agin-requests-sidebar",
+          "group": "settings"
+        },
+        {
+          "command": "agin-requests.openDocs",
+          "when": "view == agin-requests-sidebar",
+          "group": "links"
+        },
+        {
+          "command": "agin-requests.releaseNotes",
+          "when": "view == agin-requests-sidebar",
+          "group": "links"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "agin-requests.more-options",
+        "icon": "$(kebab-horizontal)",
+        "label": "More Options"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

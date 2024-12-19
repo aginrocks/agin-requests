@@ -1,7 +1,7 @@
 import { useRequest } from "@lib/hooks"
 import { container, editor, paramsContainer } from "./styles";
 import Tabs, { TabType } from "@lib/components/Tabs";
-import { RequestBodyType } from "@lib/types";
+import { RequestBodyType } from "@shared/types";
 import Divider from "@lib/components/Divider";
 import EditorContainer from "@lib/components/EditorContainer";
 import ParamsGroup from "@lib/components/ParamsGroup";
