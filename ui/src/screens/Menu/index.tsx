@@ -5,6 +5,7 @@ import History from "./History";
 import MenuTabs, { MenuTab } from "@lib/components/MenuTabs";
 import { useState } from "react";
 import { IconBox, IconFolders, IconHistory } from "@tabler/icons-react";
+import Collections from "./Collections";
 
 const tabs: MenuTab[] = [
     {
@@ -41,6 +42,7 @@ export function Menu() {
                 active={tab}
                 onChange={setTab}
             />
+            {tab == 'collections' && <Collections />}
             {tab == 'history' && <History />}
         </>
     )
