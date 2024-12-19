@@ -1,12 +1,17 @@
 import { sva } from "@styled-system/css";
 
 export const tree = sva({
-    slots: ['header', 'headerLeft', 'icon', 'line', 'content', 'children'],
+    slots: ['base', 'header', 'headerLeft', 'icon', 'line', 'content', 'contentContainer', 'children'],
     base: {
+        base: {
+            '& [data-line]': {
+                opacity: 1,
+            }
+        },
         header: {
             borderRadius: '10px',
             cursor: 'pointer',
-            padding: '8px 10px',
+            padding: '6px',
             transition: 'background-color .3s ease',
             display: 'flex',
             justifyContent: 'space-between',
@@ -39,23 +44,46 @@ export const tree = sva({
         content: {
             display: 'flex',
             alignItems: 'flex-start',
+            position: 'relative',
+            overflow: 'hidden',
         },
         line: {
             height: '100%',
-            minH: '100%',
             width: '1px',
             // backgroundColor: 'var(--dropdown-border)',
             borderRight: 'calc(var(--border-width)* 1px) solid var(--dropdown-border)',
+            position: 'absolute',
+            left: '0px',
+            top: '0px',
+            bottom: '0px',
+            opacity: 0,
+            transition: 'opacity .3s ease',
         },
         children: {
             flex: 1,
+        },
+        contentContainer: {
+            display: 'grid',
+            overflow: 'hidden',
+            transition: 'opacity .2s ease, visibility .2s ease, grid-template-rows .2s ease',
         }
     },
     variants: {
         expanded: {
             true: {
-
-            }
+                contentContainer: {
+                    gridTemplateRows: '1fr',
+                    // opacity: 1,
+                    // visibility: 'visible',
+                },
+            },
+            false: {
+                contentContainer: {
+                    gridTemplateRows: '0fr',
+                    // opacity: 0,
+                    // visibility: 'hidden',
+                },
+            },
         }
     }
 });

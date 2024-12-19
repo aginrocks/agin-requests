@@ -5,8 +5,13 @@ import TreeItem from "@lib/components/TreeItem";
 export default function Collections() {
     return (
         <div className={collections}>
-            <TreeItem label="Test Collection" nestLevel={1}>
-
+            <TreeItem label="Test Collection">
+                <TreeItem label="Test Collection">
+                    <TreeItem label="Test Collection">
+                        <Request method="get" type="http" url="https://example.com" />
+                    </TreeItem>
+                </TreeItem>
+                <Request method="get" type="http" url="https://example.com" />
             </TreeItem>
         </div>
     )

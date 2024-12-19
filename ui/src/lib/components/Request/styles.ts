@@ -4,10 +4,10 @@ export const request = css({
     borderRadius: '10px',
     cursor: 'pointer',
     // padding: '10px',
-    padding: '8px 10px',
+    padding: '6px',
     transition: 'background-color .3s ease',
     '&:hover': {
-        backgroundColor: 'color-mix(in srgb, var(--vscode-list-hoverBackground), white 1%)'
+        backgroundColor: 'var(--vscode-list-hoverBackground)'
     }
 });
 

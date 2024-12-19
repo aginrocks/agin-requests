@@ -12,35 +12,38 @@ export type TreeItemProps = {
     nestLevel?: number;
 }
 
-export const NestLevelContext = createContext<number>(0);
+// export const NestLevelContext = createContext<number>(0);
 
-export default function TreeItem({ children, label, description, headerComponent, nestLevel = 0 }: TreeItemProps) {
+// TODO: Fix line hiding
+export default function TreeItem({ children, label, description, headerComponent }: TreeItemProps) {
     const [opened, { open, close, toggle }] = useDisclosure(false);
 
     const classes = tree({ expanded: opened });
 
     return (
-        <NestLevelContext.Provider value={nestLevel}>
-            <div>
-                <div className={classes.header}>
-                    <div className={classes.headerLeft}>
-                        <div className={classes.icon}>
-                            <ActionIcon icon={opened ? IconChevronDown : IconChevronRight} size={14} onClick={toggle} />
-                        </div>
-                        {/* <IconChevronRight size={14} color="var(--vscode-disabledForeground)" /> */}
-                        {label}
+        <div className={classes.base}>
+            <div className={classes.header}>
+                <div className={classes.headerLeft}>
+                    <div className={classes.icon}>
+                        <ActionIcon icon={opened ? IconChevronDown : IconChevronRight} size={14} onClick={toggle} />
                     </div>
-                    <div className={classes.icon} data-more-actions>
-                        <ActionIcon icon={IconDots} size={14} />
-                    </div>
+                    {/* <IconChevronRight size={14} color="var(--vscode-disabledForeground)" /> */}
+                    {label}
                 </div>
-                <div className={classes.content}>
-                    <div className={classes.line}></div>
+                <div className={classes.icon} data-more-actions>
+                    <ActionIcon icon={IconDots} size={14} />
+                </div>
+            </div>
+            <div className={classes.contentContainer}>
+                <div className={classes.content} style={{ paddingLeft: 6 + 12 + 1 + 3 }}>
+                    <div className={classes.line} style={{ left: 6 + 12 }} data-line></div>
                     <div className={classes.children}>
-                        gjwerhjkhfwebewudj
+                        {/* <NestLevelContext.Provider value={nestLevel}> */}
+                        {children}
+                        {/* </NestLevelContext.Provider> */}
                     </div>
                 </div>
             </div>
-        </NestLevelContext.Provider>
+        </div>
     )
 }
