@@ -6,6 +6,7 @@ import { Message } from "./handlers/Handler";
 import { SSEHandler } from "./handlers/SSEHandler";
 import { WSHandler } from "./handlers/WSHandler";
 import { SocketIOHandler } from "./handlers/SocketIOHandler";
+import { WorkspaceManager } from "./WorkspaceManager";
 
 export type ServerEvent<T> = {
     type: 'incoming' | 'outgoing' | 'connected' | 'disconnected';
@@ -82,6 +83,13 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
             panel.webview.postMessage({ command: 'themeChanged' });
         }
     });
+
+    const manager = new WorkspaceManager();
+    (async () => {
+        if (vscode.workspace.workspaceFolders) {
+            await manager.setFolder(vscode.workspace.workspaceFolders[0]);
+        }
+    })();
 
     panel.webview.html = generateHtml(context.extensionUri, panel.webview, 'request');
 }

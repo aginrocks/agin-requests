@@ -7,6 +7,18 @@ export type RequestBodyType = 'none' | 'json' | 'xml' | 'text' | 'urlencoded' | 
 
 export type AuthType = 'none' | 'basic' | 'bearer' | 'oauth2';
 
+export type AuthOptions = {
+    basic: {
+        username: string,
+        password: string,
+    },
+    bearer?: {
+        token: string,
+        prefix: 'Bearer' | string,
+    },
+    socketio?: string,
+}
+
 export type RequestConfig = {
     type: 'ws' | 'socketio' | 'http' | 'sse',
     url: string,
@@ -17,15 +29,5 @@ export type RequestConfig = {
     requestBody?: FormItem[] | string,
     authType: AuthType,
     messages: RealtimeMessage[],
-    auth: {
-        basic: {
-            username: string,
-            password: string,
-        },
-        bearer?: {
-            token: string,
-            prefix: 'Bearer' | string,
-        },
-        socketio?: string,
-    }
+    auth: AuthOptions
 };

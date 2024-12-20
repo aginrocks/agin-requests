@@ -6,3 +6,5 @@ export * from './HTTPResponse';
 export * from './SocketIOMessage';
 export * from './WSMessage';
 export * from './RealtimeMessage';
+export * from './WorkspaceManifest';
+export * from './Collection';
