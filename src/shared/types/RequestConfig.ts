@@ -8,7 +8,7 @@ export type RequestBodyType = 'none' | 'json' | 'xml' | 'text' | 'urlencoded' | 
 export type AuthType = 'none' | 'basic' | 'bearer' | 'oauth2';
 
 export type AuthOptions = {
-    basic: {
+    basic?: {
         username: string,
         password: string,
     },

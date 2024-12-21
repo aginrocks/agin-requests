@@ -88,6 +88,13 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
     (async () => {
         if (vscode.workspace.workspaceFolders) {
             await manager.setFolder(vscode.workspace.workspaceFolders[0]);
+
+            await manager.createCollection('', {
+                authType: 'none',
+                headers: [],
+                label: 'Test',
+                type: 'collection',
+            });
         }
     })();
 
