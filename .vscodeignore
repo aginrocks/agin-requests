@@ -12,3 +12,5 @@ vsc-extension-quickstart.md
 .parcel-cache
 docs/**
 website/**
+ui/.parcel-cache/**
+ui/node_modules/**
