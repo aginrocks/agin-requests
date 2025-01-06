@@ -1,12 +1,13 @@
 import { ServerEvent } from "@shared/types/ServerEvent";
 import { Icon, IconArrowDown, IconArrowUp, IconPlug, IconX } from "@tabler/icons-react";
-import { eventCodeContainer, eventContent, eventDate, eventIcon, eventInner, eventLeft, eventName, eventStyles, seeMore, seeMoreButton, seeMoreInside } from "./styles";
+import { argsList, eventCodeContainer, eventContent, eventDate, eventIcon, eventInner, eventLeft, eventName, eventStyles, seeMore, seeMoreButton, seeMoreInside } from "./styles";
 import ThemeIcon from "../ThemeIcon";
 import { formatDateToTime } from "@lib/util";
 import Highlight from "../Highlight";
 import { useMemo, useState } from "react";
 import { RealtimeMessage, SocketIOMessage, WSMessage } from "@shared/types";
 import { useRequest } from "@lib/hooks";
+import IOArgument from "./IOArgument";
 
 type Color = 'green' | 'red' | 'blue';
 
@@ -39,13 +40,17 @@ export default function Event({ data, receivedAt, type, event }: ServerEvent<str
                         <ThemeIcon icon={icon} iconColor={color} />
                     </div>
                     <div>
-                        {event && <div className={eventName}>{event}</div>}
+                        {event && <div className={eventName({ argsDisplayed: (data as RealtimeMessage)?.args?.length !== 0 })}>{event}</div>}
                         {type == 'connected' || type == 'disconnected' ? <>
                             <div className={eventContent({ bold: true })}>{typeof data === 'string' && data}</div>
                         </> : <>
                             {request?.values.type !== 'socketio' ? <div className={eventCodeContainer({ expanded: overflowing ? expanded : true })}>
                                 <Highlight language={lang} code={code} />
-                            </div> : <></>}
+                            </div> : <>
+                                {(data as RealtimeMessage).args.length > 0 && <div className={argsList}>
+                                    {(data as RealtimeMessage).args.map((arg, i) => <IOArgument key={arg.data} data={arg} index={i} />)}
+                                </div>}
+                            </>}
                         </>}
                     </div>
                 </div>

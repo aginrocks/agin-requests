@@ -24,10 +24,19 @@ export const eventDate = css({
     fontSize: '12px',
 });
 
-export const eventName = css({
-    color: 'var(--vscode-disabledForeground)',
-    fontSize: '12px',
-    // marginBottom: '2px',
+export const eventName = cva({
+    base: {
+        color: 'var(--vscode-disabledForeground)',
+        fontSize: '12px',
+        // marginBottom: '2px',
+    },
+    variants: {
+        argsDisplayed: {
+            true: {
+                marginTop: '8px',
+            }
+        }
+    }
 });
 
 export const eventContent = cva({
@@ -110,3 +119,11 @@ export const seeMoreInside = css({
 export const seeMoreSpacer = css({
 
 })
+
+export const argsList = css({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '3px',
+    paddingTop: '3px',
+    paddingBottom: '8px',
+});

@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { io, Socket } from "socket.io-client";
 import { Handler, Message } from "./Handler";
 import { convertCheckableFields } from "../util";
-import { SocketIOMessage } from "@shared/types";
+import { SocketIOArgument, SocketIOArgumentType, SocketIOMessage } from "@shared/types";
 
 export class SocketIOHandler extends Handler {
     socket: Socket | undefined;
@@ -64,13 +64,17 @@ export class SocketIOHandler extends Handler {
             });
 
             this.socket.onAny((event, ...args) => {
+                const parsedArgs: SocketIOArgument[] = args.map((arg, i) => ({
+                    data: typeof arg === 'boolean' ? arg ? 'true' : 'false' : typeof arg === 'object' ? JSON.stringify(arg) : typeof arg === 'number' ? arg.toString() : arg,
+                    type: typeof arg as SocketIOArgumentType,
+                }));
                 this.addMessage<SocketIOMessage>({
                     receivedAt: new Date(),
                     type: 'incoming',
                     event,
                     data: {
                         event,
-                        args,
+                        args: parsedArgs,
                     },
                 });
             });
