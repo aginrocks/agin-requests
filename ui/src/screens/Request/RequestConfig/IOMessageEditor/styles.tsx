@@ -30,3 +30,30 @@ export const secondaryActions = css({
     display: 'flex',
     alignItems: 'center',
 });
+
+export const argumentsList = css({
+    display: 'flex',
+    flexDir: 'column',
+    gap: '10px',
+    marginTop: '10px',
+});
+
+export const addArgument = css({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '10px',
+});
+
+export const addArgumentButton = css({
+    height: '30px',
+    borderRadius: '99999px',
+});
+
+export const addArgumentButtonText = css({
+    fontWeight: 600,
+    fontSize: '11px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '5px',
+});

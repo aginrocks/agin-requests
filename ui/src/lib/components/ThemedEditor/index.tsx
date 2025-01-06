@@ -65,6 +65,7 @@ export default function ThemedEditor({ options, ...props }: ThemedEditorProps) {
             {...props}
             options={{
                 theme: "userTheme",
+                automaticLayout: true,
                 ...options,
             }}
         />

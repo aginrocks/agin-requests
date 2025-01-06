@@ -1,5 +1,5 @@
 import { useRequest, useRequestController, useVsCodeApi } from "@lib/hooks"
-import { container, secondaryActions } from "./styles";
+import { addArgument, addArgumentButton, addArgumentButtonText, argumentsList, container, secondaryActions } from "./styles";
 import { TabType } from "@lib/components/Tabs";
 import { useRealtimeMessages } from "@lib/hooks/useRealtimeMessages";
 import ThemeIcon from "@lib/components/ThemeIcon";
@@ -11,6 +11,10 @@ import { useCallback, useEffect, useRef } from "react";
 import MessageName from "@lib/components/MessageName";
 import * as monaco from "monaco-editor";
 import Input from "@lib/components/Input";
+import ThemedEditor from "@lib/components/ThemedEditor";
+import IOArgumentEditor from "./IOArgumentEditor";
+import WSMessageEditor from "../WSMessageEditor";
+import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
 
 export const wsMessageTypes: TabType[] = [
     {
@@ -41,11 +45,7 @@ export default function IOMessageEditor() {
 
     const vscode = useVsCodeApi();
 
-    const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
-
-    useEffect(() => {
-        editorRef.current?.setValue(activeMessage?.data ?? '');
-    }, [activeMessage?.label]);
+    const args = msg?.values?.activeMessage?.args;
 
     const saveInLibrary = useCallback(async (mode: 'create' | 'overwrite') => {
         if (!msg || !request) return;
@@ -117,6 +117,17 @@ export default function IOMessageEditor() {
                         </div>
                     </Tooltip>
                 </>} />
+                {args?.length !== 0 && <div className={argumentsList}>
+                    {args?.map((arg, i) => <IOArgumentEditor key={i} data={arg} index={i} />)}
+                </div>}
+                <div className={addArgument}>
+                    <VSCodeButton className={addArgumentButton} onClick={() => msg?.insertListItem('activeMessage.args', { type: 'json', data: '' })}>
+                        <div className={addArgumentButtonText}>
+                            <IconPlus size={16} />
+                            <div>Add Argument</div>
+                        </div>
+                    </VSCodeButton>
+                </div>
             </div>
         </>
     )

@@ -6,21 +6,22 @@ import { useMemo } from "react";
 import Menu from "../Menu";
 import { select } from "../Select/styles";
 
-export interface CompactSelectProps {
+type CompactSelectVaraints = Exclude<Parameters<typeof compactSelect>[0], undefined>;
+export interface CompactSelectProps extends CompactSelectVaraints {
     options: OptionProps[],
     value: string;
     onChange: (value: string, option: OptionProps) => void;
     icon?: Icon;
 }
-
-export default function CompactSelect({ options, value, onChange, icon: Icon }: CompactSelectProps) {
+// TODO: Render the select in a portal
+export default function CompactSelect({ options, value, onChange, icon: Icon, variant = 'default' }: CompactSelectProps) {
     const [opened, { open, close, toggle }] = useDisclosure(false);
     const selectedOption = useMemo(() => options.find(o => o.value == value), [options, value]);
 
     // TODO: Add selected state
     return (
         <Menu
-            target={<div className={compactSelect({})} onClick={toggle}>
+            target={<div className={compactSelect({ variant })} onClick={toggle}>
                 {Icon && <Icon size={16} />}
                 {selectedOption?.label}
                 <IconChevronDown size={16} color="color-mix(in srgb, var(--vscode-foreground), black 50%)" />
