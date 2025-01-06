@@ -5,10 +5,12 @@ import ThemeIcon from "../ThemeIcon";
 import { formatDateToTime } from "@lib/util";
 import Highlight from "../Highlight";
 import { useMemo, useState } from "react";
+import { RealtimeMessage, SocketIOMessage, WSMessage } from "@shared/types";
+import { useRequest } from "@lib/hooks";
 
 type Color = 'green' | 'red' | 'blue';
 
-export default function Event({ data, receivedAt, type, event }: ServerEvent<any>) {
+export default function Event({ data, receivedAt, type, event }: ServerEvent<string | RealtimeMessage>) {
     const [icon, color]: [Icon, Color] = type == 'connected' ? [IconPlug, 'green'] : type == 'incoming' ? [IconArrowDown, 'blue'] : type == 'outgoing' ? [IconArrowUp, 'green'] : [IconX, 'red'];
 
     const lang = useMemo(() => {
@@ -22,8 +24,10 @@ export default function Event({ data, receivedAt, type, event }: ServerEvent<any
     }, [data]);
     const code = typeof data == 'object' ? data.data : data;
 
+    const request = useRequest();
+
     // FIXME: Not accounting for line breaks
-    const overflowing = code.split('\n').length > 6;
+    const overflowing = code ? code.split('\n').length > 6 : false;
 
     const [expanded, setExpanded] = useState(false);
 
@@ -37,10 +41,12 @@ export default function Event({ data, receivedAt, type, event }: ServerEvent<any
                     <div>
                         {event && <div className={eventName}>{event}</div>}
                         {type == 'connected' || type == 'disconnected' ? <>
-                            <div className={eventContent({ bold: true })}>{data}</div>
-                        </> : <div className={eventCodeContainer({ expanded: overflowing ? expanded : true })}>
-                            <Highlight language={lang} code={code} />
-                        </div>}
+                            <div className={eventContent({ bold: true })}>{typeof data === 'string' && data}</div>
+                        </> : <>
+                            {request?.values.type !== 'socketio' ? <div className={eventCodeContainer({ expanded: overflowing ? expanded : true })}>
+                                <Highlight language={lang} code={code} />
+                            </div> : <></>}
+                        </>}
                     </div>
                 </div>
                 <div className={eventLeft}>

@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { io, Socket } from "socket.io-client";
 import { Handler, Message } from "./Handler";
 import { convertCheckableFields } from "../util";
+import { SocketIOMessage } from "@shared/types";
 
 export class SocketIOHandler extends Handler {
     socket: Socket | undefined;
@@ -63,7 +64,15 @@ export class SocketIOHandler extends Handler {
             });
 
             this.socket.onAny((event, ...args) => {
-                // TODO: Add receiving events
+                this.addMessage<SocketIOMessage>({
+                    receivedAt: new Date(),
+                    type: 'incoming',
+                    event,
+                    data: {
+                        event,
+                        args,
+                    },
+                });
             });
         } else if (message.command == 'io.disconnect') {
             this.socket?.disconnect();

@@ -22,7 +22,7 @@ export class Handler {
 
     }
 
-    addMessage(message: ServerEvent<any>) {
+    addMessage<T>(message: ServerEvent<T>) {
         this.messages.push(message);
         console.log('sending');
 

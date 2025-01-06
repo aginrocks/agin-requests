@@ -21,6 +21,7 @@ const cellStyles = cva({
         alignItems: 'center',
         height: '100%',
         padding: '0 12px',
+        wordBreak: 'break-all',
     },
     variants: {
         isLast: {

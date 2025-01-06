@@ -17,7 +17,7 @@ export default function Row({ data, isLast }: RowProps) {
 
 const rowStyles = cva({
     base: {
-        height: '36px',
+        minH: '36px',
         display: 'flex',
         flexGrow: 'grow',
         alignItems: 'center',
