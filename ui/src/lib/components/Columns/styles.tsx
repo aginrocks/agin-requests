@@ -8,10 +8,12 @@ export const base = css({
     flex: 1,
     lgDown: {
         flexDir: 'column',
-    }
+    },
 });
 
 export const col = css({
     flex: 1,
-    overflow: 'auto'
+    overflow: 'auto',
+    maxWidth: '100%',
+    overflowX: 'hidden'
 });

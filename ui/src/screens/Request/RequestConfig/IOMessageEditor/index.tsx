@@ -7,14 +7,14 @@ import { IconDeviceFloppy, IconPlus, IconSend2 } from "@tabler/icons-react";
 import Tooltip from "@lib/components/Tooltip";
 import useMessagesLibrary from "@lib/hooks/useMessagesLibrary";
 import useInput from "@lib/hooks/useInput";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback } from "react";
 import MessageName from "@lib/components/MessageName";
-import * as monaco from "monaco-editor";
 import Input from "@lib/components/Input";
-import ThemedEditor from "@lib/components/ThemedEditor";
 import IOArgumentEditor from "./IOArgumentEditor";
-import WSMessageEditor from "../WSMessageEditor";
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
+import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { randomId } from "@mantine/hooks";
 
 export const wsMessageTypes: TabType[] = [
     {
@@ -46,6 +46,17 @@ export default function IOMessageEditor() {
     const vscode = useVsCodeApi();
 
     const args = msg?.values?.activeMessage?.args;
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 10,
+            },
+        }),
+        // useSensor(KeyboardSensor, {
+        //     coordinateGetter: sortableKeyboardCoordinates,
+        // })
+    );
 
     const saveInLibrary = useCallback(async (mode: 'create' | 'overwrite') => {
         if (!msg || !request) return;
@@ -120,10 +131,28 @@ export default function IOMessageEditor() {
                     {...msg?.getInputProps('activeMessage.event')}
                 />
                 {args?.length !== 0 && <div className={argumentsList}>
-                    {args?.map((arg, i) => <IOArgumentEditor key={i} data={arg} index={i} />)}
+                    <DndContext
+                        sensors={sensors}
+                        collisionDetection={closestCenter}
+                        onDragEnd={({ active, over }) => {
+                            console.log({ active, over });
+                            if (active.id === over?.id || !over) return;
+                            const from = args?.findIndex(a => a.id == active.id) ?? -1;
+                            const to = args?.findIndex(a => a.id == over?.id) ?? -1;
+
+                            msg?.reorderListItem('activeMessage.args', { from, to });
+                        }}
+                    >
+                        <SortableContext
+                            items={args?.map((a, i) => a.id) ?? []}
+                            strategy={verticalListSortingStrategy}
+                        >
+                            {args?.map((arg, i) => <IOArgumentEditor key={arg.id} data={arg} index={i} />)}
+                        </SortableContext>
+                    </DndContext>
                 </div>}
                 <div className={addArgument}>
-                    <VSCodeButton className={addArgumentButton} onClick={() => msg?.insertListItem('activeMessage.args', { type: 'object', data: '' })}>
+                    <VSCodeButton className={addArgumentButton} onClick={() => msg?.insertListItem('activeMessage.args', { type: 'object', data: '', id: randomId('arg') })}>
                         <div className={addArgumentButtonText}>
                             <IconPlus size={16} />
                             <div>Add Argument</div>

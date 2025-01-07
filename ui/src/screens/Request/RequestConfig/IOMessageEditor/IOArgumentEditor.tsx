@@ -5,9 +5,11 @@ import * as monaco from 'monaco-editor';
 import CompactSelect from '@lib/components/CompactSelect';
 import { container, containerActions, containerLeft, editorContainer, header } from './argumentStyles';
 import { OptionProps } from '@lib/components/Menu/Option';
-import { IconArrowDown, IconArrowUp, IconTrash } from '@tabler/icons-react';
+import { IconArrowDown, IconArrowUp, IconGripVertical, IconTrash } from '@tabler/icons-react';
 import ActionIcon from '@lib/components/ActionIcon';
 import { useRealtimeMessages } from '@lib/hooks/useRealtimeMessages';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 export type IOArgumentEditorProps = {
     data: SocketIOArgument;
@@ -34,6 +36,8 @@ const types: OptionProps[] = [
 ]
 
 export default function IOArgumentEditor({ data, index }: IOArgumentEditorProps) {
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: data.id });
+
     const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
     const msg = useRealtimeMessages();
@@ -45,7 +49,11 @@ export default function IOArgumentEditor({ data, index }: IOArgumentEditorProps)
     }, [activeMessage?.args[index], index]);
 
     return (
-        <div className={container}>
+        <div className={container} style={{
+            transform: CSS.Transform.toString(transform),
+            transition,
+            zIndex: isDragging ? 999999 : undefined,
+        }} ref={setNodeRef}>
             <div className={header}>
                 <div className={containerLeft}>
                     <CompactSelect
@@ -56,8 +64,11 @@ export default function IOArgumentEditor({ data, index }: IOArgumentEditorProps)
                     />
                 </div>
                 <div className={containerActions}>
-                    <ActionIcon icon={IconArrowUp} size={14} disabled={index === 0} onClick={() => msg?.reorderListItem('activeMessage.args', { from: index, to: index - 1 })} />
-                    <ActionIcon icon={IconArrowDown} size={14} disabled={index === (activeMessage?.args.length ?? 0) - 1} onClick={() => msg?.reorderListItem('activeMessage.args', { from: index, to: index + 1 })} />
+                    <div {...attributes} {...listeners} style={{ cursor: 'grab' }}>
+                        <ActionIcon icon={IconGripVertical} size={14} disabled />
+                    </div>
+                    {/* <ActionIcon icon={IconArrowUp} size={14} disabled={index === 0} onClick={() => msg?.reorderListItem('activeMessage.args', { from: index, to: index - 1 })} />
+                    <ActionIcon icon={IconArrowDown} size={14} disabled={index === (activeMessage?.args.length ?? 0) - 1} onClick={() => msg?.reorderListItem('activeMessage.args', { from: index, to: index + 1 })} /> */}
                     <ActionIcon icon={IconTrash} size={14} onClick={() => msg?.removeListItem('activeMessage.args', index)} />
                 </div>
             </div>
