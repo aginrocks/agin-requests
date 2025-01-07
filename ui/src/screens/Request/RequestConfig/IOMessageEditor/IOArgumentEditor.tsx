@@ -50,7 +50,8 @@ export default function IOArgumentEditor({ data, index }: IOArgumentEditorProps)
 
     return (
         <div className={container} style={{
-            transform: CSS.Transform.toString(transform),
+            transform: CSS.Translate.toString(transform),
+            scale: '1!',
             transition,
             zIndex: isDragging ? 999999 : undefined,
         }} ref={setNodeRef}>
