@@ -3,8 +3,8 @@ import { useEventResponse } from "@lib/hooks/useEventResponse";
 import { useHTTPResponse } from "@lib/hooks/useHTTPResponse";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { RealtimeMessage } from "./RealtimeMessagesProvider";
 import useSynced from "@lib/hooks/useSynced";
+import { RealtimeMessage } from "@shared/types";
 
 export type RequestStatus = 'idle' | 'pending' | 'realtime' | 'finished' | 'canceled';
 

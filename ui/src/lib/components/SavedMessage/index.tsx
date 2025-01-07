@@ -1,4 +1,3 @@
-import { RealtimeMessage } from "@lib/providers/RealtimeMessagesProvider";
 import { savedMessage } from "./styles";
 import Highlight from "../Highlight";
 import { useMemo, useState } from "react";
@@ -8,6 +7,7 @@ import { IconDots, IconTrash } from "@tabler/icons-react";
 import ActionIcon from "../ActionIcon";
 import Menu from "../Menu";
 import { Option } from "../Menu/Option";
+import { RealtimeMessage } from "@shared/types";
 
 type MessageVariants = Exclude<Parameters<typeof savedMessage>[0], undefined>;
 
@@ -15,7 +15,7 @@ export interface SavedMessageProps extends RealtimeMessage, MessageVariants, Rea
     onDelete: () => void;
 }
 
-export default function SavedMessage({ data, type, args, label, selected, onDelete, ...props }: SavedMessageProps) {
+export default function SavedMessage({ data, type, args, label, selected, event, onDelete, ...props }: SavedMessageProps) {
     const overflowing = data.split('\n').length > 4;
 
     const classes = savedMessage({ selected, overflowing });
@@ -25,7 +25,10 @@ export default function SavedMessage({ data, type, args, label, selected, onDele
     return (
         <div className={classes.message} {...props}>
             <div className={classes.top}>
-                <div className={classes.label}>{label}</div>
+                <div>
+                    <div className={classes.label}>{label}</div>
+                    <div className={classes.event}>{event}</div>
+                </div>
                 <ActionIcon icon={IconTrash} onClick={(e) => {
                     e.stopPropagation();
                     onDelete();
@@ -42,6 +45,8 @@ export default function SavedMessage({ data, type, args, label, selected, onDele
                 </Menu> */}
             </div>
             <Highlight language={type} code={data} />
+            {/* TODO */}
+            <div className={classes.argsCount}>0 arguments</div>
             {overflowing && <div className={seeMore({ visible: true })}></div>}
         </div>
     )

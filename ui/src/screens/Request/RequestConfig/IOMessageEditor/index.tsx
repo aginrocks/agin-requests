@@ -116,12 +116,14 @@ export default function IOMessageEditor() {
                             />
                         </div>
                     </Tooltip>
-                </>} />
+                </>}
+                    {...msg?.getInputProps('activeMessage.event')}
+                />
                 {args?.length !== 0 && <div className={argumentsList}>
                     {args?.map((arg, i) => <IOArgumentEditor key={i} data={arg} index={i} />)}
                 </div>}
                 <div className={addArgument}>
-                    <VSCodeButton className={addArgumentButton} onClick={() => msg?.insertListItem('activeMessage.args', { type: 'json', data: '' })}>
+                    <VSCodeButton className={addArgumentButton} onClick={() => msg?.insertListItem('activeMessage.args', { type: 'object', data: '' })}>
                         <div className={addArgumentButtonText}>
                             <IconPlus size={16} />
                             <div>Add Argument</div>

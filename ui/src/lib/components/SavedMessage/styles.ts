@@ -1,7 +1,7 @@
 import { sva } from "@styled-system/css";
 
 export const savedMessage = sva({
-    slots: ['message', 'top', 'label'],
+    slots: ['message', 'top', 'label', 'event', 'argsCount'],
     base: {
         message: {
             padding: '10px',
@@ -20,11 +20,29 @@ export const savedMessage = sva({
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-start',
+            marginBottom: '5px',
         },
         label: {
             fontSize: '14px',
             fontWeight: 600,
-            marginBottom: '5px',
+        },
+        event: {
+            fontSize: '12px',
+            color: 'var(--vscode-disabledForeground)',
+            // marginTop: '2px',
+        },
+        argsCount: {
+            paddingLeft: '5px',
+            paddingRight: '5px',
+            height: '25px',
+            borderRadius: '5px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'var(--vscode-list-hoverBackground)',
+            fontSize: '9px',
+            fontWeight: 600,
+            color: 'var(--vscode-disabledForeground)'
         }
     },
     variants: {

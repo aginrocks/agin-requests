@@ -7,8 +7,8 @@ import { IconMessage2, IconSearch, IconX } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 import { useRequest } from "@lib/hooks";
 import { useRealtimeMessages } from "@lib/hooks/useRealtimeMessages";
-import { RealtimeMessage } from "@lib/providers/RealtimeMessagesProvider";
 import useInput from "@lib/hooks/useInput";
+import { RealtimeMessage } from "@shared/types";
 
 export type MessagesLibraryProps = {
     opened: boolean;

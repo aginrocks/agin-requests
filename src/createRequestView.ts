@@ -33,7 +33,7 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
     const ioHandler = new SocketIOHandler('io', panel);
 
     panel.webview.onDidReceiveMessage(
-        async (message: Message) => {
+        async (message: Message<any>) => {
             console.log('got message', message);
 
             if (message.command == 'initial.get') {

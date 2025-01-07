@@ -3,11 +3,12 @@ import { io, Socket } from "socket.io-client";
 import { Handler, Message } from "./Handler";
 import { convertCheckableFields } from "../util";
 import { SocketIOArgument, SocketIOArgumentType, SocketIOMessage } from "@shared/types";
+import { ServerEvent } from "createRequestView";
 
 export class SocketIOHandler extends Handler {
     socket: Socket | undefined;
 
-    async onMessage(message: Message): Promise<void> {
+    async onMessage(message: Message<SocketIOMessage>): Promise<void> {
         if (message.command == 'io.connect') {
             const request = message.config;
 
@@ -80,7 +81,23 @@ export class SocketIOHandler extends Handler {
             });
         } else if (message.command == 'io.disconnect') {
             this.socket?.disconnect();
+        } else if (message.command == 'io.send') {
+            console.log('send', message);
+
+            if (!message.data?.event) return;
+            const argsList = message.data?.args.map(arg => {
+                if (arg.type === 'boolean') return arg.data === 'true';
+                else if (arg.type === 'number') return parseFloat(arg.data);
+                else if (arg.type === 'object') return JSON.parse(arg.data);
+                else if (arg.type === 'string') return arg.data;
+            });
+            this.socket?.emit(message.data?.event, ...argsList);
+            this.addMessage<SocketIOMessage>({
+                data: message.data,
+                receivedAt: new Date(),
+                type: 'outgoing',
+                event: message.data?.event,
+            });
         }
-        // TODO: Add sending events
     }
 }

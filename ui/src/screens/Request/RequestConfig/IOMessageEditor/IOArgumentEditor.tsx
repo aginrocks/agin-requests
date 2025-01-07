@@ -1,6 +1,6 @@
 import ThemedEditor from '@lib/components/ThemedEditor';
 import { SocketIOArgument } from '@shared/types';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import * as monaco from 'monaco-editor';
 import { css } from '@styled-system/css';
 import Select from '@lib/components/Select';
@@ -20,7 +20,7 @@ export type IOArgumentEditorProps = {
 const types: OptionProps[] = [
     {
         label: 'JSON',
-        value: 'json',
+        value: 'object',
     },
     {
         label: 'String',
@@ -40,6 +40,12 @@ export default function IOArgumentEditor({ data, index }: IOArgumentEditorProps)
     const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
     const msg = useRealtimeMessages();
+    const activeMessage = msg?.values?.activeMessage;
+
+    useEffect(() => {
+        const msgData = activeMessage?.args[index].data;
+        if (editorRef.current?.getValue() !== msgData) editorRef.current?.setValue(msgData ?? '');
+    }, [activeMessage?.args[index], index]);
 
     return (
         <div className={container}>
@@ -53,18 +59,18 @@ export default function IOArgumentEditor({ data, index }: IOArgumentEditorProps)
                     />
                 </div>
                 <div className={containerActions}>
-                    <ActionIcon icon={IconArrowUp} size={14} />
-                    <ActionIcon icon={IconArrowDown} size={14} />
+                    <ActionIcon icon={IconArrowUp} size={14} disabled={index === 0} onClick={() => msg?.reorderListItem('activeMessage.args', { from: index, to: index - 1 })} />
+                    <ActionIcon icon={IconArrowDown} size={14} disabled={index === (activeMessage?.args.length ?? 0) - 1} onClick={() => msg?.reorderListItem('activeMessage.args', { from: index, to: index + 1 })} />
                     <ActionIcon icon={IconTrash} size={14} onClick={() => msg?.removeListItem('activeMessage.args', index)} />
                 </div>
             </div>
             <div className={editorContainer({ type: (data.type === 'number' || data.type === 'boolean') ? 'short' : 'long' })}>
                 <ThemedEditor
                     height="100%"
-                    // className={editor}
-                    defaultLanguage="json"
-                    defaultValue=""
-                    // onChange={(value) => msg?.setFieldValue('activeMessage.data', value ?? '')}
+                    defaultLanguage={activeMessage?.args[index]?.type === 'string' ? 'text' : 'json'}
+                    path={`${index}/${activeMessage?.args[index]?.type}`}
+                    defaultValue={activeMessage?.args[index].data}
+                    onChange={(value) => msg?.setFieldValue(`activeMessage.args.${index}.data`, value)}
                     onMount={(editor, monaco) => {
                         editorRef.current = editor;
                     }}

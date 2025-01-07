@@ -1,10 +1,10 @@
 import * as vscode from "vscode";
 import { ServerEvent } from "../createRequestView";
 
-export type Message = {
+export type Message<T> = {
     command: string;
     config?: any;
-    data?: any;
+    data?: T;
     _id?: string;
 }
 
@@ -18,7 +18,7 @@ export class Handler {
         this.panel = panel;
     }
 
-    async onMessage(message: Message): Promise<void> {
+    async onMessage(message: Message<any>): Promise<void> {
 
     }
 

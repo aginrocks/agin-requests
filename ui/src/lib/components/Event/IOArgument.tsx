@@ -21,7 +21,7 @@ export default function IOArgument({ data, index }: IOArgumentProps) {
     )
 }
 
-const styles = {
+export const styles = {
     argument: css({
         display: 'flex',
         gap: '8px',

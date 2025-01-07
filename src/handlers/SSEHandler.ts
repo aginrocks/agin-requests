@@ -5,7 +5,7 @@ import { convertCheckableFields } from "../util";
 export class SSEHandler extends Handler {
     es: EventSource | undefined;
 
-    async onMessage(message: Message): Promise<void> {
+    async onMessage(message: Message<string>): Promise<void> {
         if (message.command == 'sse.connect') {
             // TODO: Support named events
             const request = message.config;

@@ -5,7 +5,7 @@ import qs from "qs";
 import axios from "axios";
 
 export class HTTPHandler extends Handler {
-    async onMessage(message: Message): Promise<void> {
+    async onMessage(message: Message<any>): Promise<void> {
         if (message.command == 'request.execute') {
             const request = message.config;
 
