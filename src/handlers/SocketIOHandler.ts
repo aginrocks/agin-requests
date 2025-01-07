@@ -68,6 +68,7 @@ export class SocketIOHandler extends Handler {
                 const parsedArgs: SocketIOArgument[] = args.map((arg, i) => ({
                     data: typeof arg === 'boolean' ? arg ? 'true' : 'false' : typeof arg === 'object' ? JSON.stringify(arg) : typeof arg === 'number' ? arg.toString() : arg,
                     type: typeof arg as SocketIOArgumentType,
+                    id: 'not_needed',
                 }));
                 this.addMessage<SocketIOMessage>({
                     receivedAt: new Date(),

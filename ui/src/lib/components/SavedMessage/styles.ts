@@ -1,7 +1,7 @@
 import { sva } from "@styled-system/css";
 
 export const savedMessage = sva({
-    slots: ['message', 'top', 'label', 'event', 'argsCount'],
+    slots: ['message', 'top', 'label', 'event', 'argsCount', 'labelContainer'],
     base: {
         message: {
             padding: '10px',
@@ -25,6 +25,11 @@ export const savedMessage = sva({
         label: {
             fontSize: '14px',
             fontWeight: 600,
+        },
+        labelContainer: {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px',
         },
         event: {
             fontSize: '12px',

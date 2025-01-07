@@ -5,6 +5,7 @@ import { seeMore } from "../Event/styles";
 import { IconTrash } from "@tabler/icons-react";
 import ActionIcon from "../ActionIcon";
 import { RealtimeMessage } from "@shared/types";
+import MessageName from "../MessageName";
 
 type MessageVariants = Exclude<Parameters<typeof savedMessage>[0], undefined>;
 
@@ -23,8 +24,11 @@ export default function SavedMessage({ data, type, args, label, selected, event,
         <div className={classes.message} {...props}>
             <div className={classes.top}>
                 <div>
-                    <div className={classes.label}>{label}</div>
-                    {event && <div className={classes.event}>{event}</div>}
+                    <div className={classes.labelContainer}>
+                        <div className={classes.label}>{label}</div>
+                        <MessageName label={event} size="xs" clickable={false} />
+                    </div>
+                    {/* {event && <div className={classes.event}>{event}</div>} */}
                 </div>
                 <ActionIcon icon={IconTrash} onClick={(e) => {
                     e.stopPropagation();

@@ -71,6 +71,10 @@ export default function RequestConfigProvider({ children }: { children: React.Re
 
     useSynced('requestConfig', config.values, config.setValues);
 
+    useEffect(() => {
+        vscode.postMessage({ command: 'panel.setTitle', data: `${config.values.label}${config.values.isDraft ? ' (Draft)' : ''}` });
+    }, [vscode.postMessage, config.values.label, config.values.isDraft]);
+
     const synced = useContext(SyncedStateContext);
 
     useEffect(() => {

@@ -63,6 +63,10 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
                     }
 
                 }
+
+            } else if (message.command == 'panel.setTitle') {
+                panel.title = message.data;
+
             } else if (message.command.startsWith('request.')) {
                 await httpHandler.onMessage(message);
 
