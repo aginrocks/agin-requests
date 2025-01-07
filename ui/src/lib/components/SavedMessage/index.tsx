@@ -1,12 +1,9 @@
 import { savedMessage } from "./styles";
 import Highlight from "../Highlight";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { seeMore } from "../Event/styles";
-import ThemeIcon from "../ThemeIcon";
-import { IconDots, IconTrash } from "@tabler/icons-react";
+import { IconTrash } from "@tabler/icons-react";
 import ActionIcon from "../ActionIcon";
-import Menu from "../Menu";
-import { Option } from "../Menu/Option";
 import { RealtimeMessage } from "@shared/types";
 
 type MessageVariants = Exclude<Parameters<typeof savedMessage>[0], undefined>;
@@ -27,7 +24,7 @@ export default function SavedMessage({ data, type, args, label, selected, event,
             <div className={classes.top}>
                 <div>
                     <div className={classes.label}>{label}</div>
-                    <div className={classes.event}>{event}</div>
+                    {event && <div className={classes.event}>{event}</div>}
                 </div>
                 <ActionIcon icon={IconTrash} onClick={(e) => {
                     e.stopPropagation();
@@ -46,7 +43,9 @@ export default function SavedMessage({ data, type, args, label, selected, event,
             </div>
             <Highlight language={type} code={data} />
             {/* TODO */}
-            <div className={classes.argsCount}>0 arguments</div>
+            <div>
+                <div className={classes.argsCount}>{args.length} argument{args.length !== 1 && 's'}</div>
+            </div>
             {overflowing && <div className={seeMore({ visible: true })}></div>}
         </div>
     )

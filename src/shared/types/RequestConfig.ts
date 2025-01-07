@@ -19,10 +19,15 @@ export type AuthOptions = {
     socketio?: string,
 }
 
+export type RequestType = 'ws' | 'socketio' | 'http' | 'sse';
+export type RequestMethod = 'get' | 'post' | 'patch' | 'put' | 'delete' | 'head' | 'options' | 'ws';
+
 export type RequestConfig = {
-    type: 'ws' | 'socketio' | 'http' | 'sse',
+    label: string,
+    isDraft: boolean,
+    type: RequestType,
     url: string,
-    method: 'get' | 'post' | 'patch' | 'put' | 'delete' | 'head' | 'options' | 'ws',
+    method: RequestMethod,
     headers: Header[],
     params: Param[],
     requestBodyType: RequestBodyType,

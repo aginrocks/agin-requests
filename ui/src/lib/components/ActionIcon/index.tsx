@@ -1,6 +1,6 @@
 import React, { HTMLAttributes } from 'react';
-import { actionIcon } from './styles';
 import { Icon } from '@tabler/icons-react';
+import { actionIcon } from './styles';
 
 type ActionIconVariants = Exclude<Parameters<typeof actionIcon>[0], undefined>;
 export interface ActionIconProps extends HTMLAttributes<HTMLDivElement>, ActionIconVariants {

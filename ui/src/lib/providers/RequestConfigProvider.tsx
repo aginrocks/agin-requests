@@ -16,6 +16,8 @@ export default function RequestConfigProvider({ children }: { children: React.Re
 
     const config = useForm<RequestConfig>({
         initialValues: {
+            label: 'New Request',
+            isDraft: true,
             type: 'http',
             url: '',
             method: 'get',

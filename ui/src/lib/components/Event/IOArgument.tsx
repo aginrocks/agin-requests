@@ -11,12 +11,16 @@ export type IOArgumentProps = {
 export default function IOArgument({ data, index }: IOArgumentProps) {
     return (
         <div className={styles.argument}>
-            <Tooltip label={data.type}>
-                <div className={styles.argIndex}>
-                    {index}
-                </div>
-            </Tooltip>
-            <Highlight language={data.type !== 'string' ? 'json' : 'text'} code={data.data} />
+            <div className={styles.indexContainer}>
+                <Tooltip label={data.type}>
+                    <div className={styles.argIndex}>
+                        {index}
+                    </div>
+                </Tooltip>
+            </div>
+            <div className={styles.argumentValue}>
+                <Highlight language={data.type !== 'string' ? 'json' : 'text'} code={data.data} />
+            </div>
         </div>
     )
 }
@@ -25,7 +29,16 @@ export const styles = {
     argument: css({
         display: 'flex',
         gap: '8px',
+    }),
+    argumentValue: css({
+        display: 'flex',
         alignItems: 'center',
+    }),
+    indexContainer: css({
+        width: '17px',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'flex-start',
     }),
     argIndex: css({
         width: '17px',

@@ -1,4 +1,4 @@
-import { css } from "@styled-system/css";
+import { css, cva } from "@styled-system/css";
 
 export const typeSelector = css({
     border: 'calc(var(--border-width)* 1px) solid var(--dropdown-border)',
@@ -19,9 +19,24 @@ export const left = css({
     alignItems: 'center',
 });
 
-export const requestName = css({
-    fontWeight: 600,
-    fontSize: '14px',
+export const requestName = cva({
+    base: {
+        fontWeight: 600,
+        fontSize: '14px',
+    },
+    variants: {
+        isDraft: {
+            true: {
+                color: 'var(--vscode-disabledForeground)',
+            }
+        }
+    }
+});
+
+export const requestNameContainer = css({
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
 });
 
 export const right = css({
