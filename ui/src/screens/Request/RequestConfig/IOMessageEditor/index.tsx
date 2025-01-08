@@ -6,14 +6,14 @@ import ThemeIcon from "@lib/components/ThemeIcon";
 import { IconDeviceFloppy, IconPlus, IconSend2 } from "@tabler/icons-react";
 import Tooltip from "@lib/components/Tooltip";
 import useMessagesLibrary from "@lib/hooks/useMessagesLibrary";
-import useInput from "@lib/hooks/useInput";
+import { useInput } from "@lib/hooks";
 import { useCallback } from "react";
 import MessageName from "@lib/components/MessageName";
 import Input from "@lib/components/Input";
 import IOArgumentEditor from "./IOArgumentEditor";
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
-import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { closestCenter, DndContext, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { randomId } from "@mantine/hooks";
 
 export const wsMessageTypes: TabType[] = [
@@ -53,9 +53,6 @@ export default function IOMessageEditor() {
                 distance: 10,
             },
         }),
-        // useSensor(KeyboardSensor, {
-        //     coordinateGetter: sortableKeyboardCoordinates,
-        // })
     );
 
     const saveInLibrary = useCallback(async (mode: 'create' | 'overwrite') => {

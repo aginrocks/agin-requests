@@ -16,7 +16,7 @@ export type ConfirmOptions = {
     options: string[];
 }
 
-export default function useInput() {
+export function useInput() {
     const vscode = useVsCodeApi();
 
     const showInputBox = useCallback((options: InputOptions) => {

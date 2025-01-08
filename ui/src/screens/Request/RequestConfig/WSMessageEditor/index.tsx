@@ -10,7 +10,7 @@ import ThemeIcon from "@lib/components/ThemeIcon";
 import { IconBooks, IconDeviceFloppy, IconEdit, IconLayoutGrid, IconPencil, IconPlus, IconSend2, IconTrash } from "@tabler/icons-react";
 import Tooltip from "@lib/components/Tooltip";
 import useMessagesLibrary from "@lib/hooks/useMessagesLibrary";
-import useInput from "@lib/hooks/useInput";
+import { useInput } from "@lib/hooks";
 import { useCallback, useEffect, useRef } from "react";
 import MessageName from "@lib/components/MessageName";
 import * as monaco from "monaco-editor";

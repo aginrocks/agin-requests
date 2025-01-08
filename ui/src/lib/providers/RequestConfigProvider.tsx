@@ -12,11 +12,9 @@ export const RequestConfigContext = createContext<RequestConfigContext | null>(n
 export default function RequestConfigProvider({ children }: { children: React.ReactNode }) {
     const vscode = useVsCodeApi();
 
-    const [loadedFromCode, setLoadedFromCode] = useState<boolean>(false);
-
     const config = useForm<RequestConfig>({
         initialValues: {
-            label: 'New Request',
+            label: '',
             isDraft: true,
             type: 'http',
             url: '',
@@ -72,6 +70,7 @@ export default function RequestConfigProvider({ children }: { children: React.Re
     useSynced('requestConfig', config.values, config.setValues);
 
     useEffect(() => {
+        if (!config.values.label) return;
         vscode.postMessage({ command: 'panel.setTitle', data: `${config.values.label}${config.values.isDraft ? ' (Draft)' : ''}` });
     }, [vscode.postMessage, config.values.label, config.values.isDraft]);
 

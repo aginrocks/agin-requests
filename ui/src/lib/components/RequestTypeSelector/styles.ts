@@ -37,6 +37,7 @@ export const requestNameContainer = css({
     display: 'flex',
     alignItems: 'center',
     gap: '6px',
+    cursor: 'pointer',
 });
 
 export const right = css({
