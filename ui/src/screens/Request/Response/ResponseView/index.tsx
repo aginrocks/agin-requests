@@ -23,10 +23,10 @@ export const responseTabs: TabType[] = [
         id: 'headers',
         label: 'Headers',
     },
-    {
-        id: 'cookies',
-        label: 'Cookies',
-    },
+    // {
+    //     id: 'cookies',
+    //     label: 'Cookies',
+    // },
     // {
     //     id: 'tests',
     //     label: 'Tests',

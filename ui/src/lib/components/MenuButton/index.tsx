@@ -55,7 +55,7 @@ export default function MenuButton({ children, ...props }: MenuButtonProps) {
                     setOpened(false);
                 }} />
                 {/* <Option label="Import from Thunder Client" value="" icon={IconBolt} /> */}
-                <Option label="Import OpenAPI Document" value="" icon={IconFileText} />
+                {/* <Option label="Import OpenAPI Document" value="" icon={IconFileText} /> */}
             </Menu>
         </div >
     )

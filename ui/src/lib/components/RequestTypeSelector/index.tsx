@@ -49,7 +49,7 @@ export default function RequestTypeSelector() {
                 </Tooltip>
             </div>
             <div className={right}>
-                <EnvSelector />
+                {/* <EnvSelector />
                 <MenuTabs
                     tabs={tabs}
                     active={editMode}
@@ -57,7 +57,7 @@ export default function RequestTypeSelector() {
                     variant="compact"
                     show="label"
                 // withAnimation={false}
-                />
+                /> */}
             </div>
         </div>
     )

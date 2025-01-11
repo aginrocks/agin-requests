@@ -12,7 +12,7 @@ osascript -e 'tell application "System Events"
         set frontmost to true
         repeat with win in windows
             if name of win starts with "[Extension Development Host]" then
-                set size of win to {1400, 800}
+                set size of win to {1500, 900}
                 exit repeat
             end if
         end repeat

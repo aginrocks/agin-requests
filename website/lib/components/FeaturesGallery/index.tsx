@@ -11,22 +11,22 @@ const featuresList: FeatureProps[] = [
     {
         label: 'HTTP Requests',
         description: 'Make GET, POST, PATCH, PUT, DELETE requests',
-        image: '/images/screenshot.png',
+        image: '/images/http.png',
     },
     {
         label: 'Server-Sent Events',
         description: 'Listen for Server-Sent Events in real time',
-        image: '/images/screenshot.png',
+        image: '/images/sse.png',
     },
     {
         label: 'WebSockets',
         description: 'Send and receive real time data with WebSockets',
-        image: '/images/screenshot.png',
+        image: '/images/ws.png',
     },
     {
         label: 'Socket.IO',
         description: 'Send and receive real time data with Socket.IO',
-        image: '/images/screenshot.png',
+        image: '/images/socketio.png',
     },
 ];
 

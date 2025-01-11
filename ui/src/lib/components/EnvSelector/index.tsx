@@ -6,7 +6,6 @@ import { OptionProps } from "../Menu/Option";
 import { useEditMode } from "@lib/hooks";
 
 export default function EnvSelector() {
-    // TODO: Move to context
     const { currentEnv, setCurrentEnv, environments } = useEnv();
 
     const options = useMemo(() => environments.map((e): OptionProps => ({

@@ -4,9 +4,10 @@ import { useVsCodeApi } from "@lib/hooks";
 import History from "./History";
 import MenuTabs, { MenuTab } from "@lib/components/MenuTabs";
 import { useState } from "react";
-import { IconBox, IconFolder, IconFolders, IconHistory } from "@tabler/icons-react";
+import { IconBox, IconDeviceFloppy, IconFolder, IconFolders, IconHistory } from "@tabler/icons-react";
 import Collections from "./Collections";
 import FolderSelector from "@lib/components/FolderSelector";
+import Welcome from "@lib/components/Welcome";
 
 const tabs: MenuTab[] = [
     {
@@ -39,13 +40,21 @@ export function Menu() {
                     New Request
                 </MenuButton>
             </MenuContainer>
-            <MenuTabs
+            {/* <MenuTabs
                 tabs={tabs}
                 active={tab}
                 onChange={setTab}
             />
             {tab == 'collections' && <Collections />}
-            {tab == 'history' && <History />}
+            {tab == 'history' && <History />} */}
+            <div style={{ marginTop: '20px' }}>
+                <Welcome
+                    icon={IconDeviceFloppy}
+                    title="Saving will be avaliable soon!"
+                    subtitle="I'm working on it, stay tuned!"
+                    size="sm"
+                />
+            </div>
         </>
     )
 }

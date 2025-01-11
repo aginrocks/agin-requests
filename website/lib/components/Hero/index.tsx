@@ -18,7 +18,7 @@ export function Hero() {
                     <div className={heroSubtitle}>Effortlessly send HTTP requests, listen to Server-Sent Events (SSE), connect to WebSocket (WS) endpoints, and communicate with Socket.IO servers — all from the comfort of your editor.</div>
                 </div>
                 <div className={screenshotContainer}>
-                    <img src="/images/screenshot.png" className={screenshot} />
+                    <img src="/images/http.png" className={screenshot} />
                 </div>
             </div>
         </div>
