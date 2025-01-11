@@ -55,6 +55,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                 }
             } else if (data.command == 'import.curl') {
                 await importCurl(this.context);
+            } else if (data.command == 'folders.get') {
+                webviewView.webview.postMessage({ command: 'folders', data: vscode.workspace.workspaceFolders });
+            } else if (data.command == 'workspace.open') {
+                // TODO
             }
         });
 

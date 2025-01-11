@@ -14,15 +14,15 @@ export interface CompactSelectProps extends CompactSelectVaraints {
     icon?: Icon;
 }
 // TODO: Render the select in a portal
-export default function CompactSelect({ options, value, onChange, icon: Icon, variant = 'default' }: CompactSelectProps) {
+export default function CompactSelect({ options, value, onChange, icon: Icon, variant = 'default', radius = 'default', size, padding }: CompactSelectProps) {
     const [opened, { open, close, toggle }] = useDisclosure(false);
     const selectedOption = useMemo(() => options.find(o => o.value == value), [options, value]);
 
     // TODO: Add selected state
     return (
         <Menu
-            target={<div className={compactSelect({ variant })} onClick={toggle}>
-                {Icon && <Icon size={16} />}
+            target={<div className={compactSelect({ variant, radius, size, padding })} onClick={toggle}>
+                {Icon && <Icon size={size === 'sm' ? 12 : 16} />}
                 {selectedOption?.label}
                 <IconChevronDown size={16} color="color-mix(in srgb, var(--vscode-foreground), black 50%)" />
             </div>}

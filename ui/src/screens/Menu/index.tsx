@@ -4,8 +4,9 @@ import { useVsCodeApi } from "@lib/hooks";
 import History from "./History";
 import MenuTabs, { MenuTab } from "@lib/components/MenuTabs";
 import { useState } from "react";
-import { IconBox, IconFolders, IconHistory } from "@tabler/icons-react";
+import { IconBox, IconFolder, IconFolders, IconHistory } from "@tabler/icons-react";
 import Collections from "./Collections";
+import FolderSelector from "@lib/components/FolderSelector";
 
 const tabs: MenuTab[] = [
     {
@@ -33,6 +34,7 @@ export function Menu() {
     return (
         <>
             <MenuContainer>
+                <FolderSelector />
                 <MenuButton onClick={() => vscode.postMessage({ command: 'requests.new', type: 'http' })}>
                     New Request
                 </MenuButton>

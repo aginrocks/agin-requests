@@ -11,7 +11,6 @@ export const compactSelect = cva({
         variant: {
             default: {
                 border: 'calc(var(--border-width)* 1px) solid var(--dropdown-border)',
-                borderRadius: '99999px',
                 padding: '7px 12px',
                 gap: '6px',
                 transition: 'background-color .3s ease',
@@ -21,6 +20,28 @@ export const compactSelect = cva({
             },
             subtle: {
                 gap: '4px',
+            }
+        },
+        radius: {
+            default: {
+                borderRadius: '99999px',
+            },
+            sm: {
+                borderRadius: '5px',
+            },
+            md: {
+                borderRadius: '10px',
+            },
+        },
+        size: {
+            sm: {
+                padding: '5px 10px',
+                fontSize: '10px',
+            }
+        },
+        padding: {
+            none: {
+                padding: '0px',
             }
         }
     }
