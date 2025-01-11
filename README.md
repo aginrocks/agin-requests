@@ -2,7 +2,7 @@
 
 Effortlessly send HTTP requests, listen to Server-Sent Events (SSE), connect to WebSocket (WS) endpoints, and communicate with Socket.IO servers — all from the comfort of your editor.
 
-![](screenshot.png)
+![](https://raw.githubusercontent.com/TymekV/agin-requests/refs/heads/main/screenshot.png)
 
 ## Main Features
 - **Unified Client**: Supports HTTP requests, Server-Sent Events (SSE), WebSockets, and Socket.IO all in one place.
@@ -25,6 +25,10 @@ This extension contributes the following settings:
 Calling out known issues can help limit users opening duplicate issues against your extension. -->
 
 ## Release Notes
+
+### 1.0.1
+
+Bug fixes.
 
 ### 1.0.0
 

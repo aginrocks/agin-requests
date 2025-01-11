@@ -18,7 +18,12 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.window.registerWebviewViewProvider(
             "agin-requests-sidebar",
-            sidebarProvider
+            sidebarProvider,
+            {
+                webviewOptions: {
+                    retainContextWhenHidden: process.env.NODE_ENV === 'development' ? false : true,
+                }
+            }
         )
     );
 
