@@ -88,19 +88,19 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
         }
     });
 
-    const manager = new WorkspaceManager();
-    (async () => {
-        if (vscode.workspace.workspaceFolders) {
-            await manager.setFolder(vscode.workspace.workspaceFolders[0]);
+    // const manager = new WorkspaceManager();
+    // (async () => {
+    //     if (vscode.workspace.workspaceFolders) {
+    //         await manager.setFolder(vscode.workspace.workspaceFolders[0]);
 
-            await manager.createCollection('', {
-                authType: 'none',
-                headers: [],
-                label: 'Test',
-                type: 'collection',
-            });
-        }
-    })();
+    //         await manager.createCollection('', {
+    //             authType: 'none',
+    //             headers: [],
+    //             label: 'Test',
+    //             type: 'collection',
+    //         });
+    //     }
+    // })();
 
     panel.webview.html = generateHtml(context.extensionUri, panel.webview, 'request');
 }
