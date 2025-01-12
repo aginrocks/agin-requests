@@ -92,6 +92,9 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
     });
 
     const manager = new WorkspaceManager();
+    manager.on('collections-updated', (collections) => {
+        console.log('collections-updated', collections);
+    });
     (async () => {
         if (vscode.workspace.workspaceFolders) {
             await manager.setFolder(vscode.workspace.workspaceFolders[0]);

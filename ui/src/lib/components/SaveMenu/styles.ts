@@ -9,7 +9,7 @@ export const saveMenu = sva({
             paddingBottom: '5px',
         },
         header: {
-            marginBottom: '5px',
+            marginBottom: '10px',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-start',

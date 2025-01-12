@@ -5,6 +5,13 @@ import yaml from 'yaml';
 import semver from 'semver';
 import { randomUUID } from 'crypto';
 import { createSlug } from './util';
+import EventEmitter from 'node:events';
+
+type WMEvents = {
+    'collection-created': (path: string) => void;
+    'request-created': (path: string) => void;
+    'collections-updated': (collections: Collection[]) => void;
+};
 
 const STORAGE_FOLDER = '.agin-requests';
 const VERSION = '1.0.2';
@@ -18,6 +25,7 @@ export class WorkspaceManager {
     private baseUri?: vscode.Uri;
     public manifest?: WorkspaceManifest;
     public collections?: Collection[];
+    private emitter = new EventEmitter();
 
     constructor() {
 
@@ -98,6 +106,7 @@ export class WorkspaceManager {
         this.collections = collections;
 
         console.log({ collections });
+        this.emitter.emit('collections-updated', collections);
         return collections;
     }
 
@@ -129,6 +138,8 @@ export class WorkspaceManager {
 
         await this.loadCollections();
 
+        this.emitter.emit('collection-created', manifestPath.toString());
+
         return slug;
     }
 
@@ -152,6 +163,8 @@ export class WorkspaceManager {
 
         await this.loadCollections();
 
+        this.emitter.emit('request-created', requestPath.toString());
+
         return slug;
     }
 
@@ -169,6 +182,7 @@ export class WorkspaceManager {
         const collections: Collection[] = [];
         const requests: RequestConfig[] = [];
         for (const [col, type] of items) {
+            if (col == '_collection.yaml') continue;
             const colPath = vscode.Uri.joinPath(uri, col);
 
             if (type == vscode.FileType.Directory) {
@@ -190,5 +204,21 @@ export class WorkspaceManager {
             children: collections,
             requests,
         }
+    }
+
+    on<E extends keyof WMEvents>(event: E, listener: WMEvents[E]) {
+        this.emitter.on(event, listener);
+    }
+
+    off<E extends keyof WMEvents>(event: E, listener: WMEvents[E]) {
+        this.emitter.off(event, listener);
+    }
+
+    removeListener<E extends keyof WMEvents>(event: E, listener: WMEvents[E]) {
+        this.emitter.removeListener(event, listener);
+    }
+
+    remvoeAllListeners<E extends keyof WMEvents>(event?: E) {
+        this.emitter.removeAllListeners(event);
     }
 }
