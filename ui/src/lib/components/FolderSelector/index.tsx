@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { OptionProps } from '../Menu/Option';
 import { useVsCodeApi } from '@lib/hooks';
 import { WorkspaceFolder } from 'vscode';
+import { css } from '@styled-system/css';
 
 export default function FolderSelector() {
     const [folders, setFolders] = useState<OptionProps[]>([]);
@@ -29,7 +30,7 @@ export default function FolderSelector() {
     }, []);
 
     // If there are less than 2 folders, don't show the selector
-    if (folders.length < 2) return null;
+    if (folders.length < 2) return <div className={css({ height: '5px' })}></div>;
 
     return (
         <div className={selectorContainer}>
