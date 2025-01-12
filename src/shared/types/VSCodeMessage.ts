@@ -56,4 +56,17 @@ export type VSCodeMessage = {
 } | {
     command: 'io.send',
     data: SocketIOMessage;
+} | {
+    command: 'folders.get',
+} | {
+    command: 'folders',
+    data: vscode.WorkspaceFolder[];
+} | {
+    command: 'workspace.folder.get',
+} | {
+    command: 'workspace.folder',
+    data: vscode.WorkspaceFolder;
+} | {
+    command: 'workspace.open',
+    data: vscode.WorkspaceFolder;
 }

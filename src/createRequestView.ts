@@ -5,9 +5,10 @@ import { HTTPHandler } from "./handlers/HTTPHandler";
 import { SSEHandler } from "./handlers/SSEHandler";
 import { WSHandler } from "./handlers/WSHandler";
 import { SocketIOHandler } from "./handlers/SocketIOHandler";
-import { WorkspaceManager } from "./WorkspaceManager";
+import { WorkspaceManager as manager } from "./WorkspaceManager";
 import { randomUUID } from "crypto";
 import { VSCodeMessage } from "@shared/types";
+import { WorkspaceHandler } from "./handlers/WorkspaceHandler";
 
 export type ServerEvent<T> = {
     type: 'incoming' | 'outgoing' | 'connected' | 'disconnected';
@@ -34,6 +35,7 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
     const sseHandler = new SSEHandler('sse', panel);
     const wsHandler = new WSHandler('ws', panel);
     const ioHandler = new SocketIOHandler('io', panel);
+    const workspaceHandler = new WorkspaceHandler('workspace', panel);
 
     panel.webview.onDidReceiveMessage(
         async (message: VSCodeMessage) => {
@@ -81,6 +83,9 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
 
             } else if (message.command.startsWith('io.')) {
                 await ioHandler.onMessage(message);
+
+            } else if (message.command.startsWith('workspace.')) {
+                await workspaceHandler.onMessage(message);
             }
         }
     );
@@ -91,7 +96,7 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
         }
     });
 
-    const manager = new WorkspaceManager();
+    // const manager = new WorkspaceManager();
     manager.on('collections-updated', (collections) => {
         console.log('collections-updated', collections);
     });

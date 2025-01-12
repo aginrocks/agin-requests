@@ -1,16 +1,13 @@
-import { useEditMode, useRequest, useRequestSaver } from "@lib/hooks";
-import { container, left, requestName, requestNameContainer, right, typeSelector } from "./styles";
-import ActionIcon from "../ActionIcon";
-import { Icon, IconBrandSocketIo, IconFileText, IconHttpGet, IconPlayerPlay, IconPlugConnected, IconServer } from "@tabler/icons-react";
-import MenuTabs, { MenuTab } from "../MenuTabs";
-import EnvSelector from "../EnvSelector";
-import { EditMode } from "@lib/providers/EditModeProvider";
-import { RequestType } from "@shared/types";
-import MessageName from "../MessageName";
-import Tooltip from "../Tooltip";
-import Menu from "../Menu";
-import { useDisclosure } from "@mantine/hooks";
-import SaveMenu from "../SaveMenu";
+import { useEditMode, useRequest } from '@lib/hooks';
+import { container, left, requestName, requestNameContainer, right, typeSelector } from './styles';
+import ActionIcon from '../ActionIcon';
+import { Icon, IconBrandSocketIo, IconFileText, IconHttpGet, IconPlayerPlay, IconPlugConnected, IconServer } from '@tabler/icons-react';
+import { MenuTab } from '../MenuTabs';
+import { RequestType } from '@shared/types';
+import MessageName from '../MessageName';
+import Menu from '../Menu';
+import { useDisclosure } from '@mantine/hooks';
+import SaveMenu from '../SaveMenu';
 
 const tabs: MenuTab[] = [
     {
@@ -34,7 +31,6 @@ const typesToIcons: Record<RequestType, Icon> = {
 
 export default function RequestTypeSelector() {
     const request = useRequest();
-    const saver = useRequestSaver();
 
     const [editMode, setEditMode] = useEditMode();
 

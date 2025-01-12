@@ -12,7 +12,6 @@ import RealtimeMessagesProvider from "@lib/providers/RealtimeMessagesProvider";
 import MessagesLibraryProvider from "@lib/providers/MessagesLibraryProvider";
 import SyncedStateProvider from "@lib/providers/SycnedStateProvider";
 import EditModeProvider from "@lib/providers/EditModeProvider";
-import RequestSaverProvider from "@lib/providers/RequestSaverProvider";
 
 export const requestTabs: TabType[] = [
     {
@@ -39,12 +38,10 @@ export function Request() {
                             <RealtimeMessagesProvider>
                                 <RequestController>
                                     <MessagesLibraryProvider>
-                                        <RequestSaverProvider>
-                                            <Columns
-                                                left={<RequestConfig />}
-                                                right={<Response />}
-                                            />
-                                        </RequestSaverProvider>
+                                        <Columns
+                                            left={<RequestConfig />}
+                                            right={<Response />}
+                                        />
                                     </MessagesLibraryProvider>
                                 </RequestController>
                             </RealtimeMessagesProvider>

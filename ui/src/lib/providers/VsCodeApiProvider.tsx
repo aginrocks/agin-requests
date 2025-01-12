@@ -12,7 +12,7 @@ export interface VsCodeApiContextProps {
     state: any;
     setState: (newState: any) => void;
     getState?: () => any;
-    postMessage: (message: any) => void;
+    postMessage: (message: VSCodeMessage) => void;
 }
 
 export const VsCodeApiContext = createContext<VsCodeApiContextProps | undefined>(undefined);

@@ -2,7 +2,7 @@ import { useForm } from '@mantine/form';
 import ActionIcon from '../ActionIcon';
 import Input from '../Input';
 import { saveMenu } from './styles';
-import { useRequest } from '@lib/hooks';
+import { useRequest, useWorkspace } from '@lib/hooks';
 import { useEffect } from 'react';
 import TreeItem from '../TreeItem';
 import { IconFolder } from '@tabler/icons-react';
@@ -18,9 +18,9 @@ export type SaveMenuProps = {
 }
 
 export default function SaveMenu({ onClose }: SaveMenuProps) {
-    const classes = saveMenu();
-
     const request = useRequest();
+    const workspace = useWorkspace();
+    const classes = saveMenu();
 
     const form = useForm<SaveMenuForm>({
         initialValues: {
@@ -50,76 +50,10 @@ export default function SaveMenu({ onClose }: SaveMenuProps) {
                 </div>
             </div>
             <div className={classes.tree}>
-                <TreeItem label="Test Collection">
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                        <TreeItem label="Test Collection" icon={IconFolder}>
-                            <TreeItem label="Test Collection" icon={IconFolder}>
-                            </TreeItem>
-                            <TreeItem label="Test Collection" icon={IconFolder}>
-                            </TreeItem>
-                            <TreeItem label="Test Collection" icon={IconFolder}>
-                            </TreeItem>
-                            <TreeItem label="Test Collection" icon={IconFolder}>
-                            </TreeItem>
-                            <TreeItem label="Test Collection" icon={IconFolder}>
-                            </TreeItem>
-                        </TreeItem>
-                        <TreeItem label="Test Collection" icon={IconFolder}>
-                        </TreeItem>
-                        <TreeItem label="Test Collection" icon={IconFolder}>
-                        </TreeItem>
-                        <TreeItem label="Test Collection" icon={IconFolder}>
-                        </TreeItem>
-                        <TreeItem label="Test Collection" icon={IconFolder}>
-                        </TreeItem>
-                        <TreeItem label="Test Collection" icon={IconFolder}>
-                        </TreeItem>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                    <TreeItem label="Test Collection" icon={IconFolder}>
-                    </TreeItem>
-                </TreeItem>
+                {/* FIXME */}
+                {workspace.collections.map(c => <TreeItem label={c.label} key={c.id}>
+
+                </TreeItem>)}
             </div>
             <div className={classes.actions}>
                 <VSCodeButton className={classes.button}>
