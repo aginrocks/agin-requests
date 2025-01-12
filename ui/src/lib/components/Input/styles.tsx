@@ -75,3 +75,22 @@ export const rightSectionStyles = css({
     alignItems: 'center',
     gap: '3px'
 });
+
+export const labelStyles = cva({
+    base: {
+        fontSize: '12px',
+        fontWeight: 500,
+        marginBottom: '3px',
+    },
+    variants: {
+        separate: {
+            true: {
+                marginBottom: '6px',
+            }
+        }
+    }
+});
+
+export const containerStyles = css({
+    width: '100%',
+});

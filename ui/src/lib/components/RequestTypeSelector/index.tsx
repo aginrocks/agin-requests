@@ -8,6 +8,9 @@ import { EditMode } from "@lib/providers/EditModeProvider";
 import { RequestType } from "@shared/types";
 import MessageName from "../MessageName";
 import Tooltip from "../Tooltip";
+import Menu from "../Menu";
+import { useDisclosure } from "@mantine/hooks";
+import SaveMenu from "../SaveMenu";
 
 const tabs: MenuTab[] = [
     {
@@ -35,18 +38,30 @@ export default function RequestTypeSelector() {
 
     const [editMode, setEditMode] = useEditMode();
 
+    const [renameOpened, rename] = useDisclosure(false);
+
     return (
         <div className={container}>
             <div className={left}>
                 <div className={typeSelector}>
                     <ActionIcon icon={typesToIcons[request?.values.type ?? 'http']} />
                 </div>
-                <Tooltip label="Click to Rename">
-                    <div className={requestNameContainer} onClick={async () => await saver.renameRequest()}>
-                        <div className={requestName({ isDraft: request?.values.isDraft })}>{request?.values.label || 'New Request'}</div>
-                        <MessageName label="Draft" withMargin={false} size="xs" clickable={false} />
-                    </div>
-                </Tooltip>
+                <Menu
+                    target={
+                        <div>
+                            <div className={requestNameContainer} onClick={rename.open}>
+                                <div className={requestName({ isDraft: request?.values.isDraft })}>{request?.values.label || 'New Request'}</div>
+                                <MessageName label="Draft" withMargin={false} size="xs" clickable={false} />
+                            </div>
+                        </div>
+                    }
+                    opened={renameOpened}
+                    onClose={rename.close}
+                    position="bottomStart"
+                    radius="lg"
+                >
+                    <SaveMenu onClose={rename.close} />
+                </Menu>
             </div>
             <div className={right}>
                 {/* <EnvSelector />
