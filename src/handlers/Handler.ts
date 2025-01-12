@@ -1,12 +1,6 @@
 import * as vscode from "vscode";
 import { ServerEvent } from "../createRequestView";
-
-export type Message<T> = {
-    command: string;
-    config?: any;
-    data?: T;
-    _id?: string;
-}
+import { VSCodeMessage } from "@shared/types";
 
 export class Handler {
     panel: vscode.WebviewPanel;
@@ -18,7 +12,7 @@ export class Handler {
         this.panel = panel;
     }
 
-    async onMessage(message: Message<any>): Promise<void> {
+    async onMessage(message: VSCodeMessage): Promise<void> {
 
     }
 

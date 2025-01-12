@@ -1,11 +1,12 @@
 import { AxiosRequestConfig } from "axios";
-import { convertCheckableFields } from "../util";
-import { Handler, Message } from "./Handler";
+import { CheckableField, convertCheckableFields } from "../util";
+import { Handler } from "./Handler";
 import qs from "qs";
 import axios from "axios";
+import { VSCodeMessage } from "@shared/types";
 
 export class HTTPHandler extends Handler {
-    async onMessage(message: Message<any>): Promise<void> {
+    async onMessage(message: VSCodeMessage): Promise<void> {
         if (message.command == 'request.execute') {
             const request = message.config;
 
@@ -24,11 +25,11 @@ export class HTTPHandler extends Handler {
 
                 if (request.authType === 'basic') {
                     config.auth = {
-                        username: request.auth.basic.username,
-                        password: request.auth.basic.password,
+                        username: request.auth.basic?.username ?? '',
+                        password: request.auth.basic?.password ?? '',
                     };
                 } else if (request.authType === 'bearer') {
-                    headers['authorization'] = `${request.auth.bearer.prefix} ${request.auth.bearer.token}`;
+                    headers['authorization'] = `${request.auth.bearer?.prefix ?? ''} ${request.auth.bearer?.token ?? ''}`;
                 }
 
                 if (request.requestBodyType === 'json') {
@@ -37,7 +38,7 @@ export class HTTPHandler extends Handler {
                 } else if (request.requestBodyType === 'urlencoded') {
                     headers['content-type'] = 'application/x-www-form-urlencoded';
                     config.data = qs.stringify(
-                        convertCheckableFields(request.requestBody, {
+                        convertCheckableFields(request.requestBody as CheckableField[], {
                             urlencodedMode: true,
                         })
                     );

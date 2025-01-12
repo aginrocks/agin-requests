@@ -1,14 +1,14 @@
 import * as vscode from "vscode";
 import { io, Socket } from "socket.io-client";
-import { Handler, Message } from "./Handler";
+import { Handler } from "./Handler";
 import { convertCheckableFields } from "../util";
-import { SocketIOArgument, SocketIOArgumentType, SocketIOMessage } from "@shared/types";
+import { SocketIOArgument, SocketIOArgumentType, SocketIOMessage, VSCodeMessage } from "@shared/types";
 import { ServerEvent } from "createRequestView";
 
 export class SocketIOHandler extends Handler {
     socket: Socket | undefined;
 
-    async onMessage(message: Message<SocketIOMessage>): Promise<void> {
+    async onMessage(message: VSCodeMessage): Promise<void> {
         if (message.command == 'io.connect') {
             const request = message.config;
 
@@ -19,12 +19,12 @@ export class SocketIOHandler extends Handler {
             let authObject: Object | undefined;
 
             if (request.authType === 'basic') {
-                headers['authorization'] = `Basic ${btoa(`${request.auth.basic.username}:${request.auth.basic.password}`)}`;
+                headers['authorization'] = `Basic ${btoa(`${request.auth.basic?.username}:${request.auth.basic?.password}`)}`;
             } else if (request.authType === 'bearer') {
-                headers['authorization'] = `${request.auth.bearer.prefix} ${request.auth.bearer.token}`;
+                headers['authorization'] = `${request.auth.bearer?.prefix ?? ''} ${request.auth.bearer?.token ?? ''}`;
             } else if (request.authType === 'socketio') {
                 try {
-                    authObject = JSON.parse(request.auth.socketio);
+                    authObject = JSON.parse(request.auth.socketio ?? '{}');
                 } catch (error) {
                     vscode.window.showWarningMessage('Skipping Socket.IO auth: The provided JSON object is invalid.');
                 }

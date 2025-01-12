@@ -1,3 +1,4 @@
+import { VSCodeMessage } from '@shared/types';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 export interface VsCodeApi {
@@ -29,7 +30,7 @@ export const VsCodeApiProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         setState(newState);
     };
 
-    const postMessage = (message: any) => {
+    const postMessage = (message: VSCodeMessage) => {
         vscode?.postMessage(message);
     };
 

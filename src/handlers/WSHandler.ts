@@ -1,12 +1,12 @@
 import { WebSocket } from "ws";
 import { convertCheckableFields } from "../util";
-import { Handler, Message } from "./Handler";
-import { WSMessage } from "@shared/types";
+import { Handler } from "./Handler";
+import { VSCodeMessage, WSMessage } from "@shared/types";
 
 export class WSHandler extends Handler {
     ws: WebSocket | undefined;
 
-    async onMessage(message: Message<WSMessage>): Promise<void> {
+    async onMessage(message: VSCodeMessage): Promise<void> {
         if (message.command == 'ws.connect') {
             const request = message.config;
             console.log('ws', request);
@@ -16,9 +16,9 @@ export class WSHandler extends Handler {
             });
 
             if (request.authType === 'basic') {
-                headers['authorization'] = `Basic ${btoa(`${request.auth.basic.username}:${request.auth.basic.password}`)}`;
+                headers['authorization'] = `Basic ${btoa(`${request.auth.basic?.username ?? ''}:${request.auth.basic?.password ?? ''}`)}`;
             } else if (request.authType === 'bearer') {
-                headers['authorization'] = `${request.auth.bearer.prefix} ${request.auth.bearer.token}`;
+                headers['authorization'] = `${request.auth.bearer?.prefix ?? ''} ${request.auth.bearer?.token ?? ''}`;
             }
 
             if (this.ws) {

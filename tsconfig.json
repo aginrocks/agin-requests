@@ -19,7 +19,11 @@
 			"@shared/*": [
 				"./shared/*"
 			],
-		}
+		},
+		"typeRoots": [
+			"src/shared/types",
+			"node_modules/@types"
+		]
 	},
 	"exclude": [
 		"ui",

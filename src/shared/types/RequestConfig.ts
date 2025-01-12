@@ -5,7 +5,7 @@ import { RealtimeMessage } from "./RealtimeMessage";
 
 export type RequestBodyType = 'none' | 'json' | 'xml' | 'text' | 'urlencoded' | 'formdata' | 'binary';
 
-export type AuthType = 'none' | 'basic' | 'bearer' | 'oauth2';
+export type AuthType = 'none' | 'basic' | 'bearer' | 'oauth2' | 'socketio';
 
 export type AuthOptions = {
     basic?: {

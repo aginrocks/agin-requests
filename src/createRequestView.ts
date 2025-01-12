@@ -2,12 +2,12 @@ import * as vscode from "vscode";
 import { generateHtml } from "./util";
 import path from "path";
 import { HTTPHandler } from "./handlers/HTTPHandler";
-import { Message } from "./handlers/Handler";
 import { SSEHandler } from "./handlers/SSEHandler";
 import { WSHandler } from "./handlers/WSHandler";
 import { SocketIOHandler } from "./handlers/SocketIOHandler";
 import { WorkspaceManager } from "./WorkspaceManager";
 import { randomUUID } from "crypto";
+import { VSCodeMessage } from "@shared/types";
 
 export type ServerEvent<T> = {
     type: 'incoming' | 'outgoing' | 'connected' | 'disconnected';
@@ -36,7 +36,7 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
     const ioHandler = new SocketIOHandler('io', panel);
 
     panel.webview.onDidReceiveMessage(
-        async (message: Message<any>) => {
+        async (message: VSCodeMessage) => {
             console.log('got message', message);
 
             if (message.command == 'initial.get') {
