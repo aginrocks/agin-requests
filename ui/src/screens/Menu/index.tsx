@@ -40,21 +40,21 @@ export function Menu() {
                     New Request
                 </MenuButton>
             </MenuContainer>
-            {/* <MenuTabs
+            <MenuTabs
                 tabs={tabs}
                 active={tab}
                 onChange={setTab}
             />
             {tab == 'collections' && <Collections />}
-            {tab == 'history' && <History />} */}
-            <div style={{ marginTop: '20px' }}>
+            {tab == 'history' && <History />}
+            {/* <div style={{ marginTop: '20px' }}>
                 <Welcome
                     icon={IconDeviceFloppy}
                     title="Saving will be avaliable soon!"
                     subtitle="I'm working on it, stay tuned!"
                     size="sm"
                 />
-            </div>
+            </div> */}
         </>
     )
 }

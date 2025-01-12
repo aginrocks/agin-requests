@@ -1,9 +1,10 @@
-import { createContext, useContext, useEffect, useReducer, useState } from "react";
-import type { RequestConfig } from "@shared/types";
-import { useForm } from "@mantine/form";
-import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
-import useSynced from "@lib/hooks/useSynced";
-import { SyncedStateContext } from "./SycnedStateProvider";
+import { createContext, useContext, useEffect, useReducer, useState } from 'react';
+import type { RequestConfig } from '@shared/types';
+import { useForm } from '@mantine/form';
+import { useVsCodeApi } from '@lib/hooks/useVsCodeApi';
+import useSynced from '@lib/hooks/useSynced';
+import { SyncedStateContext } from './SycnedStateProvider';
+import { v4 } from 'uuid';
 
 export type RequestConfigContext = ReturnType<typeof useForm<RequestConfig>>;
 
@@ -14,6 +15,7 @@ export default function RequestConfigProvider({ children }: { children: React.Re
 
     const config = useForm<RequestConfig>({
         initialValues: {
+            id: v4(),
             label: '',
             isDraft: true,
             type: 'http',

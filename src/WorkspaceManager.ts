@@ -7,7 +7,7 @@ import { randomUUID } from 'crypto';
 import { createSlug } from './util';
 
 const STORAGE_FOLDER = '.agin-requests';
-const VERSION = '1.0.0';
+const VERSION = '1.0.2';
 
 const databaseReadme = `# Agin Requests Database
 
@@ -98,15 +98,16 @@ export class WorkspaceManager {
         this.collections = collections;
 
         console.log({ collections });
+        return collections;
     }
 
     async createCollection(path: string, options: CreateCollectionOptions) {
         if (!this.baseUri) return;
-        const collectionPath = vscode.Uri.joinPath(this.baseUri, path);
+        const collectionPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path);
 
         // TODO: Recursively create sub-collections
         const id = randomUUID();
-        const slug = createSlug(options.label);
+        const slug = options.slug ?? createSlug(options.label);
 
         const collection: Collection = {
             id,
@@ -117,7 +118,7 @@ export class WorkspaceManager {
         }
 
         if (collection.slug == '_collection') return vscode.window.showErrorMessage('Choose a different name for the collection.');
-        const basePath = vscode.Uri.joinPath(collectionPath, 'agin-collections', collection.slug);
+        const basePath = vscode.Uri.joinPath(collectionPath, collection.slug);
 
         await ensureFolderExists(basePath);
 
@@ -127,10 +128,31 @@ export class WorkspaceManager {
         await vscode.workspace.fs.writeFile(manifestPath, rawCollection);
 
         await this.loadCollections();
-    };
+
+        return slug;
+    }
 
     async createRequest(collectionPath: string, requestOptions: RequestConfig) {
+        if (!this.baseUri) return;
 
+        const slug = requestOptions.slug ?? createSlug(requestOptions.label);
+
+        const request: RequestConfig = {
+            slug,
+            ...requestOptions,
+        }
+
+        if (slug == '_collection') return vscode.window.showErrorMessage('Choose a different name for the request.');
+        const basePath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', collectionPath);
+        await ensureFolderExists(basePath);
+
+        const requestPath = vscode.Uri.joinPath(basePath, `${slug}.yaml`);
+
+        await vscode.workspace.fs.writeFile(requestPath, Buffer.from(yaml.stringify(request)));
+
+        await this.loadCollections();
+
+        return slug;
     }
 
     private async readRequest(uri: vscode.Uri): Promise<RequestConfig | undefined> {

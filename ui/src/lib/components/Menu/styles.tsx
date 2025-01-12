@@ -13,22 +13,23 @@ export const dropdownContainer = cva({
         scale: .95,
         opacity: 0,
         zIndex: 999999,
+        minW: 'max-content',
     },
     variants: {
-        position: {
-            bottomEnd: {
-                bottom: '0px',
-                transform: 'translateY(calc(100% + 3px))',
-                right: 0,
-                width: 'max-content'
-            },
-            bottomStart: {
-                bottom: '0px',
-                transform: 'translateY(calc(100% + 3px))',
-                left: 0,
-                width: 'max-content'
-            },
-        },
+        // position: {
+        //     bottomEnd: {
+        //         bottom: '0px',
+        //         transform: 'translateY(calc(100% + 3px))',
+        //         right: 0,
+        //         width: 'max-content'
+        //     },
+        //     bottomStart: {
+        //         bottom: '0px',
+        //         transform: 'translateY(calc(100% + 3px))',
+        //         left: 0,
+        //         width: 'max-content'
+        //     },
+        // },
         opened: {
             true: {
                 scale: 1,
@@ -38,6 +39,6 @@ export const dropdownContainer = cva({
         }
     },
     defaultVariants: {
-        position: 'bottomEnd',
+        // position: 'bottomEnd',
     }
 });

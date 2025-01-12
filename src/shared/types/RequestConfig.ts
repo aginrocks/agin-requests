@@ -23,6 +23,8 @@ export type RequestType = 'ws' | 'socketio' | 'http' | 'sse';
 export type RequestMethod = 'get' | 'post' | 'patch' | 'put' | 'delete' | 'head' | 'options' | 'ws';
 
 export type RequestConfig = {
+    id: string,
+    slug?: string,
     label: string,
     isDraft: boolean,
     type: RequestType,
@@ -34,5 +36,5 @@ export type RequestConfig = {
     requestBody?: FormItem[] | string,
     authType: AuthType,
     messages: RealtimeMessage[],
-    auth: AuthOptions
+    auth: AuthOptions,
 };

@@ -7,6 +7,7 @@ import { SSEHandler } from "./handlers/SSEHandler";
 import { WSHandler } from "./handlers/WSHandler";
 import { SocketIOHandler } from "./handlers/SocketIOHandler";
 import { WorkspaceManager } from "./WorkspaceManager";
+import { randomUUID } from "crypto";
 
 export type ServerEvent<T> = {
     type: 'incoming' | 'outgoing' | 'connected' | 'disconnected';
@@ -90,19 +91,36 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
         }
     });
 
-    // const manager = new WorkspaceManager();
-    // (async () => {
-    //     if (vscode.workspace.workspaceFolders) {
-    //         await manager.setFolder(vscode.workspace.workspaceFolders[0]);
+    const manager = new WorkspaceManager();
+    (async () => {
+        if (vscode.workspace.workspaceFolders) {
+            await manager.setFolder(vscode.workspace.workspaceFolders[0]);
 
-    //         await manager.createCollection('', {
-    //             authType: 'none',
-    //             headers: [],
-    //             label: 'Test',
-    //             type: 'collection',
-    //         });
-    //     }
-    // })();
+            const col = await manager.createCollection('', {
+                authType: 'none',
+                headers: [],
+                label: 'Test',
+                type: 'collection',
+            });
+
+            await manager.createRequest(col ?? '', {
+                authType: 'none',
+                headers: [],
+                label: 'Test Request',
+                method: 'get',
+                url: 'https://jsonplaceholder.typicode.com/todos/1',
+                auth: {
+
+                },
+                isDraft: false,
+                params: [],
+                messages: [],
+                requestBodyType: 'none',
+                type: 'http',
+                id: randomUUID(),
+            });
+        }
+    })();
 
     panel.webview.html = generateHtml(context.extensionUri, panel.webview, 'request');
 }

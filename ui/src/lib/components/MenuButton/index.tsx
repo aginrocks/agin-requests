@@ -32,6 +32,7 @@ export default function MenuButton({ children, ...props }: MenuButtonProps) {
                 </VSCodeButton>}
                 onClose={() => setOpened(false)}
                 targetClass={optionsTarget}
+                position="bottomEnd"
             >
                 <Option label="HTTP Request" value="" icon={IconHttpGet} onClick={() => {
                     vscode.postMessage({ command: 'requests.new', type: 'http' });
