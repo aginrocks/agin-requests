@@ -6,6 +6,7 @@ import { IconTrash } from "@tabler/icons-react";
 import ActionIcon from "../ActionIcon";
 import { RealtimeMessage } from "@shared/types";
 import MessageName from "../MessageName";
+import { useRequest } from "@lib/hooks";
 
 type MessageVariants = Exclude<Parameters<typeof savedMessage>[0], undefined>;
 
@@ -18,7 +19,7 @@ export default function SavedMessage({ data, type, args, label, selected, event,
 
     const classes = savedMessage({ selected, overflowing });
 
-    const [opened, setOpened] = useState(false);
+    const request = useRequest();
 
     return (
         <div className={classes.message} {...props}>
@@ -26,7 +27,7 @@ export default function SavedMessage({ data, type, args, label, selected, event,
                 <div>
                     <div className={classes.labelContainer}>
                         <div className={classes.label}>{label}</div>
-                        <MessageName label={event} size="xs" clickable={false} />
+                        {event && <MessageName label={event} size="xs" clickable={false} />}
                     </div>
                     {/* {event && <div className={classes.event}>{event}</div>} */}
                 </div>
@@ -47,9 +48,9 @@ export default function SavedMessage({ data, type, args, label, selected, event,
             </div>
             <Highlight language={type} code={data} />
             {/* TODO */}
-            <div>
+            {request?.values.type === 'socketio' && <div>
                 <div className={classes.argsCount}>{args.length} argument{args.length !== 1 && 's'}</div>
-            </div>
+            </div>}
             {overflowing && <div className={seeMore({ visible: true })}></div>}
         </div>
     )

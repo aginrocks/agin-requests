@@ -3,13 +3,15 @@ import { IconPlus, IconBooks, IconDeviceFloppy } from '@tabler/icons-react';
 
 # Messages Library
 
-In WebSocket and Socket.IO requests you can save frequently sent messages to the **Messages Library**. It allows you to quickly resend the saved events.
+![](/images/library.png)
+
+In WebSocket and Socket.IO requests you can save frequently sent messages to the <IconBooks style={{ display: 'inline', transform: 'translateY(-2px)' }} size={18} /> **Messages Library**. It allows you to quickly resend the saved events.
 
 <Callout type="info">
 **Note:** Messages saved in the Messages Library are saved with the request and are synced if you're using Git sync.
 </Callout>
 
-### Usage for WebSocket requests
+### Usage for WebSocket and Socket.IO requests
 
 - In the messsage editor select the <IconPlus style={{ display: 'inline', transform: 'translateY(-2px)' }} size={18} /> **Plus** icon and choose a **unique** name for the message.
 - You can view all saved messages for your current requests by clicking the <IconBooks style={{ display: 'inline', transform: 'translateY(-2px)' }} size={18} /> **Library** icon.
@@ -18,6 +20,12 @@ Once you save a message, more options in the editor will appear:
 - You can update a saved message by selecting it in the library, modifying it and then pressing the <IconDeviceFloppy style={{ display: 'inline', transform: 'translateY(-2px)' }} size={18} /> **Save Changes** button.
 - You can rename a saved message by selecting it in the library and clicking on its name in the editor.
 
+#### WebSocket
+
 <Callout type="info">
 **Note:** In the library only the first 4 lines of message's body are displayed.
 </Callout>
+
+#### Socket.IO
+
+When using Socket.IO the event name is displayed alongside your custom name (which has to be unique).

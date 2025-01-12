@@ -1,0 +1,45 @@
+import { Callout } from 'nextra/components';
+import { IconCurrencyDollar } from '@tabler/icons-react';
+
+# Dynamic Variables
+
+<IconCurrencyDollar style={{ display: 'inline', transform: 'translateY(-2px)' }} size={18} /> **Dynamic Variables** allow you to generate random data at runtime. You can insert them in the request URL, headers, query parameters, and body.
+
+Dynamic Variables start with the `$` symbol and are enclosed in braces `{}`. For example, if you have a URL like `https://api.example.com/users/{$randomUUID}`, you can insert `${$randomUUID}` and it will be replaced with a UUID.
+
+#### Arguments
+
+Some Dynamic Variables accept arguments. Arguments are separated by commas `,` and are enclosed in braces `{}`. For example, if you have a URL like `https://api.example.com/users/{$randomString,8}`, you can insert `${$randomString,8}` and it will be replaced with an 8-character random string.
+
+### Common
+
+| Variable | Description | Examples |
+| --- | --- | --- |
+| `{$randomUUID}` | Generates a random UUID v4. | `f47ac10b-58cc-4372-a567-0e02b2c3d479` |
+| `{$timestamp}` | Generates the current Unix timestamp. | `1631530000` |
+
+### Text and numbers
+
+| Variable | Description | Examples |
+| --- | --- | --- |
+| `{$randomInt}` | Generates a random integer. | `42` |
+| `{$randomBool}` | Generates a random boolean. | `true`, `false` |
+| `{$randomString,length}` | Generates a random string. | `JZrovSph` |
+
+
+### Names
+
+| Variable | Description | Examples |
+| --- | --- | --- |
+| `{$randomFirstName}` | Generates a random first name. | `John` |
+| `{$randomLastName}` | Generates a random last name. | `Doe` |
+| `{$randomFullName}` | Generates a random full name. | `John Doe` |
+| `{$randomEmail}` | Generates a random email address. | `johndoe@example.com` |
+
+### Internet and IP addresses
+
+| Variable | Description | Examples |
+| --- | --- | --- |
+| `{$randomIP}` | Generates a random IPv4 address. | `97.54.102.3` |
+| `{$randomIPV6}` | Generates a random IPv6 address. | `a987:e632:4796:5b24:d840:c0cf:65b5:d4c7` |
+| `{$randomUserAgent}` | Generates a random User-Agent string. | `Mozilla/5.0 (Windows; U; Windows NT 6.3; x64; en-US) Gecko/20100101 Firefox/46.5` |

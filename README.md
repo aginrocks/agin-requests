@@ -9,6 +9,10 @@ Effortlessly send HTTP requests, listen to Server-Sent Events (SSE), connect to 
 - **Local Storage with Git Sync**: Store and sync API requests with local storage integrated with Git. The data is formatted in an easy-to-merge format, allowing teams to collaborate efficiently and keep their configurations and request logs in sync across all team members.
 - **Free & Open Source**: Agin Requests is free to use forever and [open source on GitHub](https://github.com/TymekV/agin-requests).
 
+## Documentation
+
+Documentation is avaliable at [docs.requests.agin.rocks](https://docs.requests.agin.rocks)
+
 <!-- ## Extension Settings
 
 Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
@@ -23,13 +27,3 @@ This extension contributes the following settings:
 <!-- ## Known Issues
 
 Calling out known issues can help limit users opening duplicate issues against your extension. -->
-
-## Release Notes
-
-### 1.0.1
-
-Bug fixes.
-
-### 1.0.0
-
-Initital release.
