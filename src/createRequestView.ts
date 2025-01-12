@@ -17,6 +17,7 @@ export type ServerEvent<T> = {
 
 // TODO: Create a provider
 export default function createRequestWebview(context: vscode.ExtensionContext, initialData?: any) {
+    console.log('createRequestWebview', process.env.NODE_ENV);
     const panel = vscode.window.createWebviewPanel('webview', 'New Request (Draft)', vscode.ViewColumn.One, {
         enableScripts: true,
         retainContextWhenHidden: process.env.NODE_ENV === 'development' ? false : true,

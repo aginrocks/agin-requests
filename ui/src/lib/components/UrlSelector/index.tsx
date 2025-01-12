@@ -8,6 +8,7 @@ import { useCallback } from "react";
 import { parseParams } from "@lib/util";
 import { useEventResponse } from "@lib/hooks/useEventResponse";
 import { OptionProps } from "../Menu/Option";
+import { getHotkeyHandler } from "@mantine/hooks";
 
 export const methods: OptionProps[] = [
     {
@@ -87,6 +88,9 @@ export default function UrlSelector() {
                     withRightRadius={editMode != 'test'}
                     {...request?.getInputProps('url')}
                     onChange={onUrlChange}
+                    onKeyDown={getHotkeyHandler([
+                        ['Enter', () => controller.send()],
+                    ])}
                 />
                 {editMode == 'test' && <VSCodeButton className={sendButton} onClick={() => (isRealtime && eventResponse.connected) ? controller.cancel() : controller.send()}>
                     {isRealtime ? eventResponse.connected ? 'Disconnect' : 'Connect' : 'Send'}

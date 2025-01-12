@@ -14,7 +14,7 @@ import IOArgumentEditor from "./IOArgumentEditor";
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
 import { closestCenter, DndContext, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { randomId } from "@mantine/hooks";
+import { getHotkeyHandler, randomId } from "@mantine/hooks";
 
 export const wsMessageTypes: TabType[] = [
     {
@@ -126,6 +126,9 @@ export default function IOMessageEditor() {
                     </Tooltip>
                 </>}
                     {...msg?.getInputProps('activeMessage.event')}
+                    onKeyDown={getHotkeyHandler([
+                        ['Enter', () => activeMessage ? controller.sendMessage(activeMessage) : {}],
+                    ])}
                 />
                 {args?.length !== 0 && <div className={argumentsList}>
                     <DndContext

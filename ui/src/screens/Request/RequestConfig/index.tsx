@@ -20,11 +20,15 @@ import useMessagesLibrary from "@lib/hooks/useMessagesLibrary";
 import useSynced from "@lib/hooks/useSynced";
 import IOMessageEditor from "./IOMessageEditor";
 import RequestTypeSelector from "@lib/components/RequestTypeSelector";
+import { useHotkeys } from "@mantine/hooks";
+import { useRequestController } from "@lib/hooks";
 
 export function RequestConfig() {
     const request = useRequest();
 
     const lib = useMessagesLibrary();
+
+    const controller = useRequestController();
 
     const requestTabs = useMemo<TabType[]>(() => [
         {
@@ -101,6 +105,10 @@ export function RequestConfig() {
             file: null,
         });
     }, [request?.values.requestBody, request?.values.requestBodyType]);
+
+    useHotkeys([
+        ['mod+Enter', () => controller.send()],
+    ]);
 
     return (
         <div className={left}>
