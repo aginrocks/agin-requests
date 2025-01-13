@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { RequestConfig } from './RequestConfig';
 import { SocketIOMessage } from './SocketIOMessage';
+import { Collection } from './Collection';
 
 export type VSCodeMessage = {
     command: 'initial.get';
@@ -69,4 +70,14 @@ export type VSCodeMessage = {
 } | {
     command: 'workspace.open',
     data: vscode.WorkspaceFolder;
+} | {
+    command: 'workspace.collections.get',
+} | {
+    command: 'workspace.collections',
+    data: Collection[];
+} | {
+    command: 'requests.new',
+    type: RequestConfig['type'];
+} | {
+    command: 'import.curl',
 }

@@ -27,13 +27,19 @@ export default function WorkspaceProvider({ children }: { children: React.ReactN
     useEffect(() => {
         vscode.postMessage({ command: 'folders.get' });
         vscode.postMessage({ command: 'workspace.folder.get' });
+        vscode.postMessage({ command: 'workspace.collections.get' });
 
         const onMessage = (event: MessageEvent<VSCodeMessage>) => {
             const message = event.data;
+            console.log('_msg', { message });
             if (message.command === 'folders') {
                 setFolders(message.data);
+
             } else if (message.command === 'workspace.folder') {
                 setOpenedFolder(message.data);
+
+            } else if (message.command === 'workspace.collections') {
+                setCollections(message.data);
             }
         };
 

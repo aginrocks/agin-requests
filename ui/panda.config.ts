@@ -165,7 +165,15 @@ export default defineConfig({
                 value: '#6bd7320',
               }
             },
-          }
+          },
+          danger: {
+            foreground: {
+              value: '#f44141',
+            },
+            background: {
+              value: '#f2161620',
+            }
+          },
         }
       }
     },

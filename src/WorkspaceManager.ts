@@ -221,7 +221,7 @@ export class WorkspaceManager {
         WorkspaceManager.emitter.removeListener(event, listener);
     }
 
-    public static remvoeAllListeners<E extends keyof WMEvents>(event?: E) {
+    public static removeAllListeners<E extends keyof WMEvents>(event?: E) {
         WorkspaceManager.emitter.removeAllListeners(event);
     }
 }

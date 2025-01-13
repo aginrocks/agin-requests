@@ -47,7 +47,8 @@ export const saveMenu = sva({
         },
         tree: {
             maxHeight: '400px',
-            overflow: 'scroll',
+            overflowX: 'hidden',
+            overflowY: 'auto',
         }
     },
 });

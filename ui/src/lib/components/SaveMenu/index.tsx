@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import TreeItem from '../TreeItem';
 import { IconFolder } from '@tabler/icons-react';
 import { VSCodeButton } from '@vscode/webview-ui-toolkit/react';
+import CollectionsView from '../CollectionsView';
 
 export type SaveMenuForm = {
     name: string;
@@ -51,9 +52,7 @@ export default function SaveMenu({ onClose }: SaveMenuProps) {
             </div>
             <div className={classes.tree}>
                 {/* FIXME */}
-                {workspace.collections.map(c => <TreeItem label={c.label} key={c.id}>
-
-                </TreeItem>)}
+                <CollectionsView collections={workspace.collections} rightSection={<></>} />
             </div>
             <div className={classes.actions}>
                 <VSCodeButton className={classes.button}>

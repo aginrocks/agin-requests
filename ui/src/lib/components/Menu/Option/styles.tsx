@@ -40,6 +40,9 @@ export const optionStyles = cva({
             'methods.ws.foreground': {
                 color: 'methods.ws.foreground',
             },
+            'danger.foreground': {
+                color: 'danger.foreground',
+            }
         }
     }
 });

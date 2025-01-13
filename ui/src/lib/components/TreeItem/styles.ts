@@ -81,6 +81,13 @@ export const tree = sva({
                     visibility: 'hidden',
                 },
             },
+        },
+        selected: {
+            true: {
+                header: {
+                    backgroundColor: 'var(--vscode-list-hoverBackground)',
+                }
+            }
         }
     }
 });

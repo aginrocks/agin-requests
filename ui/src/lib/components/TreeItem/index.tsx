@@ -1,8 +1,10 @@
 import { useDisclosure } from "@mantine/hooks";
 import { tree } from "./styles";
 import { createContext } from "react";
-import { Icon, IconChevronDown, IconChevronRight, IconDots } from "@tabler/icons-react";
+import { Icon, IconChevronDown, IconChevronRight, IconCopy, IconDots, IconFolderPlus, IconPencil, IconPlus, IconTrash } from "@tabler/icons-react";
 import ActionIcon from "../ActionIcon";
+import Menu from "../Menu";
+import { Option } from "../Menu/Option";
 
 export type TreeItemProps = {
     children?: React.ReactNode;
@@ -11,15 +13,19 @@ export type TreeItemProps = {
     headerComponent?: React.ReactNode;
     nestLevel?: number;
     icon?: Icon;
+    selected?: boolean;
+    rightSection?: React.ReactNode;
 }
 
 // export const NestLevelContext = createContext<number>(0);
 
 // TODO: Fix line hiding
-export default function TreeItem({ children, label, icon: Icon, description, headerComponent }: TreeItemProps) {
+export default function TreeItem({ children, label, icon: Icon, selected = false, rightSection, description, headerComponent }: TreeItemProps) {
     const [opened, { open, close, toggle }] = useDisclosure(false);
 
-    const classes = tree({ expanded: opened });
+    const classes = tree({ expanded: opened, selected });
+
+    const [menuOpeed, menu] = useDisclosure(false);
 
     return (
         <div className={classes.base}>
@@ -35,7 +41,22 @@ export default function TreeItem({ children, label, icon: Icon, description, hea
                     {label}
                 </div>
                 <div className={classes.icon} data-more-actions>
-                    <ActionIcon icon={IconDots} size={14} />
+                    {rightSection ?? <Menu
+                        target={
+                            <div>
+                                <ActionIcon icon={IconDots} size={14} onClick={menu.open} />
+                            </div>
+                        }
+                        opened={menuOpeed}
+                        onClose={menu.close}
+                        position="bottomEnd"
+                    >
+                        <Option label="New Request" value="" icon={IconPlus} />
+                        <Option label="New Folder" value="" icon={IconFolderPlus} />
+                        <Option label="Rename" value="" icon={IconPencil} />
+                        <Option label="Duplicate" value="" icon={IconCopy} />
+                        <Option label="Delete" value="" icon={IconTrash} optionColor="danger.foreground" />
+                    </Menu>}
                 </div>
             </div>
             <div className={classes.contentContainer}>
