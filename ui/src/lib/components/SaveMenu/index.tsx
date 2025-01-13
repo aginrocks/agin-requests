@@ -5,9 +5,10 @@ import { saveMenu } from './styles';
 import { useRequest, useWorkspace } from '@lib/hooks';
 import { useEffect } from 'react';
 import TreeItem from '../TreeItem';
-import { IconFolder } from '@tabler/icons-react';
+import { IconFolder, IconFolderPlus, IconPlus } from '@tabler/icons-react';
 import { VSCodeButton } from '@vscode/webview-ui-toolkit/react';
 import CollectionsView from '../CollectionsView';
+import SidebarSearch from '../SidebarSearch';
 
 export type SaveMenuForm = {
     name: string;
@@ -47,12 +48,12 @@ export default function SaveMenu({ onClose }: SaveMenuProps) {
                 </div>
                 <Input placeholder="Request name" variant='compact' label="Request name" {...form.getInputProps('name')} />
                 <div className={classes.searchBar}>
-                    <Input placeholder="Search..." variant='compact' label="Select Collection" separate {...form.getInputProps('collection')} />
+                    <div className={classes.treeLabel}>Select Collection</div>
+                    <SidebarSearch withPaddings={false} rightSection={<ActionIcon icon={IconPlus} onClick={() => workspace.createEmptyCollection('')} />} variant='compact' {...form.getInputProps('collection')} />
                 </div>
             </div>
             <div className={classes.tree}>
-                {/* FIXME */}
-                <CollectionsView collections={workspace.collections} rightSection={<></>} />
+                <CollectionsView collections={workspace.collections} rightSection={({ item }) => <ActionIcon icon={IconFolderPlus} size={14} onClick={() => workspace.createEmptyCollection(`${item.path === '' ? item.path : `${item.path}/`}${item.slug}`)} />} />
             </div>
             <div className={classes.actions}>
                 <VSCodeButton className={classes.button}>

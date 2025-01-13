@@ -2,14 +2,9 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { SidebarProvider } from './SidebarProvider';
-import path from 'path';
-import { getMonacoTheme } from './helpers';
-import axios from 'axios';
-import { convertCheckableFields, generateHtml } from './util';
-import { AxiosRequestConfig } from 'axios';
-import qs from 'qs';
 import createRequestWebview from './createRequestView';
 import { importCurl } from './util/importCurl';
+import { WorkspaceManager as workspace } from './WorkspaceManager';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -57,6 +52,12 @@ export function activate(context: vscode.ExtensionContext) {
         await importCurl(context);
     });
     context.subscriptions.push(importCurlCmd);
+
+    const reloadDb = vscode.commands.registerCommand('agin-requests.reloadDatabase', async () => {
+        await workspace.loadManifest();
+        await workspace.loadCollections();
+    });
+    context.subscriptions.push(reloadDb);
 }
 
 // This method is called when your extension is deactivated

@@ -3,13 +3,13 @@ import { ServerEvent } from "../createRequestView";
 import { VSCodeMessage } from "@shared/types";
 
 export class Handler {
-    panel: vscode.WebviewPanel;
+    webview: vscode.Webview;
     messages: ServerEvent<any>[] = [];
     prefix: string;
 
-    constructor(prefix: string, panel: vscode.WebviewPanel) {
+    constructor(prefix: string, panel: vscode.Webview) {
         this.prefix = prefix;
-        this.panel = panel;
+        this.webview = panel;
     }
 
     async onMessage(message: VSCodeMessage): Promise<void> {
@@ -20,6 +20,6 @@ export class Handler {
         this.messages.push(message);
         console.log('sending');
 
-        this.panel.webview.postMessage({ command: 'realtime.message', data: message });
+        this.webview.postMessage({ command: 'realtime.message', data: message });
     }
 }

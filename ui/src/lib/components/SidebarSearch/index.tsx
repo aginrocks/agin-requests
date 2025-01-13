@@ -1,17 +1,17 @@
 import React from "react";
-import Input from "../Input";
+import Input, { InputProps } from "../Input";
 import { searchContainer } from "./styles";
 
 type ContainerVariants = Exclude<Parameters<typeof searchContainer>[0], undefined>;
 
-export interface SidebarSearchProps extends ContainerVariants {
+export interface SidebarSearchProps extends ContainerVariants, InputProps {
     rightSection?: React.ReactNode;
 }
 
-export default function SidebarSearch({ rightSection, paddingRight }: SidebarSearchProps) {
+export default function SidebarSearch({ rightSection, paddingRight, withPaddings = true, ...props }: SidebarSearchProps) {
     return (
-        <div className={searchContainer({ paddingRight })}>
-            <Input placeholder="Search..." variant="compact" />
+        <div className={searchContainer({ paddingRight, withPaddings })}>
+            <Input placeholder="Search..." variant="compact" {...props} />
             {rightSection}
         </div>
     )

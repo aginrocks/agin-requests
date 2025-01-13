@@ -89,7 +89,7 @@ export class HTTPHandler extends Handler {
                         },
                     };
 
-                    this.panel.webview.postMessage({ command: 'request.finished', data: resData });
+                    this.webview.postMessage({ command: 'request.finished', data: resData });
                 } catch (error) {
                     let message = 'Unknown Error';
                     if (error instanceof Error) message = error.message;
@@ -106,7 +106,7 @@ export class HTTPHandler extends Handler {
                             time: 0,
                         },
                     };
-                    this.panel.webview.postMessage({ command: 'request.finished', data: resData, });
+                    this.webview.postMessage({ command: 'request.finished', data: resData, });
                 }
             }
         }

@@ -4,8 +4,8 @@ import { Collection, VSCodeMessage } from '@shared/types';
 import * as vscode from 'vscode';
 
 export class WorkspaceHandler extends Handler {
-    constructor(prefix: string, panel: vscode.WebviewPanel) {
-        super(prefix, panel);
+    constructor(prefix: string, webview: vscode.Webview) {
+        super(prefix, webview);
         workspace.on('collections-updated', (collections) => {
             this.onCollectionsChanged(collections);
         });
@@ -19,13 +19,13 @@ export class WorkspaceHandler extends Handler {
     }
 
     private onCollectionsChanged(collections: Collection[]) {
-        this.panel.webview.postMessage({ command: 'workspace.collections', data: collections });
+        this.webview.postMessage({ command: 'workspace.collections', data: collections });
     }
 
     async onMessage(message: VSCodeMessage): Promise<void> {
         if (message.command === 'workspace.folder.get') {
             const folder = workspace.folder;
-            this.panel.webview.postMessage({ command: 'workspace.folder', data: folder });
+            this.webview.postMessage({ command: 'workspace.folder', data: folder });
 
         } else if (message.command === 'workspace.open') {
             await workspace.setFolder(message.data);
@@ -35,6 +35,9 @@ export class WorkspaceHandler extends Handler {
 
             if (!workspace.collections) return;
             this.onCollectionsChanged(workspace.collections);
+
+        } else if (message.command === 'workspace.collections.createEmpty') {
+            await workspace.createEmptyCollection(message.path);
 
         }
     }

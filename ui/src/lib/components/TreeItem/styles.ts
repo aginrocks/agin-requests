@@ -6,7 +6,8 @@ export const tree = sva({
         base: {
             '& [data-line]': {
                 opacity: 1,
-            }
+            },
+            userSelect: 'none',
         },
         header: {
             borderRadius: '10px',

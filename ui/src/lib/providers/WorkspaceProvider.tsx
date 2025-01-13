@@ -1,18 +1,20 @@
 import { useVsCodeApi } from '@lib/hooks';
 import { Collection, VSCodeMessage } from '@shared/types';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
 import { WorkspaceFolder } from 'vscode';
 
 export type Workspace = {
     folders: WorkspaceFolder[] | undefined;
     openedFolder: WorkspaceFolder | undefined;
     collections: Collection[];
+    createEmptyCollection: (path: string) => Promise<void>;
 }
 
 const initialWorkspace: Workspace = {
     folders: undefined,
     openedFolder: undefined,
     collections: [],
+    createEmptyCollection: async () => { },
 }
 
 export const WorkspaceContext = createContext<Workspace>(initialWorkspace);
@@ -50,8 +52,12 @@ export default function WorkspaceProvider({ children }: { children: React.ReactN
         };
     }, []);
 
+    const createEmptyCollection = useCallback(async (path: string) => {
+        vscode.postMessage({ command: 'workspace.collections.createEmpty', path });
+    }, [vscode.postMessage]);
+
     return (
-        <WorkspaceContext.Provider value={{ folders, openedFolder, collections }}>
+        <WorkspaceContext.Provider value={{ folders, openedFolder, collections, createEmptyCollection }}>
             {children}
         </WorkspaceContext.Provider>
     )

@@ -36,7 +36,7 @@ export class SocketIOHandler extends Handler {
             });
 
             this.socket.on('connect', () => {
-                this.panel.webview.postMessage({ command: 'realtime.connected', data: true });
+                this.webview.postMessage({ command: 'realtime.connected', data: true });
                 this.addMessage({
                     receivedAt: new Date(),
                     type: 'connected',
@@ -45,7 +45,7 @@ export class SocketIOHandler extends Handler {
             });
 
             this.socket.on('disconnect', (reason) => {
-                this.panel.webview.postMessage({ command: 'realtime.connected', data: false });
+                this.webview.postMessage({ command: 'realtime.connected', data: false });
                 this.addMessage({
                     receivedAt: new Date(),
                     type: 'disconnected',
@@ -56,7 +56,7 @@ export class SocketIOHandler extends Handler {
             this.socket.on('connect_error', (error) => {
                 console.log(error);
 
-                this.panel.webview.postMessage({ command: 'realtime.connected', data: false });
+                this.webview.postMessage({ command: 'realtime.connected', data: false });
                 this.addMessage({
                     receivedAt: new Date(),
                     type: 'disconnected',

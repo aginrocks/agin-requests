@@ -51,7 +51,7 @@ export class WorkspaceManager {
         await this.loadCollections();
     }
 
-    private static async loadManifest() {
+    public static async loadManifest() {
         if (!WorkspaceManager.baseUri) return;
 
         const readmePath = vscode.Uri.joinPath(WorkspaceManager.baseUri, 'README.md');
@@ -113,6 +113,30 @@ export class WorkspaceManager {
         WorkspaceManager.emitter.emit('collections-updated', collections);
     }
 
+    public static async createEmptyCollection(path: string) {
+        if (!WorkspaceManager.baseUri) return;
+
+        const isLabeledAsFolder = path !== '';
+
+        const collectionName = await vscode.window.showInputBox({
+            prompt: `Enter the ${isLabeledAsFolder ? 'folder' : 'collection'} name`,
+            placeHolder: `${isLabeledAsFolder ? 'Folder' : 'Collection'} name`,
+            validateInput: (input) => {
+                if (input == '_collection') return `Choose a different name for the ${isLabeledAsFolder ? 'folder' : 'collection'}.`;
+                return null;
+            }
+        });
+
+        if (!collectionName || collectionName === '_collection') return;
+
+        return await this.createCollection(path, {
+            authType: 'none',
+            headers: [],
+            label: collectionName,
+            type: 'collection',
+        });
+    }
+
     public static async createCollection(path: string, options: CreateCollectionOptions) {
         if (!WorkspaceManager.baseUri) return;
         const collectionPath = vscode.Uri.joinPath(WorkspaceManager.baseUri, 'agin-collections', path);
@@ -127,9 +151,13 @@ export class WorkspaceManager {
             ...options,
             requests: [],
             children: [],
+            path,
         }
 
-        if (collection.slug == '_collection') return vscode.window.showErrorMessage('Choose a different name for the collection.');
+        if (collection.slug == '_collection') {
+            vscode.window.showErrorMessage('Choose a different name for the collection.');
+            return;
+        }
         const basePath = vscode.Uri.joinPath(collectionPath, collection.slug);
 
         await ensureFolderExists(basePath);
@@ -143,7 +171,7 @@ export class WorkspaceManager {
 
         WorkspaceManager.emitter.emit('collection-created', manifestPath.toString());
 
-        return slug;
+        return collection;
     }
 
     public static async createRequest(collectionPath: string, requestOptions: RequestConfig) {
@@ -156,7 +184,10 @@ export class WorkspaceManager {
             ...requestOptions,
         }
 
-        if (slug == '_collection') return vscode.window.showErrorMessage('Choose a different name for the request.');
+        if (slug == '_collection') {
+            vscode.window.showErrorMessage('Choose a different name for the request.');
+            return;
+        }
         const basePath = vscode.Uri.joinPath(WorkspaceManager.baseUri, 'agin-collections', collectionPath);
         await ensureFolderExists(basePath);
 
@@ -168,7 +199,7 @@ export class WorkspaceManager {
 
         WorkspaceManager.emitter.emit('request-created', requestPath.toString());
 
-        return slug;
+        return request;
     }
 
     private static async readRequest(uri: vscode.Uri): Promise<RequestConfig | undefined> {
@@ -202,10 +233,12 @@ export class WorkspaceManager {
 
         }
 
+        const relativePath = uri.path.split('/agin-collections/')[1]?.split('/').slice(0, -1).join('/') ?? '';
         return {
             ...manifest,
             children: collections,
             requests,
+            path: relativePath,
         }
     }
 

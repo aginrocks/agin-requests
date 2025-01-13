@@ -15,6 +15,7 @@ export type CollectionManifest = {
 export type Collection = CollectionManifest & {
     children: Collection[];
     requests: RequestConfig[];
+    path: string;
 }
 
 export type CreateCollectionOptions = {

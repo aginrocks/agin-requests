@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { generateHtml } from "./util";
 import createRequestWebview from "./createRequestView";
 import { importCurl } from "./util/importCurl";
-
+import { WorkspaceHandler } from "./handlers/WorkspaceHandler";
 
 export type FormItem = {
     name: string,
@@ -35,6 +35,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
         webviewView.webview.html = generateHtml(this._extensionUri, webviewView.webview, 'menu');
 
+        const workspaceHandler = new WorkspaceHandler('workspace', webviewView.webview);
+
         // Listen for messages from the Sidebar component and execute action
         webviewView.webview.onDidReceiveMessage(async (data) => {
             if (data.command == 'requests.new') {
@@ -55,10 +57,12 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                 }
             } else if (data.command == 'import.curl') {
                 await importCurl(this.context);
+
             } else if (data.command == 'folders.get') {
                 webviewView.webview.postMessage({ command: 'folders', data: vscode.workspace.workspaceFolders });
-            } else if (data.command == 'workspace.open') {
-                // TODO
+
+            } else if (data.command.startsWith('workspace.')) {
+                workspaceHandler.onMessage(data);
             }
         });
 

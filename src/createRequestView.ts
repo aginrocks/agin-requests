@@ -31,11 +31,11 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
 
     let initial = { ...initialData };
 
-    const httpHandler = new HTTPHandler('request', panel);
-    const sseHandler = new SSEHandler('sse', panel);
-    const wsHandler = new WSHandler('ws', panel);
-    const ioHandler = new SocketIOHandler('io', panel);
-    const workspaceHandler = new WorkspaceHandler('workspace', panel);
+    const httpHandler = new HTTPHandler('request', panel.webview);
+    const sseHandler = new SSEHandler('sse', panel.webview);
+    const wsHandler = new WSHandler('ws', panel.webview);
+    const ioHandler = new SocketIOHandler('io', panel.webview);
+    const workspaceHandler = new WorkspaceHandler('workspace', panel.webview);
 
     panel.webview.onDidReceiveMessage(
         async (message: VSCodeMessage) => {
@@ -111,7 +111,7 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
                 type: 'collection',
             });
 
-            await manager.createRequest(col ?? '', {
+            await manager.createRequest(col?.slug ?? '', {
                 authType: 'none',
                 headers: [],
                 label: 'Test Request',

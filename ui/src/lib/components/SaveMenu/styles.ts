@@ -1,7 +1,7 @@
 import { sva } from '@styled-system/css';
 
 export const saveMenu = sva({
-    slots: ['container', 'header', 'title', 'subtitle', 'searchBar', 'actions', 'button', 'buttonText', 'menu', 'tree'],
+    slots: ['container', 'header', 'title', 'subtitle', 'searchBar', 'actions', 'button', 'buttonText', 'menu', 'tree', 'treeLabel'],
     base: {
         container: {
             width: '300px',
@@ -49,6 +49,11 @@ export const saveMenu = sva({
             maxHeight: '400px',
             overflowX: 'hidden',
             overflowY: 'auto',
+        },
+        treeLabel: {
+            fontSize: '12px',
+            fontWeight: 500,
+            marginBottom: '6px',
         }
     },
 });

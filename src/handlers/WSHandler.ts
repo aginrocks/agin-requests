@@ -23,7 +23,7 @@ export class WSHandler extends Handler {
 
             if (this.ws) {
                 this.ws.close();
-                this.panel.webview.postMessage({ command: 'realtime.connected', data: false });
+                this.webview.postMessage({ command: 'realtime.connected', data: false });
             }
             this.ws = new WebSocket(request.url, {
                 headers,
@@ -31,7 +31,7 @@ export class WSHandler extends Handler {
             this.ws.addEventListener('open', () => {
                 console.log('OPENED');
 
-                this.panel.webview.postMessage({ command: 'realtime.connected', data: true });
+                this.webview.postMessage({ command: 'realtime.connected', data: true });
                 this.addMessage({
                     receivedAt: new Date(),
                     type: 'connected',
@@ -51,7 +51,7 @@ export class WSHandler extends Handler {
             this.ws.addEventListener('error', (err) => {
                 console.log({ err });
 
-                this.panel.webview.postMessage({ command: 'realtime.connected', data: false });
+                this.webview.postMessage({ command: 'realtime.connected', data: false });
 
                 this.addMessage({
                     receivedAt: new Date(),
@@ -60,7 +60,7 @@ export class WSHandler extends Handler {
                 });
             });
             this.ws.addEventListener('close', () => {
-                this.panel.webview.postMessage({ command: 'realtime.connected', data: false });
+                this.webview.postMessage({ command: 'realtime.connected', data: false });
 
                 this.addMessage({
                     receivedAt: new Date(),

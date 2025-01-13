@@ -1,10 +1,7 @@
-import { css, cva } from "@styled-system/css";
+import { cva } from '@styled-system/css';
 
 export const searchContainer = cva({
     base: {
-        padding: '15px',
-        paddingTop: '0px',
-        paddingBottom: '5px',
         display: 'flex',
         alignItems: 'center',
         gap: '5px',
@@ -14,6 +11,16 @@ export const searchContainer = cva({
             sm: {
                 paddingRight: '10px',
             }
+        },
+        withPaddings: {
+            true: {
+                padding: '15px',
+                paddingTop: '0px',
+                paddingBottom: '5px',
+            }
         }
+    },
+    defaultVariants: {
+        withPaddings: true,
     }
 });

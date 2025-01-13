@@ -80,4 +80,7 @@ export type VSCodeMessage = {
     type: RequestConfig['type'];
 } | {
     command: 'import.curl',
+} | {
+    command: 'workspace.collections.createEmpty',
+    path: string;
 }

@@ -4,7 +4,7 @@ import { containerStyles, input, inputContainer, labelStyles, rightSectionStyles
 type InputVariants = Exclude<Parameters<typeof inputContainer>[0], undefined>;
 type LabelVariants = Exclude<Parameters<typeof labelStyles>[0], undefined>;
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>, InputVariants, LabelVariants {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>, InputVariants, LabelVariants {
     rightSection?: React.ReactNode;
     label?: string;
 }

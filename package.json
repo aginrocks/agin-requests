@@ -59,6 +59,11 @@
         "command": "agin-requests.settings",
         "title": "Extension Settings",
         "category": "Agin Requests"
+      },
+      {
+        "command": "agin-requests.reloadDatabase",
+        "title": "Reload Database",
+        "category": "Agin Requests"
       }
     ],
     "viewsContainers": {
