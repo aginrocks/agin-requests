@@ -27,8 +27,19 @@ export class WorkspaceManager {
     public static manifest?: WorkspaceManifest;
     public static collections?: Collection[];
     private static emitter = new EventEmitter();
+    private static watcher: vscode.FileSystemWatcher;
 
-    private constructor() { }
+    private constructor() {
+        WorkspaceManager.watcher = vscode.workspace.createFileSystemWatcher(`**/${STORAGE_FOLDER}/**`);
+        const handler = async (e: vscode.Uri) => {
+            console.log('File changed', e);
+            await WorkspaceManager.loadManifest();
+            await WorkspaceManager.loadCollections();
+        }
+        WorkspaceManager.watcher.onDidChange(handler);
+        WorkspaceManager.watcher.onDidCreate(handler);
+        WorkspaceManager.watcher.onDidDelete(handler);
+    }
 
     public static getInstance(): WorkspaceManager {
         if (!WorkspaceManager.instance) {
@@ -240,6 +251,22 @@ export class WorkspaceManager {
             requests,
             path: relativePath,
         }
+    }
+
+    public static async deleteCollectionConfirm(path: string) {
+        const confirm = await vscode.window.showInformationMessage(`Are you sure you want to delete the collection?`, 'Delete', 'Cancel');
+        if (confirm !== 'Delete') return;
+
+        await this.deleteCollection(path);
+    }
+
+    public static async deleteCollection(path: string) {
+        if (!this.baseUri) return;
+
+        const collectionPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path);
+        await vscode.workspace.fs.delete(collectionPath, { recursive: true });
+
+        await this.loadCollections();
     }
 
     public static on<E extends keyof WMEvents>(event: E, listener: WMEvents[E]) {

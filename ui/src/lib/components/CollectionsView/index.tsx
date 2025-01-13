@@ -14,7 +14,7 @@ export const SelectedContext = createContext<string | undefined>(undefined);
 export default function CollectionsView({ collections, onCollectionClick, rightSection: RightSection }: CollectionsViewProps) {
     return (
         <div>
-            {collections.map(c => <TreeItem label={c.label} key={c.id} rightSection={RightSection ? <RightSection item={c} /> : undefined} icon={c.path === '' ? undefined : IconFolder}>
+            {collections.map(c => <TreeItem label={c.label} key={c.id} path={c.path} slug={c.slug} rightSection={RightSection ? <RightSection item={c} /> : undefined} icon={c.path === '' ? undefined : IconFolder}>
                 {c.children.length > 0 && <CollectionsView collections={c.children} onCollectionClick={onCollectionClick} rightSection={RightSection} />}
             </TreeItem>)}
         </div>

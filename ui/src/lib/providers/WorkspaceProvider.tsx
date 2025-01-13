@@ -8,6 +8,8 @@ export type Workspace = {
     openedFolder: WorkspaceFolder | undefined;
     collections: Collection[];
     createEmptyCollection: (path: string) => Promise<void>;
+    deleteCollection: (path: string) => Promise<void>;
+    deleteCollectionConfirm: (path: string) => Promise<void>;
 }
 
 const initialWorkspace: Workspace = {
@@ -15,6 +17,8 @@ const initialWorkspace: Workspace = {
     openedFolder: undefined,
     collections: [],
     createEmptyCollection: async () => { },
+    deleteCollection: async () => { },
+    deleteCollectionConfirm: async () => { },
 }
 
 export const WorkspaceContext = createContext<Workspace>(initialWorkspace);
@@ -56,8 +60,16 @@ export default function WorkspaceProvider({ children }: { children: React.ReactN
         vscode.postMessage({ command: 'workspace.collections.createEmpty', path });
     }, [vscode.postMessage]);
 
+    const deleteCollection = useCallback(async (path: string) => {
+        vscode.postMessage({ command: 'workspace.collections.delete', path });
+    }, [vscode.postMessage]);
+
+    const deleteCollectionConfirm = useCallback(async (path: string) => {
+        vscode.postMessage({ command: 'workspace.collections.deleteConfirm', path });
+    }, [vscode.postMessage]);
+
     return (
-        <WorkspaceContext.Provider value={{ folders, openedFolder, collections, createEmptyCollection }}>
+        <WorkspaceContext.Provider value={{ folders, openedFolder, collections, createEmptyCollection, deleteCollection, deleteCollectionConfirm }}>
             {children}
         </WorkspaceContext.Provider>
     )

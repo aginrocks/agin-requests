@@ -39,6 +39,12 @@ export class WorkspaceHandler extends Handler {
         } else if (message.command === 'workspace.collections.createEmpty') {
             await workspace.createEmptyCollection(message.path);
 
+        } else if (message.command === 'workspace.collections.delete') {
+            await workspace.deleteCollection(message.path);
+
+        } else if (message.command === 'workspace.collections.deleteConfirm') {
+            await workspace.deleteCollectionConfirm(message.path);
+
         }
     }
 }

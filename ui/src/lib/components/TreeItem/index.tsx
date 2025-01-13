@@ -5,6 +5,7 @@ import { Icon, IconChevronDown, IconChevronRight, IconCopy, IconDots, IconFolder
 import ActionIcon from "../ActionIcon";
 import Menu from "../Menu";
 import { Option } from "../Menu/Option";
+import { useWorkspace } from "@lib/hooks";
 
 export type TreeItemProps = {
     children?: React.ReactNode;
@@ -15,15 +16,19 @@ export type TreeItemProps = {
     icon?: Icon;
     selected?: boolean;
     rightSection?: React.ReactNode;
+    path?: string;
+    slug?: string;
 }
 
 // export const NestLevelContext = createContext<number>(0);
 
 // TODO: Fix line hiding
-export default function TreeItem({ children, label, icon: Icon, selected = false, rightSection, description, headerComponent }: TreeItemProps) {
+export default function TreeItem({ children, label, icon: Icon, selected = false, rightSection, path, slug, description, headerComponent }: TreeItemProps) {
     const [opened, { open, close, toggle }] = useDisclosure(false);
 
     const classes = tree({ expanded: opened, selected });
+
+    const workspace = useWorkspace();
 
     const [menuOpeed, menu] = useDisclosure(false);
 
@@ -52,10 +57,16 @@ export default function TreeItem({ children, label, icon: Icon, selected = false
                         position="bottomEnd"
                     >
                         <Option label="New Request" value="" icon={IconPlus} />
-                        <Option label="New Folder" value="" icon={IconFolderPlus} />
+                        <Option label="New Folder" value="" icon={IconFolderPlus} onClick={async () => {
+                            menu.close();
+                            await workspace.createEmptyCollection(`${path === '' ? path : `${path}/`}${slug}`);
+                        }} />
                         <Option label="Rename" value="" icon={IconPencil} />
                         <Option label="Duplicate" value="" icon={IconCopy} />
-                        <Option label="Delete" value="" icon={IconTrash} optionColor="danger.foreground" />
+                        <Option label="Delete" value="" icon={IconTrash} optionColor="danger.foreground" onClick={async () => {
+                            menu.close();
+                            await workspace.deleteCollectionConfirm(`${path === '' ? path : `${path}/`}${slug}`);
+                        }} />
                     </Menu>}
                 </div>
             </div>
