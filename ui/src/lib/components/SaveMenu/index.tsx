@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import TreeItem from '../TreeItem';
 import { IconFolder, IconFolderPlus, IconPlus } from '@tabler/icons-react';
 import { VSCodeButton } from '@vscode/webview-ui-toolkit/react';
-import CollectionsView from '../CollectionsView';
+import CollectionsView, { SelectedContext } from '../CollectionsView';
 import SidebarSearch from '../SidebarSearch';
 
 export type SaveMenuForm = {
@@ -49,11 +49,16 @@ export default function SaveMenu({ onClose }: SaveMenuProps) {
                 <Input placeholder="Request name" variant='compact' label="Request name" {...form.getInputProps('name')} />
                 <div className={classes.searchBar}>
                     <div className={classes.treeLabel}>Select Collection</div>
-                    <SidebarSearch withPaddings={false} rightSection={<ActionIcon icon={IconPlus} onClick={() => workspace.createEmptyCollection('')} />} variant='compact' {...form.getInputProps('collection')} />
+                    <SidebarSearch withPaddings={false} rightSection={<ActionIcon icon={IconPlus} onClick={() => workspace.createEmptyCollection('')} />} variant='compact' />
                 </div>
             </div>
             <div className={classes.tree}>
-                <CollectionsView collections={workspace.collections} rightSection={({ item }) => <ActionIcon icon={IconFolderPlus} size={14} onClick={() => workspace.createEmptyCollection(`${item.path === '' ? item.path : `${item.path}/`}${item.slug}`)} />} />
+                <SelectedContext.Provider value={form.values.collection}>
+                    <CollectionsView collections={workspace.collections} onCollectionClick={(col, event) => {
+                        event.stopPropagation();
+                        form.setFieldValue('collection', col.id);
+                    }} rightSection={({ item }) => <ActionIcon icon={IconFolderPlus} size={14} onClick={() => workspace.createEmptyCollection(`${item.path === '' ? item.path : `${item.path}/`}${item.slug}`)} />} />
+                </SelectedContext.Provider>
             </div>
             <div className={classes.actions}>
                 <VSCodeButton className={classes.button}>

@@ -18,12 +18,13 @@ export type TreeItemProps = {
     rightSection?: React.ReactNode;
     path?: string;
     slug?: string;
+    onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 // export const NestLevelContext = createContext<number>(0);
 
 // TODO: Fix line hiding
-export default function TreeItem({ children, label, icon: Icon, selected = false, rightSection, path, slug, description, headerComponent }: TreeItemProps) {
+export default function TreeItem({ children, label, icon: Icon, selected = false, rightSection, path, slug, onClick, description, headerComponent }: TreeItemProps) {
     const [opened, { open, close, toggle }] = useDisclosure(false);
 
     const classes = tree({ expanded: opened, selected });
@@ -33,11 +34,14 @@ export default function TreeItem({ children, label, icon: Icon, selected = false
     const [menuOpeed, menu] = useDisclosure(false);
 
     return (
-        <div className={classes.base}>
+        <div className={classes.base} onClick={onClick}>
             <div className={classes.header}>
                 <div className={classes.headerLeft}>
                     <div className={classes.icon}>
-                        <ActionIcon icon={opened ? IconChevronDown : IconChevronRight} size={14} onClick={toggle} />
+                        <ActionIcon icon={opened ? IconChevronDown : IconChevronRight} size={14} onClick={(e) => {
+                            e.stopPropagation();
+                            toggle();
+                        }} />
                     </div>
                     {Icon && <div className={classes.icon}>
                         <Icon size={14} />

@@ -27,18 +27,18 @@ export class WorkspaceManager {
     public static manifest?: WorkspaceManifest;
     public static collections?: Collection[];
     private static emitter = new EventEmitter();
-    private static watcher: vscode.FileSystemWatcher;
+    // private static watcher: vscode.FileSystemWatcher;
 
     private constructor() {
-        WorkspaceManager.watcher = vscode.workspace.createFileSystemWatcher(`**/${STORAGE_FOLDER}/**`);
-        const handler = async (e: vscode.Uri) => {
-            console.log('File changed', e);
-            await WorkspaceManager.loadManifest();
-            await WorkspaceManager.loadCollections();
-        }
-        WorkspaceManager.watcher.onDidChange(handler);
-        WorkspaceManager.watcher.onDidCreate(handler);
-        WorkspaceManager.watcher.onDidDelete(handler);
+        // WorkspaceManager.watcher = vscode.workspace.createFileSystemWatcher(`**/${STORAGE_FOLDER}/**`);
+        // const handler = async (e: vscode.Uri) => {
+        //     console.log('File changed', e);
+        //     await WorkspaceManager.loadManifest();
+        //     await WorkspaceManager.loadCollections();
+        // }
+        // WorkspaceManager.watcher.onDidChange(handler);
+        // WorkspaceManager.watcher.onDidCreate(handler);
+        // WorkspaceManager.watcher.onDidDelete(handler);
     }
 
     public static getInstance(): WorkspaceManager {
