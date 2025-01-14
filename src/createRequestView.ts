@@ -25,7 +25,7 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
         retainContextWhenHidden: process.env.NODE_ENV === 'development' ? false : true,
     });
 
-    const iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets', 'tab.svg'));
+    const iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets/tabs', 'ws1.svg'));
 
     panel.iconPath = iconPath;
 
@@ -100,35 +100,35 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
     manager.on('collections-updated', (collections) => {
         console.log('collections-updated', collections);
     });
-    (async () => {
-        if (vscode.workspace.workspaceFolders) {
-            await manager.setFolder(vscode.workspace.workspaceFolders[0]);
+    // (async () => {
+    //     if (vscode.workspace.workspaceFolders) {
+    //         await manager.setFolder(vscode.workspace.workspaceFolders[0]);
 
-            const col = await manager.createCollection('', {
-                authType: 'none',
-                headers: [],
-                label: 'Test',
-                type: 'collection',
-            });
+    //         const col = await manager.createCollection('', {
+    //             authType: 'none',
+    //             headers: [],
+    //             label: 'Test',
+    //             type: 'collection',
+    //         });
 
-            await manager.createRequest(col?.slug ?? '', {
-                authType: 'none',
-                headers: [],
-                label: 'Test Request',
-                method: 'get',
-                url: 'https://jsonplaceholder.typicode.com/todos/1',
-                auth: {
+    //         await manager.createRequest(col?.slug ?? '', {
+    //             authType: 'none',
+    //             headers: [],
+    //             label: 'Test Request',
+    //             method: 'get',
+    //             url: 'https://jsonplaceholder.typicode.com/todos/1',
+    //             auth: {
 
-                },
-                isDraft: false,
-                params: [],
-                messages: [],
-                requestBodyType: 'none',
-                type: 'http',
-                id: randomUUID(),
-            });
-        }
-    })();
+    //             },
+    //             isDraft: false,
+    //             params: [],
+    //             messages: [],
+    //             requestBodyType: 'none',
+    //             type: 'http',
+    //             id: randomUUID(),
+    //         });
+    //     }
+    // })();
 
     panel.webview.html = generateHtml(context.extensionUri, panel.webview, 'request');
 }

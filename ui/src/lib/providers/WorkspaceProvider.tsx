@@ -1,5 +1,5 @@
 import { useVsCodeApi } from '@lib/hooks';
-import { Collection, VSCodeMessage } from '@shared/types';
+import { Collection, RequestConfig, VSCodeMessage } from '@shared/types';
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { WorkspaceFolder } from 'vscode';
 
@@ -10,6 +10,7 @@ export type Workspace = {
     createEmptyCollection: (path: string) => Promise<void>;
     deleteCollection: (path: string) => Promise<void>;
     deleteCollectionConfirm: (path: string) => Promise<void>;
+    createRequest: (collectionPath: string, requestOptions: RequestConfig) => Promise<void>;
 }
 
 const initialWorkspace: Workspace = {
@@ -19,6 +20,7 @@ const initialWorkspace: Workspace = {
     createEmptyCollection: async () => { },
     deleteCollection: async () => { },
     deleteCollectionConfirm: async () => { },
+    createRequest: async () => { },
 }
 
 export const WorkspaceContext = createContext<Workspace>(initialWorkspace);
@@ -68,8 +70,12 @@ export default function WorkspaceProvider({ children }: { children: React.ReactN
         vscode.postMessage({ command: 'workspace.collections.deleteConfirm', path });
     }, [vscode.postMessage]);
 
+    const createRequest = useCallback(async (collectionPath: string, requestOptions: RequestConfig) => {
+        vscode.postMessage({ command: 'workspace.requests.create', collectionPath, data: requestOptions });
+    }, [vscode.postMessage]);
+
     return (
-        <WorkspaceContext.Provider value={{ folders, openedFolder, collections, createEmptyCollection, deleteCollection, deleteCollectionConfirm }}>
+        <WorkspaceContext.Provider value={{ folders, openedFolder, collections, createEmptyCollection, deleteCollection, deleteCollectionConfirm, createRequest }}>
             {children}
         </WorkspaceContext.Provider>
     )

@@ -30,6 +30,9 @@ export const methodBadge = cva({
         padding: '4px 8px',
         fontSize: '10px',
         fontWeight: 600,
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4px',
     },
     variants: {
         method: {
@@ -65,6 +68,18 @@ export const methodBadge = cva({
                 backgroundColor: 'methods.ws.background',
                 color: 'methods.ws.foreground',
             },
+            socketio: {
+                backgroundColor: 'methods.socketio.background',
+                color: 'methods.socketio.foreground',
+            },
+        },
+        type: {
+            iconAndLabel: {
+                paddingLeft: '4px',
+            },
+            onlyIcon: {
+                padding: '4px',
+            }
         }
-    }
+    },
 });

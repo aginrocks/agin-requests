@@ -23,7 +23,6 @@ export const tree = sva({
                 visibility: 'hidden',
             },
             '&:hover': {
-                backgroundColor: 'var(--vscode-list-hoverBackground)',
                 '& [data-more-actions]': {
                     opacity: 1,
                     visibility: 'visible',
@@ -86,7 +85,16 @@ export const tree = sva({
         selected: {
             true: {
                 header: {
-                    backgroundColor: 'var(--vscode-list-hoverBackground)',
+                    // backgroundColor: 'var(--vscode-list-hoverBackground)',
+                    backgroundColor: 'color-mix(in srgb, var(--button-primary-background), var(--vscode-editor-background) 80%)',
+                    color: 'var(--button-primary-background)',
+                }
+            },
+            false: {
+                header: {
+                    '&:hover': {
+                        backgroundColor: 'var(--vscode-list-hoverBackground)',
+                    }
                 }
             }
         }

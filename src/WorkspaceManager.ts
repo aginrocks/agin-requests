@@ -195,7 +195,7 @@ export class WorkspaceManager {
             ...requestOptions,
         }
 
-        if (slug == '_collection') {
+        if (slug === '_collection') {
             vscode.window.showErrorMessage('Choose a different name for the request.');
             return;
         }

@@ -86,4 +86,10 @@ export type VSCodeMessage = {
 } | {
     command: 'workspace.collections.delete' | 'workspace.collections.deleteConfirm',
     path: string;
+} | {
+    command: 'workspace.requests.create',
+    data: RequestConfig;
+    collectionPath: string;
+} | {
+    command: 'request.cancel'
 }

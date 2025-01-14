@@ -20,7 +20,7 @@ export type AuthOptions = {
 }
 
 export type RequestType = 'ws' | 'socketio' | 'http' | 'sse';
-export type RequestMethod = 'get' | 'post' | 'patch' | 'put' | 'delete' | 'head' | 'options' | 'ws';
+export type RequestMethod = 'get' | 'post' | 'patch' | 'put' | 'delete' | 'head' | 'options' | 'ws' | 'socketio';
 
 export type RequestConfig = {
     id: string,

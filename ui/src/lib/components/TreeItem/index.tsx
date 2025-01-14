@@ -53,7 +53,10 @@ export default function TreeItem({ children, label, icon: Icon, selected = false
                     {rightSection ?? <Menu
                         target={
                             <div>
-                                <ActionIcon icon={IconDots} size={14} onClick={menu.open} />
+                                <ActionIcon icon={IconDots} size={14} onClick={(e) => {
+                                    e.stopPropagation();
+                                    menu.open();
+                                }} />
                             </div>
                         }
                         opened={menuOpeed}

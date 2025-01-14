@@ -162,7 +162,15 @@ export default defineConfig({
                 value: '#6bd731',
               },
               background: {
-                value: '#6bd7320',
+                value: '#6bd73120',
+              }
+            },
+            socketio: {
+              foreground: {
+                value: '#2bddae',
+              },
+              background: {
+                value: '#2bddae20',
               }
             },
           },

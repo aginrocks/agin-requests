@@ -32,8 +32,6 @@ const typesToIcons: Record<RequestType, Icon> = {
 export default function RequestTypeSelector() {
     const request = useRequest();
 
-    const [editMode, setEditMode] = useEditMode();
-
     const [renameOpened, rename] = useDisclosure(false);
 
     return (
@@ -47,7 +45,7 @@ export default function RequestTypeSelector() {
                         <div>
                             <div className={requestNameContainer} onClick={rename.open}>
                                 <div className={requestName({ isDraft: request?.values.isDraft })}>{request?.values.label || 'New Request'}</div>
-                                <MessageName label="Draft" withMargin={false} size="xs" clickable={false} />
+                                {request?.values.isDraft && <MessageName label="Draft" withMargin={false} size="xs" clickable={false} />}
                             </div>
                         </div>
                     }
