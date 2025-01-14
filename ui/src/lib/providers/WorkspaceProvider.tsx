@@ -13,6 +13,7 @@ export type Workspace = {
     createRequest: (collectionPath: string, requestOptions: RequestConfig) => Promise<void>;
     deleteRequest: (path: string, slug: string) => Promise<void>;
     deleteRequestConfirm: (path: string, slug: string) => Promise<void>;
+    duplicateCollection: (path: string) => Promise<void>;
 }
 
 const initialWorkspace: Workspace = {
@@ -25,6 +26,7 @@ const initialWorkspace: Workspace = {
     createRequest: async () => { },
     deleteRequest: async () => { },
     deleteRequestConfirm: async () => { },
+    duplicateCollection: async () => { },
 }
 
 export const WorkspaceContext = createContext<Workspace>(initialWorkspace);
@@ -86,8 +88,23 @@ export default function WorkspaceProvider({ children }: { children: React.ReactN
         vscode.postMessage({ command: 'workspace.requests.create', collectionPath, data: requestOptions });
     }, [vscode.postMessage]);
 
+    const duplicateCollection = useCallback(async (path: string) => {
+        vscode.postMessage({ command: 'workspace.collections.duplicate', path });
+    }, [vscode.postMessage]);
+
     return (
-        <WorkspaceContext.Provider value={{ folders, openedFolder, collections, createEmptyCollection, deleteCollection, deleteCollectionConfirm, createRequest, deleteRequest, deleteRequestConfirm }}>
+        <WorkspaceContext.Provider value={{
+            folders,
+            openedFolder,
+            collections,
+            createEmptyCollection,
+            deleteCollection,
+            deleteCollectionConfirm,
+            createRequest,
+            deleteRequest,
+            deleteRequestConfirm,
+            duplicateCollection,
+        }}>
             {children}
         </WorkspaceContext.Provider>
     )

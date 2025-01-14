@@ -152,9 +152,22 @@ export class WorkspaceManager {
         if (!WorkspaceManager.baseUri) return;
         const collectionPath = vscode.Uri.joinPath(WorkspaceManager.baseUri, 'agin-collections', path);
 
-        // TODO: Recursively create sub-collections
         const id = randomUUID();
         const slug = options.slug ?? createSlug(options.label);
+
+        // TODO: Recursively create sub-collections and requests
+        const ignoreIds = options.ignoreIds ?? false;
+        if (options.children) {
+            for (const child of options.children) {
+                await this.createCollection(`${path}/${slug}`, { ...child, id: ignoreIds ? randomUUID() : child.id, ignoreIds });
+            }
+        }
+
+        if (options.requests) {
+            for (const request of options.requests) {
+                await this.createRequest(`${path}/${slug}`, { ...request, id: ignoreIds ? randomUUID() : request.id });
+            }
+        }
 
         const collection: Collection = {
             id,
@@ -219,37 +232,41 @@ export class WorkspaceManager {
     }
 
     private static async readCollection(uri: vscode.Uri): Promise<Collection | undefined> {
-        const manifestPath = vscode.Uri.joinPath(uri, '_collection.yaml');
-        const manifest = yaml.parse((await vscode.workspace.fs.readFile(manifestPath)).toString()) as CollectionManifest;
+        try {
+            const manifestPath = vscode.Uri.joinPath(uri, '_collection.yaml');
+            const manifest = yaml.parse((await vscode.workspace.fs.readFile(manifestPath)).toString()) as CollectionManifest;
 
-        const items = await vscode.workspace.fs.readDirectory(uri);
+            const items = await vscode.workspace.fs.readDirectory(uri);
 
-        const collections: Collection[] = [];
-        const requests: RequestConfig[] = [];
-        for (const [col, type] of items) {
-            if (col == '_collection.yaml') continue;
-            const colPath = vscode.Uri.joinPath(uri, col);
+            const collections: Collection[] = [];
+            const requests: RequestConfig[] = [];
+            for (const [col, type] of items) {
+                if (col == '_collection.yaml') continue;
+                const colPath = vscode.Uri.joinPath(uri, col);
 
-            if (type == vscode.FileType.Directory) {
-                const colData = await this.readCollection(colPath);
-                if (!colData) continue;
+                if (type == vscode.FileType.Directory) {
+                    const colData = await this.readCollection(colPath);
+                    if (!colData) continue;
 
-                collections.push(colData);
-            } else if (type == vscode.FileType.File) {
-                const reqData = await this.readRequest(colPath);
-                if (!reqData) continue;
+                    collections.push(colData);
+                } else if (type == vscode.FileType.File) {
+                    const reqData = await this.readRequest(colPath);
+                    if (!reqData) continue;
 
-                requests.push(reqData);
+                    requests.push(reqData);
+                }
+
             }
 
-        }
-
-        const relativePath = uri.path.split('/agin-collections/')[1]?.split('/').slice(0, -1).join('/') ?? '';
-        return {
-            ...manifest,
-            children: collections,
-            requests,
-            path: relativePath,
+            const relativePath = uri.path.split('/agin-collections/')[1]?.split('/').slice(0, -1).join('/') ?? '';
+            return {
+                ...manifest,
+                children: collections,
+                requests,
+                path: relativePath,
+            }
+        } catch (error) {
+            return undefined;
         }
     }
 
@@ -283,6 +300,38 @@ export class WorkspaceManager {
         await vscode.workspace.fs.delete(requestPath);
 
         await this.loadCollections();
+    }
+
+    public static async duplicateCollection(path: string) {
+        if (!this.baseUri) return;
+
+        const collectionPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path);
+        const collection = await this.readCollection(collectionPath);
+        if (!collection) return;
+
+        const containingPath = path.split('/').slice(0, -1).join('/');
+
+        const newName = collection.label + ' Copy';
+        const newSlug = createSlug(newName);
+        const newPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', containingPath, newSlug);
+
+        if (await this.readCollection(newPath)) {
+            return vscode.window.showErrorMessage('This collection\'s duplicate already exists. Please rename the duplicate and try again.');
+        }
+
+        const newCollection: CreateCollectionOptions = {
+            ...collection,
+            id: randomUUID(),
+            label: newName,
+            slug: newSlug,
+            ignoreIds: true,
+        };
+
+        await this.createCollection(containingPath, newCollection);
+
+        await this.loadCollections();
+
+        return newCollection;
     }
 
     public static on<E extends keyof WMEvents>(event: E, listener: WMEvents[E]) {

@@ -99,4 +99,7 @@ export type VSCodeMessage = {
     command: 'workspace.requests.delete' | 'workspace.requests.deleteConfirm';
     path: string;
     slug: string;
+} | {
+    command: 'workspace.collections.duplicate';
+    path: string;
 }

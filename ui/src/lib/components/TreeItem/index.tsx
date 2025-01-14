@@ -9,6 +9,7 @@ import { useWorkspace } from "@lib/hooks";
 import { AnimatePresence, motion } from "motion/react";
 import { RequestOptions } from "../MenuButton";
 import Divider from "../Divider";
+import { createPath } from "@lib/util";
 
 export type TreeItemProps = {
     children?: React.ReactNode;
@@ -80,8 +81,8 @@ export default function TreeItem({ children, label, icon: Icon, selected = false
                         <AnimatePresence mode="wait">
                             <motion.div
                                 initial={{ opacity: 0, transform: `translateX(${10 * direction}px)` }}
-                                animate={{ opacity: 1, transform: 'translateX(0px)' }}
-                                exit={{ opacity: 0, transform: `translateX(${-10 * direction}px)` }}
+                                animate={{ opacity: 1, transform: 'translateX(0px)', transition: { duration: .15 } }}
+                                exit={{ opacity: 0, transform: `translateX(${-10 * direction}px)`, transition: { duration: .15 } }}
                                 key={menuTab}
                             >
                                 {menuTab === 'main' && <>
@@ -93,13 +94,16 @@ export default function TreeItem({ children, label, icon: Icon, selected = false
                                     }} />
                                     <Option label="New Folder" value="" icon={IconFolderPlus} onClick={async () => {
                                         menu.close();
-                                        await workspace.createEmptyCollection(`${path === '' ? path : `${path}/`}${slug}`);
+                                        await workspace.createEmptyCollection(createPath({ path, slug }));
                                     }} />
                                     <Option label="Rename" value="" icon={IconPencil} />
-                                    <Option label="Duplicate" value="" icon={IconCopy} />
+                                    <Option label="Duplicate" value="" icon={IconCopy} onClick={async () => {
+                                        menu.close();
+                                        await workspace.duplicateCollection(createPath({ path, slug }));
+                                    }} />
                                     <Option label="Delete" value="" icon={IconTrash} optionColor="danger.foreground" onClick={async () => {
                                         menu.close();
-                                        await workspace.deleteCollectionConfirm(`${path === '' ? path : `${path}/`}${slug}`);
+                                        await workspace.deleteCollectionConfirm(createPath({ path, slug }));
                                     }} />
                                 </>}
                                 {menuTab === 'requestTypes' && <>
