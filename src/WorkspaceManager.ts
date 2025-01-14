@@ -269,6 +269,22 @@ export class WorkspaceManager {
         await this.loadCollections();
     }
 
+    public static async deleteRequestConfirm(path: string, slug: string) {
+        const confirm = await vscode.window.showInformationMessage(`Are you sure you want to delete the request?`, 'Delete', 'Cancel');
+        if (confirm !== 'Delete') return;
+
+        await this.deleteRequest(path, slug);
+    }
+
+    public static async deleteRequest(path: string, slug: string) {
+        if (!this.baseUri) return;
+
+        const requestPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, `${slug}.yaml`);
+        await vscode.workspace.fs.delete(requestPath);
+
+        await this.loadCollections();
+    }
+
     public static on<E extends keyof WMEvents>(event: E, listener: WMEvents[E]) {
         WorkspaceManager.emitter.on(event, listener);
     }

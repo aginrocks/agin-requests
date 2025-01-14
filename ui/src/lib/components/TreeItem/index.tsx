@@ -1,11 +1,14 @@
 import { useDisclosure } from "@mantine/hooks";
 import { tree } from "./styles";
-import { createContext } from "react";
-import { Icon, IconChevronDown, IconChevronRight, IconCopy, IconDots, IconFolderPlus, IconPencil, IconPlus, IconTrash } from "@tabler/icons-react";
+import { createContext, useEffect, useRef, useState } from "react";
+import { Icon, IconArrowLeft, IconChevronDown, IconChevronRight, IconCopy, IconDots, IconFolderPlus, IconPencil, IconPlus, IconTrash } from "@tabler/icons-react";
 import ActionIcon from "../ActionIcon";
 import Menu from "../Menu";
 import { Option } from "../Menu/Option";
 import { useWorkspace } from "@lib/hooks";
+import { AnimatePresence, motion } from "motion/react";
+import { RequestOptions } from "../MenuButton";
+import Divider from "../Divider";
 
 export type TreeItemProps = {
     children?: React.ReactNode;
@@ -31,11 +34,20 @@ export default function TreeItem({ children, label, icon: Icon, selected = false
 
     const workspace = useWorkspace();
 
-    const [menuOpeed, menu] = useDisclosure(false);
+    const [menuOpened, menu] = useDisclosure(false);
+
+    const [direction, setDirection] = useState<1 | -1>(1);
+    const [menuTab, setMenuTab] = useState<'main' | 'requestTypes'>('main');
+
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!opened) setMenuTab('main');
+    }, [opened]);
 
     return (
-        <div className={classes.base} onClick={onClick}>
-            <div className={classes.header}>
+        <div className={classes.base}>
+            <div className={classes.header} onClick={onClick} ref={ref}>
                 <div className={classes.headerLeft}>
                     <div className={classes.icon}>
                         <ActionIcon icon={opened ? IconChevronDown : IconChevronRight} size={14} onClick={(e) => {
@@ -59,21 +71,49 @@ export default function TreeItem({ children, label, icon: Icon, selected = false
                                 }} />
                             </div>
                         }
-                        opened={menuOpeed}
+                        opened={menuOpened}
                         onClose={menu.close}
                         position="bottomEnd"
+                        contextMenuRef={ref}
+                        onOpen={menu.open}
                     >
-                        <Option label="New Request" value="" icon={IconPlus} />
-                        <Option label="New Folder" value="" icon={IconFolderPlus} onClick={async () => {
-                            menu.close();
-                            await workspace.createEmptyCollection(`${path === '' ? path : `${path}/`}${slug}`);
-                        }} />
-                        <Option label="Rename" value="" icon={IconPencil} />
-                        <Option label="Duplicate" value="" icon={IconCopy} />
-                        <Option label="Delete" value="" icon={IconTrash} optionColor="danger.foreground" onClick={async () => {
-                            menu.close();
-                            await workspace.deleteCollectionConfirm(`${path === '' ? path : `${path}/`}${slug}`);
-                        }} />
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                initial={{ opacity: 0, transform: `translateX(${10 * direction}px)` }}
+                                animate={{ opacity: 1, transform: 'translateX(0px)' }}
+                                exit={{ opacity: 0, transform: `translateX(${-10 * direction}px)` }}
+                                key={menuTab}
+                            >
+                                {menuTab === 'main' && <>
+                                    <Option label="New Request" value="" icon={IconPlus} onClick={() => {
+                                        setDirection(1);
+                                        setTimeout(() => {
+                                            setMenuTab('requestTypes');
+                                        });
+                                    }} />
+                                    <Option label="New Folder" value="" icon={IconFolderPlus} onClick={async () => {
+                                        menu.close();
+                                        await workspace.createEmptyCollection(`${path === '' ? path : `${path}/`}${slug}`);
+                                    }} />
+                                    <Option label="Rename" value="" icon={IconPencil} />
+                                    <Option label="Duplicate" value="" icon={IconCopy} />
+                                    <Option label="Delete" value="" icon={IconTrash} optionColor="danger.foreground" onClick={async () => {
+                                        menu.close();
+                                        await workspace.deleteCollectionConfirm(`${path === '' ? path : `${path}/`}${slug}`);
+                                    }} />
+                                </>}
+                                {menuTab === 'requestTypes' && <>
+                                    <Option label="Back" value="" icon={IconArrowLeft} onClick={() => {
+                                        setDirection(-1);
+                                        setTimeout(() => {
+                                            setMenuTab('main');
+                                        }, 0);
+                                    }} />
+                                    <Divider withMargin />
+                                    <RequestOptions onRequestClick={() => { }} />
+                                </>}
+                            </motion.div>
+                        </AnimatePresence>
                     </Menu>}
                 </div>
             </div>

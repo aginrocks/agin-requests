@@ -25,7 +25,7 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
         retainContextWhenHidden: process.env.NODE_ENV === 'development' ? false : true,
     });
 
-    const iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets/tabs', 'ws1.svg'));
+    const iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets/tabs', 'default.svg'));
 
     panel.iconPath = iconPath;
 
@@ -69,6 +69,10 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
 
                 }
 
+            } else if (message.command === 'panel.setIcon') {
+                console.log('setting icon', message.data);
+                panel.iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets/tabs', `${message.data}.svg`));
+
             } else if (message.command == 'panel.setTitle') {
                 panel.title = message.data;
 
@@ -86,6 +90,7 @@ export default function createRequestWebview(context: vscode.ExtensionContext, i
 
             } else if (message.command.startsWith('workspace.')) {
                 await workspaceHandler.onMessage(message);
+
             }
         }
     );

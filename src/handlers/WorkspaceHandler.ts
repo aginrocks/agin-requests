@@ -48,6 +48,12 @@ export class WorkspaceHandler extends Handler {
         } else if (message.command === 'workspace.requests.create') {
             await workspace.createRequest(message.collectionPath, message.data);
 
+        } else if (message.command === 'workspace.requests.delete') {
+            await workspace.deleteRequest(message.path, message.slug);
+
+        } else if (message.command === 'workspace.requests.deleteConfirm') {
+            await workspace.deleteRequestConfirm(message.path, message.slug);
+
         }
     }
 }

@@ -19,7 +19,7 @@ export default function CollectionsView({ collections, onCollectionClick, rightS
         <div>
             {collections.map(c => <TreeItem onClick={(e) => onCollectionClick?.(c, e)} label={c.label} key={c.id} path={c.path} slug={c.slug} selected={selectedId === c.id} rightSection={RightSection ? <RightSection item={c} /> : undefined} icon={c.path === '' ? undefined : IconFolder}>
                 {c.children.length > 0 && <CollectionsView collections={c.children} onCollectionClick={onCollectionClick} rightSection={RightSection} />}
-                {c.requests.length > 0 && c.requests.map(r => <Request {...r} key={r.id} />)}
+                {c.requests.length > 0 && c.requests.map(r => <Request {...r} path={`${c.path === '' ? c.path : `${c.path}/`}${c.slug}`} key={r.id} />)}
             </TreeItem>)}
         </div>
     )

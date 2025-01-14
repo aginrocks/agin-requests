@@ -72,6 +72,10 @@ export default function RequestConfigProvider({ children }: { children: React.Re
     useSynced('requestConfig', config.values, config.setValues);
 
     useEffect(() => {
+        const icon = config.values.type === 'http' ? 'get' : config.values.type;
+        if (!icon) return;
+        vscode.postMessage({ command: 'panel.setIcon', data: icon });
+
         if (!config.values.label) return;
         vscode.postMessage({ command: 'panel.setTitle', data: `${config.values.label}${config.values.isDraft ? ' (Draft)' : ''}` });
     }, [vscode.postMessage, config.values.label, config.values.isDraft]);

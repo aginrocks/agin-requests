@@ -11,6 +11,8 @@ export type Workspace = {
     deleteCollection: (path: string) => Promise<void>;
     deleteCollectionConfirm: (path: string) => Promise<void>;
     createRequest: (collectionPath: string, requestOptions: RequestConfig) => Promise<void>;
+    deleteRequest: (path: string, slug: string) => Promise<void>;
+    deleteRequestConfirm: (path: string, slug: string) => Promise<void>;
 }
 
 const initialWorkspace: Workspace = {
@@ -21,6 +23,8 @@ const initialWorkspace: Workspace = {
     deleteCollection: async () => { },
     deleteCollectionConfirm: async () => { },
     createRequest: async () => { },
+    deleteRequest: async () => { },
+    deleteRequestConfirm: async () => { },
 }
 
 export const WorkspaceContext = createContext<Workspace>(initialWorkspace);
@@ -70,12 +74,20 @@ export default function WorkspaceProvider({ children }: { children: React.ReactN
         vscode.postMessage({ command: 'workspace.collections.deleteConfirm', path });
     }, [vscode.postMessage]);
 
+    const deleteRequest = useCallback(async (path: string, slug: string) => {
+        vscode.postMessage({ command: 'workspace.requests.delete', path, slug });
+    }, [vscode.postMessage]);
+
+    const deleteRequestConfirm = useCallback(async (path: string, slug: string) => {
+        vscode.postMessage({ command: 'workspace.requests.deleteConfirm', path, slug });
+    }, [vscode.postMessage]);
+
     const createRequest = useCallback(async (collectionPath: string, requestOptions: RequestConfig) => {
         vscode.postMessage({ command: 'workspace.requests.create', collectionPath, data: requestOptions });
     }, [vscode.postMessage]);
 
     return (
-        <WorkspaceContext.Provider value={{ folders, openedFolder, collections, createEmptyCollection, deleteCollection, deleteCollectionConfirm, createRequest }}>
+        <WorkspaceContext.Provider value={{ folders, openedFolder, collections, createEmptyCollection, deleteCollection, deleteCollectionConfirm, createRequest, deleteRequest, deleteRequestConfirm }}>
             {children}
         </WorkspaceContext.Provider>
     )

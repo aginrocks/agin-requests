@@ -25,71 +25,78 @@ export type VSCodeMessage = {
     data: [string, ...string[]];
     _id: string;
 } | {
-    command: 'window.confirm.value',
+    command: 'window.confirm.value';
     data: string | undefined;
     _id: string;
 } | {
-    command: 'panel.setTitle',
+    command: 'panel.setTitle';
     data: string;
 } | {
-    command: 'request.execute',
+    command: 'request.execute';
     config: RequestConfig;
 } | {
-    command: 'sse.connect',
+    command: 'sse.connect';
     config: RequestConfig;
 } | {
-    command: 'sse.disconnect',
+    command: 'sse.disconnect';
 } | {
-    command: 'ws.connect',
+    command: 'ws.connect';
     config: RequestConfig;
 } | {
-    command: 'ws.disconnect',
+    command: 'ws.disconnect';
 } | {
-    command: 'ws.send',
+    command: 'ws.send';
     data: {
         data: string;
     }
 } | {
-    command: 'io.connect',
+    command: 'io.connect';
     config: RequestConfig;
 } | {
-    command: 'io.disconnect',
+    command: 'io.disconnect';
 } | {
-    command: 'io.send',
+    command: 'io.send';
     data: SocketIOMessage;
 } | {
-    command: 'folders.get',
+    command: 'folders.get';
 } | {
-    command: 'folders',
+    command: 'folders';
     data: vscode.WorkspaceFolder[];
 } | {
-    command: 'workspace.folder.get',
+    command: 'workspace.folder.get';
 } | {
-    command: 'workspace.folder',
+    command: 'workspace.folder';
     data: vscode.WorkspaceFolder;
 } | {
-    command: 'workspace.open',
+    command: 'workspace.open';
     data: vscode.WorkspaceFolder;
 } | {
-    command: 'workspace.collections.get',
+    command: 'workspace.collections.get';
 } | {
-    command: 'workspace.collections',
+    command: 'workspace.collections';
     data: Collection[];
 } | {
-    command: 'requests.new',
+    command: 'requests.new';
     type: RequestConfig['type'];
 } | {
-    command: 'import.curl',
+    command: 'import.curl';
 } | {
-    command: 'workspace.collections.createEmpty',
+    command: 'workspace.collections.createEmpty';
     path: string;
 } | {
-    command: 'workspace.collections.delete' | 'workspace.collections.deleteConfirm',
+    command: 'workspace.collections.delete' | 'workspace.collections.deleteConfirm';
     path: string;
 } | {
-    command: 'workspace.requests.create',
+    command: 'workspace.requests.create';
     data: RequestConfig;
     collectionPath: string;
 } | {
     command: 'request.cancel'
+} | {
+    command: 'panel.setIcon';
+    data: 'get' | 'folder' | 'socketio' | 'sse' | 'ws';
+} | {
+    command: 'workspace.requests.delete' | 'workspace.requests.deleteConfirm';
+    path: string;
+    slug: string;
 }

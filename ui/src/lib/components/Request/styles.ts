@@ -6,8 +6,17 @@ export const request = css({
     // padding: '10px',
     padding: '6px',
     transition: 'background-color .3s ease',
+    '& [data-more-actions]': {
+        transition: 'opacity .3s ease, visibility .3s ease',
+        opacity: 0,
+        visibility: 'hidden',
+    },
     '&:hover': {
-        backgroundColor: 'var(--vscode-list-hoverBackground)'
+        backgroundColor: 'var(--vscode-list-hoverBackground)',
+        '& [data-more-actions]': {
+            opacity: 1,
+            visibility: 'visible',
+        },
     }
 });
 
@@ -19,9 +28,14 @@ export const requestTitle = css({
 
 export const requestTop = css({
     display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+});
+
+export const requestTopLeft = css({
+    display: 'flex',
     gap: '8px',
-    alignItems: 'center'
-    // TODO
+    alignItems: 'center',
 });
 
 export const methodBadge = cva({
@@ -82,4 +96,8 @@ export const methodBadge = cva({
             }
         }
     },
+});
+
+export const iconStyles = css({
+    color: 'var(--vscode-disabledForeground)',
 });

@@ -8,7 +8,7 @@ export const dropdownContainer = cva({
     base: {
         position: 'absolute',
         visibility: 'hidden',
-        transition: 'scale .3s ease, opacity .3s ease, visibility .3s ease',
+        transition: 'scale .3s ease, opacity .3s ease, visibility .3s ease, width .3s ease',
         // transformOrigin: 'top right',
         scale: .95,
         opacity: 0,

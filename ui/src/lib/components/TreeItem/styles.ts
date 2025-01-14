@@ -63,7 +63,7 @@ export const tree = sva({
             display: 'grid',
             overflow: 'hidden',
             transition: 'opacity .2s ease, visibility .2s ease, grid-template-rows .2s ease',
-        }
+        },
     },
     variants: {
         expanded: {

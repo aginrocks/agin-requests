@@ -14,6 +14,21 @@ export interface MenuButtonProps extends ComponentProps<typeof VSCodeButton> {
     // rightMenuActions:
 }
 
+export type RequestOptionsProps = {
+    onRequestClick: (request: string) => void;
+}
+
+export function RequestOptions({ onRequestClick }: RequestOptionsProps) {
+    return (
+        <>
+            <Option label="HTTP Request" value="http" icon={IconHttpGet} onClick={() => onRequestClick('http')} />
+            <Option label="SSE Request" value="sse" icon={IconServer} onClick={() => onRequestClick('sse')} />
+            <Option label="WebSocket Connection" value="ws" icon={IconPlugConnected} onClick={() => onRequestClick('ws')} />
+            <Option label="Socket.IO Connection" value="socketio" icon={IconBrandSocketIo} onClick={() => onRequestClick('socketio')} />
+        </>
+    )
+}
+
 export default function MenuButton({ children, ...props }: MenuButtonProps) {
     const [opened, setOpened] = useState(false);
 
@@ -34,20 +49,8 @@ export default function MenuButton({ children, ...props }: MenuButtonProps) {
                 targetClass={optionsTarget}
                 position="bottomEnd"
             >
-                <Option label="HTTP Request" value="" icon={IconHttpGet} onClick={() => {
-                    vscode.postMessage({ command: 'requests.new', type: 'http' });
-                    setOpened(false);
-                }} />
-                <Option label="SSE Request" value="" icon={IconServer} onClick={() => {
-                    vscode.postMessage({ command: 'requests.new', type: 'sse' });
-                    setOpened(false);
-                }} />
-                <Option label="WebSocket Connection" value="" icon={IconPlugConnected} onClick={() => {
-                    vscode.postMessage({ command: 'requests.new', type: 'ws' });
-                    setOpened(false);
-                }} />
-                <Option label="Socket.IO Connection" value="" icon={IconBrandSocketIo} onClick={() => {
-                    vscode.postMessage({ command: 'requests.new', type: 'socketio' });
+                <RequestOptions onRequestClick={(request) => {
+                    vscode.postMessage({ command: 'requests.new', type: request as any });
                     setOpened(false);
                 }} />
                 <Divider withMargin />
