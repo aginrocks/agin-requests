@@ -96,7 +96,11 @@ export default function TreeItem({ children, label, icon: Icon, selected = false
                                         menu.close();
                                         await workspace.createEmptyCollection(createPath({ path, slug }));
                                     }} />
-                                    <Option label="Rename" value="" icon={IconPencil} />
+                                    <Option label="Rename" value="" icon={IconPencil} onClick={async () => {
+                                        menu.close();
+                                        console.log('colpath', createPath({ path, slug }));
+                                        await workspace.renameCollectionPrompt(createPath({ path, slug }));
+                                    }} />
                                     <Option label="Duplicate" value="" icon={IconCopy} onClick={async () => {
                                         menu.close();
                                         await workspace.duplicateCollection(createPath({ path, slug }));

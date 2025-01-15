@@ -102,4 +102,11 @@ export type VSCodeMessage = {
 } | {
     command: 'workspace.collections.duplicate';
     path: string;
+} | {
+    command: 'workspace.collections.rename';
+    path: string;
+    newName: string;
+} | {
+    command: 'workspace.collections.renamePrompt';
+    path: string;
 }

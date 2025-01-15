@@ -57,6 +57,12 @@ export class WorkspaceHandler extends Handler {
         } else if (message.command === 'workspace.collections.duplicate') {
             await workspace.duplicateCollection(message.path);
 
+        } else if (message.command === 'workspace.collections.rename') {
+            await workspace.renameCollection(message.path, message.newName);
+
+        } else if (message.command === 'workspace.collections.renamePrompt') {
+            await workspace.renameCollectionPrompt(message.path);
+
         }
     }
 }

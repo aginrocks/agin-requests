@@ -231,10 +231,18 @@ export class WorkspaceManager {
         return requestData;
     }
 
+    private static async readCollectionManifest(uri: vscode.Uri): Promise<CollectionManifest | undefined> {
+        const manifestPath = vscode.Uri.joinPath(uri, '_collection.yaml');
+        const manifest = yaml.parse((await vscode.workspace.fs.readFile(manifestPath)).toString()) as CollectionManifest;
+        return manifest;
+    }
+
     private static async readCollection(uri: vscode.Uri): Promise<Collection | undefined> {
         try {
-            const manifestPath = vscode.Uri.joinPath(uri, '_collection.yaml');
-            const manifest = yaml.parse((await vscode.workspace.fs.readFile(manifestPath)).toString()) as CollectionManifest;
+            const manifest = await this.readCollectionManifest(uri);
+            if (!manifest) return undefined;
+
+            const relativePath = uri.path.split('/agin-collections/')[1]?.split('/').slice(0, -1).join('/') ?? '';
 
             const items = await vscode.workspace.fs.readDirectory(uri);
 
@@ -258,7 +266,6 @@ export class WorkspaceManager {
 
             }
 
-            const relativePath = uri.path.split('/agin-collections/')[1]?.split('/').slice(0, -1).join('/') ?? '';
             return {
                 ...manifest,
                 children: collections,
@@ -300,6 +307,48 @@ export class WorkspaceManager {
         await vscode.workspace.fs.delete(requestPath);
 
         await this.loadCollections();
+    }
+
+    // TODO: Chnage slug
+    public static async renameCollection(path: string, newName: string) {
+        if (!this.baseUri) return;
+
+        const containingPath = path.split('/').slice(0, -1).join('/');
+
+        const collectionPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path);
+        const collection = await this.readCollection(collectionPath);
+        if (!collection) return;
+
+        const newCollection: CollectionManifest = {
+            ...collection,
+            label: newName,
+        }
+
+        await this.createCollection(containingPath, newCollection);
+        await this.loadCollections();
+    }
+
+    public static async renameCollectionPrompt(path: string) {
+        if (!this.baseUri) return;
+
+        const collectionPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path);
+        const collection = await this.readCollection(collectionPath);
+        if (!collection) return;
+
+        const isLabeledAsFolder = path !== '';
+
+        const newName = await vscode.window.showInputBox({
+            prompt: `Enter the ${isLabeledAsFolder ? 'folder' : 'collection'} name`,
+            placeHolder: `${isLabeledAsFolder ? 'Folder' : 'Collection'} name`,
+            value: collection.label,
+            validateInput: (input) => {
+                if (input == '_collection') return `Choose a different name for the ${isLabeledAsFolder ? 'folder' : 'collection'}.`;
+                return null;
+            }
+        });
+        if (!newName) return;
+
+        await this.renameCollection(path, newName);
     }
 
     public static async duplicateCollection(path: string) {

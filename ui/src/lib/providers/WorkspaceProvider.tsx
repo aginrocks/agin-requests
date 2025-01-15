@@ -14,6 +14,8 @@ export type Workspace = {
     deleteRequest: (path: string, slug: string) => Promise<void>;
     deleteRequestConfirm: (path: string, slug: string) => Promise<void>;
     duplicateCollection: (path: string) => Promise<void>;
+    renameCollection: (path: string, newName: string) => Promise<void>;
+    renameCollectionPrompt: (path: string) => Promise<void>;
 }
 
 const initialWorkspace: Workspace = {
@@ -27,6 +29,8 @@ const initialWorkspace: Workspace = {
     deleteRequest: async () => { },
     deleteRequestConfirm: async () => { },
     duplicateCollection: async () => { },
+    renameCollection: async () => { },
+    renameCollectionPrompt: async () => { },
 }
 
 export const WorkspaceContext = createContext<Workspace>(initialWorkspace);
@@ -92,6 +96,14 @@ export default function WorkspaceProvider({ children }: { children: React.ReactN
         vscode.postMessage({ command: 'workspace.collections.duplicate', path });
     }, [vscode.postMessage]);
 
+    const renameCollection = useCallback(async (path: string, newName: string) => {
+        vscode.postMessage({ command: 'workspace.collections.rename', path, newName });
+    }, [vscode.postMessage]);
+
+    const renameCollectionPrompt = useCallback(async (path: string) => {
+        vscode.postMessage({ command: 'workspace.collections.renamePrompt', path });
+    }, [vscode.postMessage]);
+
     return (
         <WorkspaceContext.Provider value={{
             folders,
@@ -104,6 +116,8 @@ export default function WorkspaceProvider({ children }: { children: React.ReactN
             deleteRequest,
             deleteRequestConfirm,
             duplicateCollection,
+            renameCollection,
+            renameCollectionPrompt,
         }}>
             {children}
         </WorkspaceContext.Provider>
