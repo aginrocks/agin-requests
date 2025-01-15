@@ -26,7 +26,10 @@ export default function Request({ type, url, method, label, path, slug }: Reques
     const ref = useRef<HTMLDivElement>(null);
 
     return (
-        <div className={request} ref={ref}>
+        <div className={request} ref={ref} onClick={async () => {
+            if (!path || !slug) return;
+            await workspace.openRequest(path, slug);
+        }}>
             <div className={requestTop}>
                 <div className={requestTopLeft}>
                     <div>

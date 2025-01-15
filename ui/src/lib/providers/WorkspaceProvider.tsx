@@ -19,6 +19,7 @@ export type Workspace = {
     renameRequest: (path: string, slug: string, newName: string) => Promise<void>;
     renameRequestPrompt: (path: string, slug: string) => Promise<void>;
     duplicateRequest: (path: string, slug: string) => Promise<void>;
+    openRequest: (path: string, slug: string) => Promise<void>;
 }
 
 const initialWorkspace: Workspace = {
@@ -37,6 +38,7 @@ const initialWorkspace: Workspace = {
     renameRequest: async () => { },
     renameRequestPrompt: async () => { },
     duplicateRequest: async () => { },
+    openRequest: async () => { },
 }
 
 export const WorkspaceContext = createContext<Workspace>(initialWorkspace);
@@ -122,6 +124,10 @@ export default function WorkspaceProvider({ children }: { children: React.ReactN
         vscode.postMessage({ command: 'workspace.requests.duplicate', path, slug });
     }, [vscode.postMessage]);
 
+    const openRequest = useCallback(async (path: string, slug: string) => {
+        vscode.postMessage({ command: 'workspace.requests.open', path, slug });
+    }, [vscode.postMessage]);
+
     return (
         <WorkspaceContext.Provider value={{
             folders,
@@ -139,6 +145,7 @@ export default function WorkspaceProvider({ children }: { children: React.ReactN
             renameRequest,
             renameRequestPrompt,
             duplicateRequest,
+            openRequest,
         }}>
             {children}
         </WorkspaceContext.Provider>

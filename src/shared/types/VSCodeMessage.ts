@@ -122,4 +122,8 @@ export type VSCodeMessage = {
     command: 'workspace.requests.duplicate';
     path: string;
     slug: string;
+} | {
+    command: 'workspace.requests.open',
+    path: string;
+    slug: string;
 }

@@ -9,3 +9,4 @@ export * from './RealtimeMessage';
 export * from './WorkspaceManifest';
 export * from './Collection';
 export * from './VSCodeMessage';
+export * from './Tab';

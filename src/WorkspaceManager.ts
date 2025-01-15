@@ -6,6 +6,7 @@ import semver from 'semver';
 import { randomUUID } from 'crypto';
 import { createSlug } from './util';
 import EventEmitter from 'node:events';
+import createRequestWebview from './createRequestView';
 
 type WMEvents = {
     'collection-created': (path: string) => void;
@@ -32,6 +33,7 @@ export class WorkspaceManager {
     public static manifest?: WorkspaceManifest;
     public static collections?: Collection[];
     private static emitter = new EventEmitter();
+    private static context?: vscode.ExtensionContext;
     // private static watcher: vscode.FileSystemWatcher;
 
     private constructor() {
@@ -55,6 +57,10 @@ export class WorkspaceManager {
 
     public static isAvaliable(): boolean {
         return !!vscode.workspace.workspaceFolders;
+    }
+
+    public static setContext(context: vscode.ExtensionContext) {
+        WorkspaceManager.context = context
     }
 
     public static async setFolder(folder: vscode.WorkspaceFolder): Promise<void> {
@@ -461,6 +467,18 @@ export class WorkspaceManager {
         await this.loadCollections();
 
         return newRequest;
+    }
+
+    public static async openRequest(path: string, slug: string) {
+        if (!this.baseUri) return;
+        if (!WorkspaceManager.context) {
+            vscode.window.showErrorMessage('Unable to open request. Please try again. (ERR_NOCONTEXT)');
+            return;
+        }
+
+        const request = await this.readRequest(vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, `${slug}.yaml`));
+
+        createRequestWebview(WorkspaceManager.context, request);
     }
 
     public static on<E extends keyof WMEvents>(event: E, listener: WMEvents[E]) {
