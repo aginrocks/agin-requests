@@ -273,8 +273,12 @@ export class WorkspaceManager {
     }
 
     private static async readRequest(uri: vscode.Uri): Promise<RequestConfig | undefined> {
-        const requestData = yaml.parse((await vscode.workspace.fs.readFile(uri)).toString()) as RequestConfig;
-        return requestData;
+        try {
+            const requestData = yaml.parse((await vscode.workspace.fs.readFile(uri)).toString()) as RequestConfig;
+            return requestData;
+        } catch (error) {
+            return undefined;
+        }
     }
 
     private static async readCollectionManifest(uri: vscode.Uri): Promise<CollectionManifest | undefined> {

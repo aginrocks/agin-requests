@@ -69,6 +69,9 @@ export class WorkspaceHandler extends Handler {
         } else if (message.command === 'workspace.requests.renamePrompt') {
             await workspace.renameRequestPrompt(message.path, message.slug);
 
+        } else if (message.command === 'workspace.requests.duplicate') {
+            await workspace.duplicateRequest(message.path, message.slug);
+
         }
     }
 }
