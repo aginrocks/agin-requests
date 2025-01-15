@@ -13,6 +13,11 @@ type WMEvents = {
     'collections-updated': (collections: Collection[]) => void;
 };
 
+type CreateRequestOptions = {
+    /** If false, the collections will not be refreshed and events will not be emited */
+    refresh?: boolean;
+}
+
 const STORAGE_FOLDER = '.agin-requests';
 const VERSION = '1.0.2';
 
@@ -198,8 +203,9 @@ export class WorkspaceManager {
         return collection;
     }
 
-    public static async createRequest(collectionPath: string, requestOptions: RequestConfig) {
+    public static async createRequest(collectionPath: string, requestOptions: RequestConfig, createRequestOptions?: CreateRequestOptions) {
         if (!WorkspaceManager.baseUri) return;
+        const noRefresh = createRequestOptions?.refresh === false;
 
         const slug = requestOptions.slug ?? createSlug(requestOptions.label);
 
@@ -219,11 +225,51 @@ export class WorkspaceManager {
 
         await vscode.workspace.fs.writeFile(requestPath, Buffer.from(yaml.stringify(request)));
 
-        await this.loadCollections();
-
-        WorkspaceManager.emitter.emit('request-created', requestPath.toString());
+        if (!noRefresh) {
+            await this.loadCollections();
+            WorkspaceManager.emitter.emit('request-created', requestPath.toString());
+        }
 
         return request;
+    }
+
+    public static async renameRequestPrompt(path: string, slug: string) {
+        if (!this.baseUri) return;
+
+        const requestPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, `${slug}.yaml`);
+        const request = await this.readRequest(requestPath);
+        if (!request) return;
+
+        const newName = await vscode.window.showInputBox({
+            prompt: 'Enter the request name',
+            placeHolder: 'Request name',
+            value: request.label,
+            validateInput: (input) => {
+                if (input == '_collection') return 'Choose a different name for the request.';
+                if (input == '') return 'Name cannot be empty.';
+                return null;
+            }
+        });
+        if (!newName) return;
+
+        await this.renameRequest(path, slug, newName);
+    }
+
+    // TODO: Chnage slug
+    public static async renameRequest(path: string, slug: string, newName: string) {
+        if (!this.baseUri) return;
+
+        const requestPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, `${slug}.yaml`);
+        const request = await this.readRequest(requestPath);
+        if (!request) return;
+
+        const newRequest: RequestConfig = {
+            ...request,
+            label: newName,
+        }
+
+        await this.createRequest(path, newRequest);
+        await this.loadCollections();
     }
 
     private static async readRequest(uri: vscode.Uri): Promise<RequestConfig | undefined> {
@@ -343,6 +389,7 @@ export class WorkspaceManager {
             value: collection.label,
             validateInput: (input) => {
                 if (input == '_collection') return `Choose a different name for the ${isLabeledAsFolder ? 'folder' : 'collection'}.`;
+                if (input == '') return 'Name cannot be empty.';
                 return null;
             }
         });
@@ -381,6 +428,35 @@ export class WorkspaceManager {
         await this.loadCollections();
 
         return newCollection;
+    }
+
+    public static async duplicateRequest(path: string, slug: string) {
+        if (!this.baseUri) return;
+
+        const requestPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, `${slug}.yaml`);
+        const request = await this.readRequest(requestPath);
+        if (!request) return;
+
+        const newName = request.label + ' Copy';
+        const newSlug = createSlug(newName);
+        const newPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, newSlug);
+
+        if (await this.readRequest(newPath)) {
+            return vscode.window.showErrorMessage('This request\'s duplicate already exists. Please rename the duplicate and try again.');
+        }
+
+        const newRequest: RequestConfig = {
+            ...request,
+            id: randomUUID(),
+            label: newName,
+            slug: newSlug,
+        };
+
+        await this.createRequest(path, newRequest);
+
+        await this.loadCollections();
+
+        return newRequest;
     }
 
     public static on<E extends keyof WMEvents>(event: E, listener: WMEvents[E]) {

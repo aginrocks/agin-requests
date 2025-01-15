@@ -16,6 +16,9 @@ export type Workspace = {
     duplicateCollection: (path: string) => Promise<void>;
     renameCollection: (path: string, newName: string) => Promise<void>;
     renameCollectionPrompt: (path: string) => Promise<void>;
+    renameRequest: (path: string, slug: string, newName: string) => Promise<void>;
+    renameRequestPrompt: (path: string, slug: string) => Promise<void>;
+    duplicateRequest: (path: string, slug: string) => Promise<void>;
 }
 
 const initialWorkspace: Workspace = {
@@ -31,6 +34,9 @@ const initialWorkspace: Workspace = {
     duplicateCollection: async () => { },
     renameCollection: async () => { },
     renameCollectionPrompt: async () => { },
+    renameRequest: async () => { },
+    renameRequestPrompt: async () => { },
+    duplicateRequest: async () => { },
 }
 
 export const WorkspaceContext = createContext<Workspace>(initialWorkspace);
@@ -104,6 +110,18 @@ export default function WorkspaceProvider({ children }: { children: React.ReactN
         vscode.postMessage({ command: 'workspace.collections.renamePrompt', path });
     }, [vscode.postMessage]);
 
+    const renameRequest = useCallback(async (path: string, slug: string, newName: string) => {
+        vscode.postMessage({ command: 'workspace.requests.rename', path, slug, newName });
+    }, [vscode.postMessage]);
+
+    const renameRequestPrompt = useCallback(async (path: string, slug: string) => {
+        vscode.postMessage({ command: 'workspace.requests.renamePrompt', path, slug });
+    }, [vscode.postMessage]);
+
+    const duplicateRequest = useCallback(async (path: string, slug: string) => {
+        vscode.postMessage({ command: 'workspace.requests.duplicate', path, slug });
+    }, [vscode.postMessage]);
+
     return (
         <WorkspaceContext.Provider value={{
             folders,
@@ -118,6 +136,9 @@ export default function WorkspaceProvider({ children }: { children: React.ReactN
             duplicateCollection,
             renameCollection,
             renameCollectionPrompt,
+            renameRequest,
+            renameRequestPrompt,
+            duplicateRequest,
         }}>
             {children}
         </WorkspaceContext.Provider>

@@ -63,6 +63,12 @@ export class WorkspaceHandler extends Handler {
         } else if (message.command === 'workspace.collections.renamePrompt') {
             await workspace.renameCollectionPrompt(message.path);
 
+        } else if (message.command === 'workspace.requests.rename') {
+            await workspace.renameRequest(message.path, message.slug, message.newName);
+
+        } else if (message.command === 'workspace.requests.renamePrompt') {
+            await workspace.renameRequestPrompt(message.path, message.slug);
+
         }
     }
 }
