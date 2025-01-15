@@ -5,6 +5,7 @@ import { SidebarProvider } from './SidebarProvider';
 import createRequestWebview from './createRequestView';
 import { importCurl } from './util/importCurl';
 import { WorkspaceManager as workspace } from './WorkspaceManager';
+import { API, GitExtension } from '@shared/types/git';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -58,6 +59,12 @@ export function activate(context: vscode.ExtensionContext) {
         await workspace.loadCollections();
     });
     context.subscriptions.push(reloadDb);
+
+    // (async () => {
+    //     const gitExt = vscode.extensions.getExtension<GitExtension>('vscode.git');
+    //     const git = await gitExt?.exports.getAPI(1);
+    //     git?.repositories[0].state.workingTreeChanges[0].status
+    // })();
 }
 
 // This method is called when your extension is deactivated
