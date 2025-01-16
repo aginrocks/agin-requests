@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer, useState } from 'react';
-import type { RequestConfig } from '@shared/types';
+import type { RequestConfig, VSCodeMessage } from '@shared/types';
 import { useForm } from '@mantine/form';
 import { useVsCodeApi } from '@lib/hooks/useVsCodeApi';
 import useSynced from '@lib/hooks/useSynced';
@@ -89,7 +89,7 @@ export default function RequestConfigProvider({ children }: { children: React.Re
 
         vscode.postMessage({ command: 'initial.get' });
 
-        const onMessage = (event: MessageEvent) => {
+        const onMessage = (event: { data: VSCodeMessage }) => {
             console.log('got event1', event);
 
             const message = event.data;

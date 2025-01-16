@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 import yaml from 'yaml';
 import semver from 'semver';
 import { randomUUID } from 'crypto';
-import { createSlug } from './util';
+import { createPath, createSlug } from './util';
 import EventEmitter from 'node:events';
 import createRequestWebview from './createRequestView';
 
@@ -122,8 +122,7 @@ export class WorkspaceManager {
 
         const collections: Collection[] = [];
         for (const col of collectionNames) {
-            const colPath = vscode.Uri.joinPath(collectionsPath, col);
-            const colData = await this.readCollection(colPath);
+            const colData = await this.readCollection(col);
             if (!colData) continue;
 
             collections.push(colData);
@@ -229,7 +228,8 @@ export class WorkspaceManager {
 
         const requestPath = vscode.Uri.joinPath(basePath, `${slug}.yaml`);
 
-        await vscode.workspace.fs.writeFile(requestPath, Buffer.from(yaml.stringify(request)));
+        const { path: _, ...requestWithoutPath } = request;
+        await vscode.workspace.fs.writeFile(requestPath, Buffer.from(yaml.stringify(requestWithoutPath)));
 
         if (!noRefresh) {
             await this.loadCollections();
@@ -242,8 +242,7 @@ export class WorkspaceManager {
     public static async renameRequestPrompt(path: string, slug: string) {
         if (!this.baseUri) return;
 
-        const requestPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, `${slug}.yaml`);
-        const request = await this.readRequest(requestPath);
+        const request = await this.readRequest(path, slug);
         if (!request) return;
 
         const newName = await vscode.window.showInputBox({
@@ -265,8 +264,7 @@ export class WorkspaceManager {
     public static async renameRequest(path: string, slug: string, newName: string) {
         if (!this.baseUri) return;
 
-        const requestPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, `${slug}.yaml`);
-        const request = await this.readRequest(requestPath);
+        const request = await this.readRequest(path, slug);
         if (!request) return;
 
         const newRequest: RequestConfig = {
@@ -278,10 +276,16 @@ export class WorkspaceManager {
         await this.loadCollections();
     }
 
-    private static async readRequest(uri: vscode.Uri): Promise<RequestConfig | undefined> {
+    private static async readRequest(path: string, slug?: string): Promise<RequestConfig | undefined> {
+        if (!this.baseUri) return;
+        const uri = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, slug ? `${slug}.yaml` : '');
         try {
             const requestData = yaml.parse((await vscode.workspace.fs.readFile(uri)).toString()) as RequestConfig;
-            return requestData;
+            const fullRequestData: RequestConfig = {
+                ...requestData,
+                path: path,
+            }
+            return fullRequestData;
         } catch (error) {
             return undefined;
         }
@@ -293,7 +297,13 @@ export class WorkspaceManager {
         return manifest;
     }
 
-    private static async readCollection(uri: vscode.Uri): Promise<Collection | undefined> {
+    private static async readCollection(path: string, slug?: string): Promise<Collection | undefined> {
+        if (!this.baseUri) return;
+        const uri = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, slug ? `${slug}.yaml` : '');
+        console.log('READING');
+
+        console.log({ path, slug });
+
         try {
             const manifest = await this.readCollectionManifest(uri);
             if (!manifest) return undefined;
@@ -309,12 +319,12 @@ export class WorkspaceManager {
                 const colPath = vscode.Uri.joinPath(uri, col);
 
                 if (type == vscode.FileType.Directory) {
-                    const colData = await this.readCollection(colPath);
+                    const colData = await this.readCollection(createPath({ path, slug: col }));
                     if (!colData) continue;
 
                     collections.push(colData);
                 } else if (type == vscode.FileType.File) {
-                    const reqData = await this.readRequest(colPath);
+                    const reqData = await this.readRequest(createPath({ path, slug: col }));
                     if (!reqData) continue;
 
                     requests.push(reqData);
@@ -372,7 +382,7 @@ export class WorkspaceManager {
         const containingPath = path.split('/').slice(0, -1).join('/');
 
         const collectionPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path);
-        const collection = await this.readCollection(collectionPath);
+        const collection = await this.readCollection(path);
         if (!collection) return;
 
         const newCollection: CollectionManifest = {
@@ -387,8 +397,7 @@ export class WorkspaceManager {
     public static async renameCollectionPrompt(path: string) {
         if (!this.baseUri) return;
 
-        const collectionPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path);
-        const collection = await this.readCollection(collectionPath);
+        const collection = await this.readCollection(path);
         if (!collection) return;
 
         const isLabeledAsFolder = path !== '';
@@ -411,17 +420,15 @@ export class WorkspaceManager {
     public static async duplicateCollection(path: string) {
         if (!this.baseUri) return;
 
-        const collectionPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path);
-        const collection = await this.readCollection(collectionPath);
+        const collection = await this.readCollection(path);
         if (!collection) return;
 
         const containingPath = path.split('/').slice(0, -1).join('/');
 
         const newName = collection.label + ' Copy';
         const newSlug = createSlug(newName);
-        const newPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', containingPath, newSlug);
 
-        if (await this.readCollection(newPath)) {
+        if (await this.readCollection(containingPath, newSlug)) {
             return vscode.window.showErrorMessage('This collection\'s duplicate already exists. Please rename the duplicate and try again.');
         }
 
@@ -443,15 +450,13 @@ export class WorkspaceManager {
     public static async duplicateRequest(path: string, slug: string) {
         if (!this.baseUri) return;
 
-        const requestPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, `${slug}.yaml`);
-        const request = await this.readRequest(requestPath);
+        const request = await this.readRequest(path, slug);
         if (!request) return;
 
         const newName = request.label + ' Copy';
         const newSlug = createSlug(newName);
-        const newPath = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, newSlug);
 
-        if (await this.readRequest(newPath)) {
+        if (await this.readRequest(path, newSlug)) {
             return vscode.window.showErrorMessage('This request\'s duplicate already exists. Please rename the duplicate and try again.');
         }
 
@@ -476,7 +481,7 @@ export class WorkspaceManager {
             return;
         }
 
-        const request = await this.readRequest(vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, `${slug}.yaml`));
+        const request = await this.readRequest(path, slug);
 
         createRequestWebview(WorkspaceManager.context, request);
     }

@@ -24,6 +24,16 @@ export class TabsManager {
     public static removeTab(tab: Tab) {
         this.tabs = this.tabs.filter(t => t !== tab);
     }
+
+    public static focusTab(tabId: string): boolean {
+        if (this.tabs.length === 0) return false;
+
+        const tab = this.tabs.find(t => t.data?.id === tabId);
+        if (!tab) return false;
+
+        tab.panel?.reveal();
+        return true;
+    }
 }
 
 TabsManager.getInstance();

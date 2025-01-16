@@ -16,10 +16,11 @@ export class RequestTab extends Tab {
 
     constructor(context: any, initialData?: RequestConfig) {
         super(context);
+        this.data = initialData;
 
-        this.panel = vscode.window.createWebviewPanel('webview', 'New Request (Draft)', vscode.ViewColumn.One, {
+        this.panel = vscode.window.createWebviewPanel('webview', this.getPanelTitle(initialData), vscode.ViewColumn.One, {
             enableScripts: true,
-            retainContextWhenHidden: process.env.NODE_ENV === 'development' ? false : true,
+            retainContextWhenHidden: process.env.NODE_ENV !== 'development',
         });
 
         const iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets/tabs', 'default.svg'));
@@ -38,7 +39,7 @@ export class RequestTab extends Tab {
                 if (!this.panel) return;
 
                 if (message.command == 'initial.get') {
-                    if (!this.isInitial) return;
+                    if (!this.isInitial || !this.data) return;
                     this.panel.webview.postMessage({ command: 'initial', data: this.data });
                     this.isInitial = false;
 
@@ -102,5 +103,9 @@ export class RequestTab extends Tab {
         });
 
         this.panel.webview.html = generateHtml(context.extensionUri, this.panel.webview, 'request');
+    }
+
+    private getPanelTitle(initialData?: RequestConfig): string {
+        return initialData ? `${initialData?.label}${initialData?.isDraft ? ' (Draft)' : ''}` : 'New Request (Draft)';
     }
 }

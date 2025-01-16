@@ -8,6 +8,7 @@ import MessageName from '../MessageName';
 import Menu from '../Menu';
 import { useDisclosure } from '@mantine/hooks';
 import SaveMenu from '../SaveMenu';
+import Breadcrumbs from '../Breadcrumbs';
 
 const tabs: MenuTab[] = [
     {
@@ -40,22 +41,24 @@ export default function RequestTypeSelector() {
                 <div className={typeSelector}>
                     <ActionIcon icon={typesToIcons[request?.values.type ?? 'http']} />
                 </div>
-                <Menu
-                    target={
-                        <div>
-                            <div className={requestNameContainer} onClick={rename.open}>
-                                <div className={requestName({ isDraft: request?.values.isDraft })}>{request?.values.label || 'New Request'}</div>
-                                {request?.values.isDraft && <MessageName label="Draft" withMargin={false} size="xs" clickable={false} />}
-                            </div>
-                        </div>
-                    }
-                    opened={renameOpened}
-                    onClose={rename.close}
-                    position="bottomStart"
-                    radius="lg"
-                >
-                    <SaveMenu onClose={rename.close} />
-                </Menu>
+                <div>
+                    <Breadcrumbs path={request?.values.path ?? ''} rightSection={<>
+                        <Menu
+                            target={
+                                <div className={requestNameContainer} onClick={rename.open}>
+                                    <div className={requestName({ isDraft: request?.values.isDraft })}>{request?.values.label || 'New Request'}</div>
+                                    {request?.values.isDraft && <MessageName label="Draft" withMargin={false} size="xs" clickable={false} />}
+                                </div>
+                            }
+                            opened={renameOpened}
+                            onClose={rename.close}
+                            position="bottomStart"
+                            radius="lg"
+                        >
+                            <SaveMenu onClose={rename.close} />
+                        </Menu>
+                    </>} />
+                </div>
             </div>
             <div className={right}>
                 {/* <EnvSelector />

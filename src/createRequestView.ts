@@ -11,5 +11,6 @@ export type ServerEvent<T> = {
 
 // TODO: Create a provider
 export default function createRequestWebview(context: vscode.ExtensionContext, initialData?: any) {
-    tabs.addTab(new RequestTab(context, initialData));
+    const focused = initialData?.id ? tabs.focusTab(initialData.id) : false;
+    if (!focused) tabs.addTab(new RequestTab(context, initialData));
 }

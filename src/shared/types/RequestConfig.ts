@@ -37,4 +37,5 @@ export type RequestConfig = {
     authType: AuthType,
     messages: RealtimeMessage[],
     auth: AuthOptions,
+    path?: string;
 };

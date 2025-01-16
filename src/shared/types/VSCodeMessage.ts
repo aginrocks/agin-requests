@@ -126,4 +126,7 @@ export type VSCodeMessage = {
     command: 'workspace.requests.open',
     path: string;
     slug: string;
+} | {
+    command: 'initial',
+    data: RequestConfig;
 }

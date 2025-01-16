@@ -56,19 +56,23 @@ export default function Request({ type, url, method, label, path, slug }: Reques
                         onClose={menu.close}
                         onOpen={menu.open}
                         position="bottomEnd"
+
                         contextMenuRef={ref}
                     >
-                        <Option label="Rename" value="" icon={IconPencil} onClick={async () => {
+                        <Option label="Rename" value="" icon={IconPencil} onClick={async (e) => {
+                            e.stopPropagation();
                             menu.close();
                             if (!slug) return;
                             await workspace.renameRequestPrompt(path, slug);
                         }} />
-                        <Option label="Duplicate" value="" icon={IconCopy} onClick={async () => {
+                        <Option label="Duplicate" value="" icon={IconCopy} onClick={async (e) => {
+                            e.stopPropagation();
                             menu.close();
                             if (!slug) return;
                             await workspace.duplicateRequest(path, slug);
                         }} />
-                        <Option label="Delete" value="" icon={IconTrash} optionColor="danger.foreground" onClick={async () => {
+                        <Option label="Delete" value="" icon={IconTrash} optionColor="danger.foreground" onClick={async (e) => {
+                            e.stopPropagation();
                             menu.close();
                             if (!slug) return;
                             await workspace.deleteRequestConfirm(path, slug);
