@@ -94,7 +94,7 @@ export type VSCodeMessage = {
     command: 'request.cancel'
 } | {
     command: 'panel.setIcon';
-    data: 'get' | 'folder' | 'socketio' | 'sse' | 'ws';
+    data: RequestConfig['method'] | 'folder' | 'socketio' | 'sse' | 'ws';
 } | {
     command: 'workspace.requests.delete' | 'workspace.requests.deleteConfirm';
     path: string;

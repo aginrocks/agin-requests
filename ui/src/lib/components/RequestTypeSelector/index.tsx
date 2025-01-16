@@ -1,9 +1,9 @@
 import { useEditMode, useRequest } from '@lib/hooks';
 import { container, left, requestName, requestNameContainer, right, typeSelector } from './styles';
 import ActionIcon from '../ActionIcon';
-import { Icon, IconBrandSocketIo, IconFileText, IconHttpGet, IconPlayerPlay, IconPlugConnected, IconServer } from '@tabler/icons-react';
+import { Icon, IconBrandSocketIo, IconFileText, IconHttpDelete, IconHttpGet, IconHttpHead, IconHttpOptions, IconHttpPatch, IconHttpPost, IconHttpPut, IconPlayerPlay, IconPlugConnected, IconServer } from '@tabler/icons-react';
 import { MenuTab } from '../MenuTabs';
-import { RequestType } from '@shared/types';
+import { RequestConfig, RequestType } from '@shared/types';
 import MessageName from '../MessageName';
 import Menu from '../Menu';
 import { useDisclosure } from '@mantine/hooks';
@@ -30,6 +30,16 @@ const typesToIcons: Record<RequestType, Icon> = {
     sse: IconServer,
 }
 
+const methodsToIcons = {
+    get: IconHttpGet,
+    post: IconHttpPost,
+    patch: IconHttpPatch,
+    put: IconHttpPut,
+    delete: IconHttpDelete,
+    head: IconHttpHead,
+    options: IconHttpOptions,
+}
+
 export default function RequestTypeSelector() {
     const request = useRequest();
 
@@ -39,7 +49,7 @@ export default function RequestTypeSelector() {
         <div className={container}>
             <div className={left}>
                 <div className={typeSelector}>
-                    <ActionIcon icon={typesToIcons[request?.values.type ?? 'http']} />
+                    <ActionIcon icon={request?.values.type === 'http' ? methodsToIcons[request?.values.method as keyof typeof methodsToIcons ?? 'get'] : typesToIcons[request?.values.type ?? 'http']} />
                 </div>
                 <div>
                     <Breadcrumbs path={request?.values.path ?? ''} rightSection={<>
