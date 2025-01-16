@@ -156,7 +156,7 @@
     "yaml": "^2.6.1"
   },
   "_moduleAliases": {
-    "@": "out/src",
-    "@shared": "out/src/shared"
+    "@": "out",
+    "@shared": "out/shared"
   }
 }
