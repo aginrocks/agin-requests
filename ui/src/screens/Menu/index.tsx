@@ -8,6 +8,7 @@ import { IconBox, IconDeviceFloppy, IconFolder, IconFolders, IconHistory } from 
 import Collections from "./Collections";
 import FolderSelector from "@lib/components/FolderSelector";
 import Welcome from "@lib/components/Welcome";
+import Environments from "./Environments";
 
 const tabs: MenuTab[] = [
     {
@@ -47,6 +48,7 @@ export function Menu() {
             />
             {tab == 'collections' && <Collections />}
             {tab == 'history' && <History />}
+            {tab == 'environments' && <Environments />}
             {/* <div style={{ marginTop: '20px' }}>
                 <Welcome
                     icon={IconDeviceFloppy}

@@ -1,15 +1,15 @@
 import Request from "@lib/components/Request";
-import { history } from "./styles";
+import { environments } from "./styles";
 import Welcome from "@lib/components/Welcome";
-import { IconHistory } from "@tabler/icons-react";
+import { IconCube, IconHistory } from "@tabler/icons-react";
 
-export default function History() {
+export default function Environments() {
     return (
-        <div className={history}>
+        <div className={environments}>
             <div style={{ marginTop: '20px' }}>
                 <Welcome
-                    icon={IconHistory}
-                    title="History will be avaliable soon!"
+                    icon={IconCube}
+                    title="Environments will be avaliable soon!"
                     subtitle="I'm working on it, stay tuned!"
                     size="sm"
                 />

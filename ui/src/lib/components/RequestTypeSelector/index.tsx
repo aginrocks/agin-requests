@@ -1,9 +1,9 @@
-import { useEditMode, useRequest } from '@lib/hooks';
+import { useRequest } from '@lib/hooks';
 import { container, left, requestName, requestNameContainer, right, typeSelector } from './styles';
 import ActionIcon from '../ActionIcon';
 import { Icon, IconBrandSocketIo, IconFileText, IconHttpDelete, IconHttpGet, IconHttpHead, IconHttpOptions, IconHttpPatch, IconHttpPost, IconHttpPut, IconPlayerPlay, IconPlugConnected, IconServer } from '@tabler/icons-react';
 import { MenuTab } from '../MenuTabs';
-import { RequestConfig, RequestType } from '@shared/types';
+import { RequestType } from '@shared/types';
 import MessageName from '../MessageName';
 import Menu from '../Menu';
 import { useDisclosure } from '@mantine/hooks';
