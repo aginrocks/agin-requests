@@ -2,29 +2,38 @@ import Param from "@lib/components/Param";
 import ParamsGroup from "@lib/components/ParamsGroup";
 import { useRequest } from "@lib/hooks";
 import { parseParams, stringifyParams } from "@lib/util";
+import { Param as TParam } from "@shared/types";
 import qs from "qs";
 import { useCallback } from "react";
 
 export default function ParamsEditor() {
     const request = useRequest();
 
+    const updateParams = useCallback((params: TParam[]) => {
+        if (!request) return;
+
+        const stringified = stringifyParams(params.filter(p => p.enabled));
+
+        request.setFieldValue('url', stringified == '' ? request.values.url.split('?')[0] : `${request.values.url.split('?')[0]}?${stringified}`);
+    }, [request]);
+
     const handleParamChange = useCallback((e: React.ChangeEvent<HTMLInputElement>, index: number, type: 'name' | 'value') => {
         if (!request) return;
 
-        const params = parseParams(request.values.url);
+        const params = parseParams(request.values.url, request.values.params);
         if (!params[index]) {
             params[index] = {
                 name: '',
                 value: '',
+                enabled: true,
             }
         }
         params[index][type] = e.target.value;
 
-        const stringified = stringifyParams(params);
+        updateParams(params);
 
-        request.setFieldValue('url', stringified == '' ? request.values.url.split('?')[0] : `${request.values.url.split('?')[0]}?${stringified}`);
         request.setFieldValue(`params.${index}.${type}`, e.target.value);
-    }, [request]);
+    }, [request, updateParams]);
 
     return (
         <ParamsGroup>
@@ -35,7 +44,13 @@ export default function ParamsEditor() {
                 enabled={p.enabled}
                 onNameChange={(e) => handleParamChange(e, i, 'name')}
                 onValueChange={(e) => handleParamChange(e, i, 'value')}
-                onEnabledChange={(e) => request.setFieldValue(`params.${i}.enabled`, e.target.checked)}
+                onEnabledChange={(e) => {
+                    request.setFieldValue(`params.${i}.enabled`, e.target.checked);
+                    const updatedParams = [...request.values.params];
+                    if (!updatedParams) return;
+                    updatedParams[i].enabled = e.target.checked;
+                    updateParams(updatedParams);
+                }}
                 onRemove={() => request.removeListItem('params', i)}
             />)}
         </ParamsGroup>

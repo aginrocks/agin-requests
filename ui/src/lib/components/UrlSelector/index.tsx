@@ -57,12 +57,12 @@ export default function UrlSelector() {
     const onUrlChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         request?.setFieldValue('url', e.target.value);
 
-        const rawParams = parseParams(e.target.value);
-        const params = rawParams.map(p => ({ ...p, enabled: true }));
+        const params = parseParams(e.target.value, request?.values.params);
+        console.log({ params });
 
         request?.setFieldValue('params', params);
         // TODO: Add support for disabling params
-    }, [request]);
+    }, [request, request?.values.params]);
 
     const isRealtime = request?.values.type == 'sse' || request?.values.type == 'ws' || request?.values.type == 'socketio';
 

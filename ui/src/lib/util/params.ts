@@ -1,3 +1,4 @@
+import { Param } from "@shared/types";
 import qs from "qs";
 
 export type ParsedParam = {
@@ -5,19 +6,38 @@ export type ParsedParam = {
     value: string;
 };
 
-export function parseParams(url: string): ParsedParam[] {
+export type ParamsObjectValue = {
+    enabled: boolean;
+    value: string;
+};
+export type ParamsObject = Record<string, ParamsObjectValue>;
+
+export function parseParams(url: string, initialParams?: Param[]): Param[] {
+    console.log('parse', url, initialParams);
     const paramsString = url.split('?')[1];
-    if (!paramsString) return [];
+    if (!paramsString) return initialParams || [];
 
-    const params = qs.parse(paramsString);
+    const rawParams = qs.parse(paramsString);
+    const params: ParamsObject = {
+        ...(initialParams?.reduce<ParamsObject>((acc, param) => {
+            acc[param.name] = { enabled: param.enabled, value: param.value };
+            return acc;
+        }, {})),
+        ...(Object.entries(rawParams).reduce<ParamsObject>((acc, [name, value]) => {
+            acc[name] = { enabled: true, value: value as string };
+            return acc;
+        }, {})),
+    }
+    console.log('niga', params);
 
-    const paramsArray = Object.entries(params).flatMap(([name, value]) => {
-        if (Array.isArray(value)) {
-            return value
-                .filter((val): val is string => typeof val === 'string')
-                .map(val => ({ name, value: val }));
-        } else if (typeof value === 'string') {
-            return [{ name, value }];
+
+    const paramsArray = Object.entries<ParamsObjectValue>(params).flatMap(([name, value]) => {
+        if (Array.isArray(value.value)) {
+            return value.value
+                // .filter((val): val is string => typeof val === 'string')
+                .map(val => ({ name, ...val }));
+        } else if (typeof value.value === 'string') {
+            return [{ name, ...value }];
         }
         return [];
     });
