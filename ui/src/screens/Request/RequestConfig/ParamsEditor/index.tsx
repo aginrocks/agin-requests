@@ -20,7 +20,10 @@ export default function ParamsEditor() {
     const handleParamChange = useCallback((e: React.ChangeEvent<HTMLInputElement>, index: number, type: 'name' | 'value') => {
         if (!request) return;
 
-        const params = parseParams(request.values.url, request.values.params);
+        const params = [...request.values.params];
+        if (!params) return;
+
+        // const params = parseParams(request.values.url, request.values.params);
         if (!params[index]) {
             params[index] = {
                 name: '',
@@ -35,6 +38,19 @@ export default function ParamsEditor() {
         request.setFieldValue(`params.${index}.${type}`, e.target.value);
     }, [request, updateParams]);
 
+    const onInteraction = useCallback((index: number) => {
+        if (!request) return;
+        if (index !== request.values.params.length - 1) return;
+
+        request.insertListItem('params', {
+            enabled: false,
+            name: '',
+            value: '',
+        });
+
+        request.setFieldValue(`params.${index}.enabled`, true);
+    }, [request]);
+
     return (
         <ParamsGroup>
             {request?.values.params.map((p, i) => <Param
@@ -42,8 +58,14 @@ export default function ParamsEditor() {
                 name={p.name}
                 value={p.value}
                 enabled={p.enabled}
-                onNameChange={(e) => handleParamChange(e, i, 'name')}
-                onValueChange={(e) => handleParamChange(e, i, 'value')}
+                onNameChange={(e) => {
+                    onInteraction(i);
+                    handleParamChange(e, i, 'name');
+                }}
+                onValueChange={(e) => {
+                    onInteraction(i);
+                    handleParamChange(e, i, 'value');
+                }}
                 onEnabledChange={(e) => {
                     request.setFieldValue(`params.${i}.enabled`, e.target.checked);
                     const updatedParams = [...request.values.params];
@@ -52,6 +74,7 @@ export default function ParamsEditor() {
                     updateParams(updatedParams);
                 }}
                 onRemove={() => request.removeListItem('params', i)}
+                isLast={i === request.values.params.length - 1}
             />)}
         </ParamsGroup>
     )

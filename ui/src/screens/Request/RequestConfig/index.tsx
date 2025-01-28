@@ -62,14 +62,14 @@ export function RequestConfig() {
     useSynced('configTab', tab, setTab);
 
     // TODO: Optimize last item generation
-    useEffect(() => {
-        const last = request?.values.params[request?.values.params.length - 1];
-        if (last?.name != '' || last?.value != '') request?.insertListItem('params', {
-            enabled: false,
-            name: '',
-            value: '',
-        });
-    }, [request?.values.params]);
+    // useEffect(() => {
+    //     const last = request?.values.params[request?.values.params.length - 1];
+    //     if (last?.name != '' || last?.value != '') request?.insertListItem('params', {
+    //         enabled: false,
+    //         name: '',
+    //         value: '',
+    //     });
+    // }, [request?.values.params]);
 
     useEffect(() => {
         const last = request?.values.headers[request?.values.headers.length - 1];

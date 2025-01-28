@@ -58,6 +58,7 @@ export default function UrlSelector() {
         request?.setFieldValue('url', e.target.value);
 
         const params = parseParams(e.target.value, request?.values.params);
+        console.log('_initial', request?.values.params);
         console.log({ params });
 
         request?.setFieldValue('params', params);

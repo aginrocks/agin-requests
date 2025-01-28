@@ -43,7 +43,13 @@ export default function RequestConfigProvider({ children }: { children: React.Re
                     value: 'keep-alive',
                 },
             ],
-            params: [],
+            params: [
+                {
+                    enabled: false,
+                    name: '',
+                    value: '',
+                }
+            ],
             requestBodyType: 'none',
             authType: 'none',
             messages: [],
