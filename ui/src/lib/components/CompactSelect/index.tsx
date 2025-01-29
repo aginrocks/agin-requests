@@ -30,7 +30,7 @@ export default function CompactSelect({ options, value, onChange, icon: Icon, va
             onClose={close}
             position="bottomStart"
         >
-            {options.map((o) => <Option {...o} key={o.value} onClick={() => {
+            {options.map((o) => <Option {...o} key={o.value} selected={value === o.value} onClick={() => {
                 onChange(o.value, o);
                 close();
             }} />)}

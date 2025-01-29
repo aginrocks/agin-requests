@@ -106,6 +106,6 @@ export class RequestTab extends Tab {
     }
 
     private getPanelTitle(initialData?: RequestConfig): string {
-        return initialData ? `${initialData?.label}${initialData?.isDraft ? ' (Draft)' : ''}` : 'New Request (Draft)';
+        return initialData?.label ? `${initialData?.label}${initialData?.isDraft ? ' (Draft)' : ''}` : 'New Request (Draft)';
     }
 }

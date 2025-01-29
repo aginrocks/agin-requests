@@ -1,5 +1,11 @@
 import { css, cva } from "@styled-system/css";
 
+export const optionLeft = css({
+    display: 'flex',
+    gap: '8px',
+    alignItems: 'center',
+});
+
 export const optionStyles = cva({
     base: {
         padding: '6px 10px',
@@ -7,8 +13,8 @@ export const optionStyles = cva({
         cursor: 'pointer',
         transition: 'background-color .3s ease',
         display: 'flex',
-        // justifyContent: 'space-between',
-        gap: '8px',
+        justifyContent: 'space-between',
+        gap: '6px',
         alignItems: 'center',
         '&:hover': {
             backgroundColor: 'var(--vscode-list-hoverBackground)',

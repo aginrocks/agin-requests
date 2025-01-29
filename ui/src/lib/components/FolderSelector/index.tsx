@@ -46,7 +46,6 @@ export default function FolderSelector() {
 
     return (
         <div className={selectorContainer}>
-            {folder}
             <CompactSelect size="sm" value={folder} icon={folder === '0' ? IconDevicesPc : IconFolder} onChange={changeFolder} options={folders} />
         </div>
     )
