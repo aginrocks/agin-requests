@@ -12,9 +12,9 @@ export class WorkspaceHandler extends Handler {
 
         // TODO: Move it to a folder selector logic
         (async () => {
-            if (workspace.isAvaliable() && vscode.workspace.workspaceFolders) {
-                await workspace.setFolder(vscode.workspace.workspaceFolders[0]);
-            }
+            // if (workspace.isAvaliable()) {
+            await workspace.setFolderIndex(0);
+            // }
         })();
     }
 
@@ -24,11 +24,11 @@ export class WorkspaceHandler extends Handler {
 
     async onMessage(message: VSCodeMessage): Promise<void> {
         if (message.command === 'workspace.folder.get') {
-            const folder = workspace.folder;
+            const folder = workspace.folderIndex;
             this.webview.postMessage({ command: 'workspace.folder', data: folder });
 
         } else if (message.command === 'workspace.open') {
-            await workspace.setFolder(message.data);
+            await workspace.setFolderIndex(message.data);
 
         } else if (message.command === 'workspace.collections.get') {
             console.log('GET COLLECTIONS', workspace.collections);

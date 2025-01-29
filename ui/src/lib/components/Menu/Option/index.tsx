@@ -1,6 +1,6 @@
-import { TablerIcon } from "@tabler/icons-react"
-import { optionLabel, optionStyles } from "./styles"
-import { token } from "@styled-system/tokens";
+import { TablerIcon } from '@tabler/icons-react';
+import { optionLabel, optionStyles } from './styles';
+import { token } from '@styled-system/tokens';
 
 type OptionVariants = Exclude<Parameters<typeof optionStyles>[0], undefined>;
 export interface OptionProps extends React.HTMLAttributes<HTMLDivElement>, OptionVariants {

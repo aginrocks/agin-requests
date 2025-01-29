@@ -69,7 +69,7 @@ export type VSCodeMessage = {
     data: vscode.WorkspaceFolder;
 } | {
     command: 'workspace.open';
-    data: vscode.WorkspaceFolder;
+    data: number;
 } | {
     command: 'workspace.collections.get';
 } | {

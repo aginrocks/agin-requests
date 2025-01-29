@@ -3,6 +3,7 @@ import { generateHtml } from "./util";
 import createRequestWebview from "./createRequestView";
 import { importCurl } from "./util/importCurl";
 import { WorkspaceHandler } from "./handlers/WorkspaceHandler";
+import { WorkspaceManager as workspace } from './WorkspaceManager';
 
 export type FormItem = {
     name: string,
@@ -59,7 +60,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                 await importCurl(this.context);
 
             } else if (data.command == 'folders.get') {
-                webviewView.webview.postMessage({ command: 'folders', data: vscode.workspace.workspaceFolders });
+                webviewView.webview.postMessage({ command: 'folders', data: workspace.getFolders() });
 
             } else if (data.command.startsWith('workspace.')) {
                 workspaceHandler.onMessage(data);

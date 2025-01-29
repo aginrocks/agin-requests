@@ -13,7 +13,7 @@ export interface CompactSelectProps extends CompactSelectVaraints {
     onChange: (value: string, option: OptionProps) => void;
     icon?: Icon;
 }
-// TODO: Render the select in a portal
+
 export default function CompactSelect({ options, value, onChange, icon: Icon, variant = 'default', radius = 'default', size, padding }: CompactSelectProps) {
     const [opened, { open, close, toggle }] = useDisclosure(false);
     const selectedOption = useMemo(() => options.find(o => o.value == value), [options, value]);
