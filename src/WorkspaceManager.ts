@@ -7,6 +7,7 @@ import { randomUUID } from 'crypto';
 import { createPath, createSlug } from './util';
 import EventEmitter from 'node:events';
 import createRequestWebview from './createRequestView';
+import { TabsManager } from './TabsManager';
 
 type WMEvents = {
     'collection-created': (path: string) => void;
@@ -61,10 +62,11 @@ export class WorkspaceManager {
     }
 
     public static setContext(context: vscode.ExtensionContext) {
-        WorkspaceManager.context = context
+        WorkspaceManager.context = context;
     }
 
     public static async setFolderIndex(index: number): Promise<void> {
+        if (WorkspaceManager.folderIndex !== index) TabsManager.closeAllTabs();
         WorkspaceManager.folder = this.getFolders()[index];
         WorkspaceManager.folderIndex = index;
         WorkspaceManager.baseUri = vscode.Uri.joinPath(WorkspaceManager.folder.uri, STORAGE_FOLDER);
@@ -506,7 +508,8 @@ export class WorkspaceManager {
 
     public static getFolders() {
         if (!this.context) return [];
-        return [{ uri: this.context.globalStorageUri, name: 'Your Device', index: -1 }, ...(vscode.workspace.workspaceFolders ?? [])];
+        const isRemote = !!vscode.env.remoteName;
+        return [{ uri: this.context.globalStorageUri, name: isRemote ? 'Remote' : 'Your Device', index: -1 }, ...(vscode.workspace.workspaceFolders ?? [])];
     }
 }
 

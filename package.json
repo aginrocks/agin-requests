@@ -122,7 +122,25 @@
         "icon": "$(kebab-horizontal)",
         "label": "More Options"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Agin Requests",
+      "properties": {
+        "agin-requests.defaultContext": {
+          "type": "string",
+          "default": "device",
+          "enum": [
+            "device",
+            "workspace"
+          ],
+          "markdownEnumDescriptions": [
+            "Saved locally on the device (or on the remote if using SSH)",
+            "Saved in the currently opened folder (or in the first folder if multiple folders are opened in a workspace)"
+          ],
+          "markdownDescription": "Default context (device or opened workspace)"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

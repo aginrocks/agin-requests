@@ -34,6 +34,21 @@ export class TabsManager {
         tab.panel?.reveal();
         return true;
     }
+
+    public static closeTab(tabId: string) {
+        if (this.tabs.length === 0) return;
+
+        const tab = this.tabs.find(t => t.data?.id === tabId);
+        if (!tab) return;
+
+        tab.panel?.dispose();
+        this.removeTab(tab);
+    }
+
+    public static closeAllTabs() {
+        this.tabs.forEach(t => t.panel?.dispose());
+        this.tabs = [];
+    }
 }
 
 TabsManager.getInstance();

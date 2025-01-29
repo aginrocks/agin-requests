@@ -1,4 +1,4 @@
-import { IconDevicesPc, IconFolder } from '@tabler/icons-react';
+import { IconCloud, IconDevicesPc, IconFolder } from '@tabler/icons-react';
 import CompactSelect from '../CompactSelect';
 import { selectorContainer } from './styles';
 import { useCallback, useEffect, useState } from 'react';
@@ -46,7 +46,7 @@ export default function FolderSelector() {
 
     return (
         <div className={selectorContainer}>
-            <CompactSelect size="sm" value={folder} icon={folder === '0' ? IconDevicesPc : IconFolder} onChange={changeFolder} options={folders} />
+            <CompactSelect size="sm" value={folder} icon={folder === '0' ? (folders[0].label === 'Remote' ? IconCloud : IconDevicesPc) : IconFolder} onChange={changeFolder} options={folders} />
         </div>
     )
 }
