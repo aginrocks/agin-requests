@@ -42,6 +42,11 @@ export default function RequestConfigProvider({ children }: { children: React.Re
                     name: 'Connection',
                     value: 'keep-alive',
                 },
+                {
+                    enabled: false,
+                    name: '',
+                    value: '',
+                }
             ],
             params: [
                 {

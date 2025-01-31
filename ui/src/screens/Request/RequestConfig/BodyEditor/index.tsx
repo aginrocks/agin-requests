@@ -89,27 +89,18 @@ export default function BodyEditor() {
                 wrapperClass=""
             /> */}
             {['formdata', 'urlencoded'].includes(request?.values?.requestBodyType as RequestBodyType) && <div className={paramsContainer}>
-                <ParamsGroup>
-                    {request?.values.requestBody instanceof Object && request?.values.requestBody?.map((p, i) => <Param
-                        key={i}
-                        name={p.name}
-                        value={p.value}
-                        enabled={p.enabled}
-                        onNameChange={(e) => request.setFieldValue(`requestBody.${i}.name`, e.target.value)}
-                        onValueChange={(e) => request.setFieldValue(`requestBody.${i}.value`, e.target.value)}
-                        onEnabledChange={(e) => request.setFieldValue(`requestBody.${i}.enabled`, e.target.checked)}
-                        onRemove={() => request.removeListItem('requestBody', i)}
-                        {...(request?.values?.requestBodyType == 'formdata' ? {
-                            valueProps: {
-                                actions: [
-                                    {
-                                        icon: 'new-file',
-                                    }
-                                ]
-                            }
-                        } : {})}
-                    />)}
-                </ParamsGroup>
+                <ParamsGroup
+                    property="requestBody"
+                    paramProps={request?.values?.requestBodyType == 'formdata' ? {
+                        valueProps: {
+                            actions: [
+                                {
+                                    icon: 'new-file',
+                                }
+                            ]
+                        }
+                    } : {}}
+                />
             </div>}
         </>
     )

@@ -51,30 +51,20 @@ export default function ParamsEditor() {
     }, [request]);
 
     return (
-        <ParamsGroup>
-            {request?.values.params.map((p, i) => <Param
-                key={i}
-                name={p.name}
-                value={p.value}
-                enabled={p.enabled}
-                onNameChange={(e) => {
-                    onInteraction(i);
-                    handleParamChange(e, i, 'name');
-                }}
-                onValueChange={(e) => {
-                    onInteraction(i);
-                    handleParamChange(e, i, 'value');
-                }}
-                onEnabledChange={(e) => {
-                    request.setFieldValue(`params.${i}.enabled`, e.target.checked);
-                    const updatedParams = [...request.values.params];
-                    if (!updatedParams) return;
-                    updatedParams[i].enabled = e.target.checked;
-                    updateParams(updatedParams);
-                }}
-                onRemove={() => request.removeListItem('params', i)}
-                isLast={i === request.values.params.length - 1}
-            />)}
-        </ParamsGroup>
+        <ParamsGroup property="params" paramProps={{
+            onNameChange: (e, i) => {
+                handleParamChange(e, i, 'name');
+            },
+            onValueChange: (e, i) => {
+                handleParamChange(e, i, 'value');
+            },
+            onEnabledChange: (e, i) => {
+                if (!request) return;
+                const updatedParams = [...request.values.params];
+                if (!updatedParams) return;
+                updatedParams[i].enabled = e.target.checked;
+                updateParams(updatedParams);
+            }
+        }} />
     )
 }

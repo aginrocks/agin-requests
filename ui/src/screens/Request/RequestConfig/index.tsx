@@ -93,12 +93,11 @@ export function RequestConfig() {
                 return;
             }
         }
-        const last = request?.values.requestBody[request?.values.requestBody.length - 1];
-        if (last?.name != '' || last?.value != '') request?.insertListItem('requestBody', {
+        // const last = request?.values.requestBody[request?.values.requestBody.length - 1];
+        if (request.values?.requestBody.length === 0) request?.insertListItem('requestBody', {
             enabled: false,
             name: '',
             value: '',
-            file: null,
         });
     }, [request?.values.requestBody, request?.values.requestBodyType]);
 

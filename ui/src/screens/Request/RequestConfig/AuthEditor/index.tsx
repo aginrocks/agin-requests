@@ -9,6 +9,7 @@ import { useMemo, useState } from "react";
 import EditorContainer from "@lib/components/EditorContainer";
 import ThemedEditor from "@lib/components/ThemedEditor";
 import { editor } from "../BodyEditor/styles";
+import Container from "@lib/components/ParamsGroup/Container";
 
 const connectedTabs = ['socketio'];
 
@@ -67,7 +68,7 @@ export default function AuthEditor() {
                 </EditorContainer>}
             </div>
             <div className={authContainer}>
-                {request?.values.authType == 'basic' && <ParamsGroup>
+                {request?.values.authType == 'basic' && <Container>
                     <InputRow label="Username" value={request?.values.auth?.basic?.username} onChange={e => request.setFieldValue('auth.basic.username', e.target.value)} />
                     <InputRow label="Password" value={request?.values.auth?.basic?.password} onChange={e => request.setFieldValue('auth.basic.password', e.target.value)} type={passwordVisible ? 'text' : 'password'} actions={[
                         {
@@ -75,11 +76,11 @@ export default function AuthEditor() {
                             onClick: () => setPasswordVisible(x => !x),
                         },
                     ]} />
-                </ParamsGroup>}
-                {request?.values.authType == 'bearer' && <ParamsGroup>
+                </Container>}
+                {request?.values.authType == 'bearer' && <Container>
                     <InputRow label="Token" value={request?.values.auth?.bearer?.token} onChange={e => request.setFieldValue('auth.bearer.token', e.target.value)} />
                     <InputRow label="Prefix" value={request?.values.auth?.bearer?.prefix} onChange={e => request.setFieldValue('auth.bearer.prefix', e.target.value)} />
-                </ParamsGroup>}
+                </Container>}
             </div>
         </>
     )
