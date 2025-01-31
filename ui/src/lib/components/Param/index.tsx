@@ -7,6 +7,7 @@ import { IconGripVertical } from "@tabler/icons-react";
 import { CSS } from "@dnd-kit/utilities";
 
 export type ParamProps = {
+    id?: string;
     name: string;
     onNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -21,14 +22,14 @@ export type ParamProps = {
     isLast?: boolean;
 };
 
-export default function Param({ name, onNameChange, onValueChange, value, namePlaceholder, valuePlaceholder, enabled, onEnabledChange, onRemove, nameProps, valueProps, isLast = false }: ParamProps) {
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: name });
+export default function Param({ id, name, onNameChange, onValueChange, value, namePlaceholder, valuePlaceholder, enabled, onEnabledChange, onRemove, nameProps, valueProps, isLast = false }: ParamProps) {
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: id ?? '' });
 
     return (
         <div className={param} style={{
             transform: CSS.Translate.toString(transform),
             scale: '1!',
-            transition,
+            transition: `${transition}, background-color .3s ease`,
             zIndex: isDragging ? 999999 : undefined,
         }} ref={setNodeRef}>
             <div className={gripContainer}>

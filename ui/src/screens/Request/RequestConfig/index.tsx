@@ -18,6 +18,7 @@ import IOMessageEditor from "./IOMessageEditor";
 import RequestTypeSelector from "@lib/components/RequestTypeSelector";
 import { useHotkeys } from "@mantine/hooks";
 import { useRequestController } from "@lib/hooks";
+import { v4 } from "uuid";
 
 export function RequestConfig() {
     const request = useRequest();
@@ -95,6 +96,7 @@ export function RequestConfig() {
         }
         // const last = request?.values.requestBody[request?.values.requestBody.length - 1];
         if (request.values?.requestBody.length === 0) request?.insertListItem('requestBody', {
+            id: v4(),
             enabled: false,
             name: '',
             value: '',

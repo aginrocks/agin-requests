@@ -23,26 +23,31 @@ export default function RequestConfigProvider({ children }: { children: React.Re
             method: 'get',
             headers: [
                 {
+                    id: v4(),
                     enabled: true,
                     name: 'Accept',
                     value: '*/*',
                 },
                 {
+                    id: v4(),
                     enabled: true,
                     name: 'User-Agent',
                     value: 'AginRequests/1.0.0',
                 },
                 {
+                    id: v4(),
                     enabled: true,
                     name: 'Accept-Encoding',
                     value: 'gzip, deflate, br',
                 },
                 {
+                    id: v4(),
                     enabled: true,
                     name: 'Connection',
                     value: 'keep-alive',
                 },
                 {
+                    id: v4(),
                     enabled: false,
                     name: '',
                     value: '',
@@ -50,6 +55,7 @@ export default function RequestConfigProvider({ children }: { children: React.Re
             ],
             params: [
                 {
+                    id: v4(),
                     enabled: false,
                     name: '',
                     value: '',

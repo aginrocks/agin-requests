@@ -4,6 +4,7 @@ import { useRequest } from "@lib/hooks";
 import { parseParams, stringifyParams } from "@lib/util";
 import { Param as TParam } from "@shared/types";
 import { useCallback } from "react";
+import { v4 } from "uuid";
 
 export default function ParamsEditor() {
     const request = useRequest();
@@ -37,19 +38,6 @@ export default function ParamsEditor() {
         request.setFieldValue(`params.${index}.${type}`, e.target.value);
     }, [request, updateParams]);
 
-    const onInteraction = useCallback((index: number) => {
-        if (!request) return;
-        if (index !== request.values.params.length - 1) return;
-
-        request.insertListItem('params', {
-            enabled: false,
-            name: '',
-            value: '',
-        });
-
-        request.setFieldValue(`params.${index}.enabled`, true);
-    }, [request]);
-
     return (
         <ParamsGroup property="params" paramProps={{
             onNameChange: (e, i) => {
@@ -64,6 +52,9 @@ export default function ParamsEditor() {
                 if (!updatedParams) return;
                 updatedParams[i].enabled = e.target.checked;
                 updateParams(updatedParams);
+            },
+            onReorder: (reordered) => {
+                updateParams(reordered);
             }
         }} />
     )

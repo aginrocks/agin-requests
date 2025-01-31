@@ -218,10 +218,10 @@ export class WorkspaceManager {
 
         const slug = requestOptions.slug ?? createSlug(requestOptions.label);
 
-        const request: RequestConfig = {
+        const request: RequestConfig = this.stripIds({
             slug,
             ...requestOptions,
-        }
+        })
 
         if (slug === '_collection') {
             vscode.window.showErrorMessage('Choose a different name for the request.');
@@ -285,10 +285,10 @@ export class WorkspaceManager {
         const uri = vscode.Uri.joinPath(this.baseUri, 'agin-collections', path, slug ? `${slug}.yaml` : '');
         try {
             const requestData = yaml.parse((await vscode.workspace.fs.readFile(uri)).toString()) as RequestConfig;
-            const fullRequestData: RequestConfig = {
+            const fullRequestData: RequestConfig = this.generateIds({
                 ...requestData,
                 path: path,
-            }
+            })
             return fullRequestData;
         } catch (error) {
             return undefined;
@@ -510,6 +510,40 @@ export class WorkspaceManager {
         if (!this.context) return [];
         const isRemote = !!vscode.env.remoteName;
         return [{ uri: this.context.globalStorageUri, name: isRemote ? 'Remote' : 'Your Device', index: -1 }, ...(vscode.workspace.workspaceFolders ?? [])];
+    }
+
+    private static stripListIds(items: any[]) {
+        return items.map(item => {
+            const { id, ...rest } = item;
+            return rest;
+        });
+    }
+
+    private static stripIds(request: RequestConfig) {
+        return {
+            ...request,
+            headers: this.stripListIds(request.headers),
+            params: this.stripListIds(request.params),
+            requestBody: typeof request.requestBody === 'object' ? this.stripListIds(request.requestBody) : request.requestBody,
+        }
+    }
+
+    private static generateListIds(items: any[]) {
+        return items.map(item => {
+            return {
+                ...item,
+                id: randomUUID(),
+            }
+        });
+    }
+
+    private static generateIds(request: RequestConfig) {
+        return {
+            ...request,
+            headers: this.generateListIds(request.headers),
+            params: this.generateListIds(request.params),
+            requestBody: typeof request.requestBody === 'object' ? this.generateListIds(request.requestBody) : request.requestBody,
+        }
     }
 }
 
