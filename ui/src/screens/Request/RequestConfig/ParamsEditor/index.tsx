@@ -3,7 +3,6 @@ import ParamsGroup from "@lib/components/ParamsGroup";
 import { useRequest } from "@lib/hooks";
 import { parseParams, stringifyParams } from "@lib/util";
 import { Param as TParam } from "@shared/types";
-import qs from "qs";
 import { useCallback } from "react";
 
 export default function ParamsEditor() {

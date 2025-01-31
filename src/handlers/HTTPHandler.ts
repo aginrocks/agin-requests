@@ -114,20 +114,6 @@ export class HTTPHandler extends Handler {
         } else if (message.command === 'request.cancel') {
             this.controller.abort();
             this.controller = new AbortController();
-            const resData = {
-                type: 'error',
-                data: 'Request was cancelled by the user',
-                status: -1,
-                statusText: 'ERROR',
-                headers: {},
-                metrics: {
-                    bodySize: 0,
-                    headersSize: 0,
-                    totalSize: 0,
-                    time: 0,
-                },
-            };
-            this.webview.postMessage({ command: 'request.finished', data: resData, });
         }
     }
 }

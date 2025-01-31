@@ -71,14 +71,14 @@ export function RequestConfig() {
     //     });
     // }, [request?.values.params]);
 
-    useEffect(() => {
-        const last = request?.values.headers[request?.values.headers.length - 1];
-        if (last?.name != '' || last?.value != '') request?.insertListItem('headers', {
-            enabled: false,
-            name: '',
-            value: '',
-        });
-    }, [request?.values.headers]);
+    // useEffect(() => {
+    //     const last = request?.values.headers[request?.values.headers.length - 1];
+    //     if (last?.name != '' || last?.value != '') request?.insertListItem('headers', {
+    //         enabled: false,
+    //         name: '',
+    //         value: '',
+    //     });
+    // }, [request?.values.headers]);
 
     useEffect(() => {
         // Convert between String and array of FormItems when switching between text editors (JSON, XML, Text) and graphical editors (URL-encoded, Form Data)
