@@ -4,4 +4,5 @@ export default {
     import: 'Import/Export',
     'path-variables': 'Path Variables',
     'dynamic-variables': 'Dynamic Variables',
+    'collaboration': 'Collaboration & Git Sync',
 }

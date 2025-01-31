@@ -1,0 +1,21 @@
+import Image from 'next/image';
+import { IconChevronDown } from '@tabler/icons-react';
+import { Callout } from 'nextra/components';
+
+# Collaboration & Git Sync
+
+Agin Requests can save the requests to a Git repository. This feature is useful when you want to share your requests with your team or keep them in sync across multiple devices.
+
+### Changing save location
+
+By default the requests are saved in your computer's local storage. You can change that by choosing a folder in the sidebar.
+
+<Image src="/images/folders.png" width={200} height={235} style={{ marginTop: '12px', borderRadius: '5px' }} />
+
+<Callout type="info">
+**Note**: If you don't see the dropdown, try opening a folder in VS Code first.
+</Callout>
+
+### Setting the default location
+
+If you want Agin Requests to automatically switch the save location, you can modify the `agin-requests.defaultContext` setting.
