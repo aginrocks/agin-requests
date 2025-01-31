@@ -6,6 +6,7 @@ import axios from "axios";
 import { VSCodeMessage } from "@shared/types";
 
 export class HTTPHandler extends Handler {
+    private controller = new AbortController();
     async onMessage(message: VSCodeMessage): Promise<void> {
         if (message.command == 'request.execute') {
             const request = message.config;
@@ -21,6 +22,7 @@ export class HTTPHandler extends Handler {
                     url: request.url,
                     method: request.method,
                     responseType: 'arraybuffer', // Get raw binary data as a buffer
+                    signal: this.controller.signal,
                 };
 
                 if (request.authType === 'basic') {
@@ -109,6 +111,23 @@ export class HTTPHandler extends Handler {
                     this.webview.postMessage({ command: 'request.finished', data: resData, });
                 }
             }
+        } else if (message.command === 'request.cancel') {
+            this.controller.abort();
+            this.controller = new AbortController();
+            const resData = {
+                type: 'error',
+                data: 'Request was cancelled by the user',
+                status: -1,
+                statusText: 'ERROR',
+                headers: {},
+                metrics: {
+                    bodySize: 0,
+                    headersSize: 0,
+                    totalSize: 0,
+                    time: 0,
+                },
+            };
+            this.webview.postMessage({ command: 'request.finished', data: resData, });
         }
     }
 }

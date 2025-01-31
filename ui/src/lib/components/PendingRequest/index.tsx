@@ -1,6 +1,8 @@
 import { useRequestController } from '@lib/hooks';
 import { TailSpin } from 'react-loader-spinner';
 import { pendingRequestClasses } from './styles';
+import SubtleButton from '../SubtleButton';
+import { css } from '@styled-system/css';
 
 export type PendingRequestProps = {
     visible: boolean;
@@ -23,6 +25,7 @@ export default function PendingRequest({ visible }: PendingRequestProps) {
                 wrapperStyle={{}}
                 wrapperClass=""
             />
+            <SubtleButton onClick={cancel}>Cancel Request</SubtleButton>
             {/* TODO: Add cancel button */}
         </div>
     )
