@@ -21,7 +21,7 @@ type CreateRequestOptions = {
 }
 
 const STORAGE_FOLDER = '.agin-requests';
-const VERSION = '1.0.2';
+const VERSION = '1.0.3';
 
 const databaseReadme = `# Agin Requests Database
 
