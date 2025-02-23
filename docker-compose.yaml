@@ -1,18 +1,40 @@
 version: '3'
 services:
   docs:
+    labels:
+      traefik.enable: true
+      traefik.port: 3000
+      traefik.http.services.agin_requests_docs.loadbalancer.server.port: "3000"
+      traefik.http.routers.agin_requests_docs.rule: "Host(`docs.requests.agin.rocks`)"
     build:
       context: ./docs
       dockerfile: Dockerfile
     container_name: agin-requests-docs
+    networks:
+      - default
+      - proxy
     ports:
       - '8502:3000'
     restart: always
   website:
+    labels:
+      traefik.enable: true
+      traefik.port: 3000
+      traefik.http.services.agin_requests_website.loadbalancer.server.port: "3000"
+      traefik.http.routers.agin_requests_website.rule: "Host(`requests.agin.rocks`)"
     build:
       context: ./website
       dockerfile: Dockerfile
     container_name: agin-requests-website
+    networks:
+      - default
+      - proxy
     ports:
       - '8503:3000'
     restart: always
+
+networks:
+  default:
+  proxy:
+    name: proxy-network
+    external: true
