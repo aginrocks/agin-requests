@@ -12,7 +12,7 @@ export default function ParamsEditor() {
     const updateParams = useCallback((params: TParam[]) => {
         if (!request) return;
 
-        const stringified = stringifyParams(params.filter(p => p.enabled));
+        const stringified = stringifyParams(params.filter(p => p.enabled && p.type !== 'path'));
 
         request.setFieldValue('url', stringified == '' ? request.values.url.split('?')[0] : `${request.values.url.split('?')[0]}?${stringified}`);
     }, [request]);

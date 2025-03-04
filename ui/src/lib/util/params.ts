@@ -1,5 +1,6 @@
 import { Param } from "@shared/types";
 import qs from "qs";
+import { v4 } from "uuid";
 
 export type ParsedParam = {
     name: string;
@@ -12,33 +13,35 @@ export type ParamsObjectValue = {
 };
 export type ParamsObject = Record<string, ParamsObjectValue>;
 
+
 export function parseParams(url: string, initialParams?: Param[]): Param[] {
-    const paramsString = url.split('?')[1];
-    if (!paramsString) return initialParams || [];
+    const [path, queryString] = url.split('?');
+    const urlParams = qs.parse(queryString || '');
+    const paramMap = new Map<string, Param>();
 
-    const rawParams = qs.parse(paramsString);
-    const initialParamsObject = initialParams?.reduce<ParamsObject>((acc, param) => {
-        acc[param.name] = { enabled: param.enabled, value: param.value };
-        return acc;
-    }, {}) || {};
-
-    const params: ParamsObject = {
-        ...initialParamsObject,
-        ...Object.entries(rawParams).reduce<ParamsObject>((acc, [name, value]) => {
-            acc[name] = { enabled: true, value: value as string };
-            return acc;
-        }, {}),
-    };
-
-    return Object.entries<ParamsObjectValue>(params).flatMap(([name, value]) => {
-        if (Array.isArray(value.value)) {
-            return value.value.map(val => ({ name, enabled: value.enabled, value: val }));
-        } else if (typeof value.value === 'string') {
-            return [{ name, enabled: value.enabled, value: value.value }];
-        }
-        return [];
+    // Extract path parameters (e.g., {id} -> type: 'path')
+    const pathParams = Array.from(path.matchAll(/\{([^}]+)\}/g)).map(match => match[1]);
+    pathParams.forEach(name => {
+        paramMap.set(name, { name, value: '', enabled: true, type: 'path' });
     });
+
+    // Add or update query params from the URL
+    Object.entries(urlParams).forEach(([name, value]) => {
+        paramMap.set(name, { name, value: String(value), enabled: true, type: 'query' });
+    });
+
+    // Merge with initialParams while keeping disabled ones
+    if (initialParams) {
+        initialParams.forEach(param => {
+            if (!param.enabled) {
+                paramMap.set(param.name, param);
+            }
+        });
+    }
+
+    return Array.from(paramMap.values());
 }
+
 
 export function stringifyParams(params: ParsedParam[]): string {
     const result: Record<string, string | string[]> = {};
