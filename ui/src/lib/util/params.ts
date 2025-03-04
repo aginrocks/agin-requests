@@ -21,13 +21,14 @@ export function parseParams(url: string, initialParams?: Param[]): Param[] {
 
     // Extract path parameters (e.g., {id} -> type: 'path')
     const pathParams = Array.from(path.matchAll(/\{([^}]+)\}/g)).map(match => match[1]);
+    // TODO: Fix path variables
     pathParams.forEach(name => {
-        paramMap.set(name, { name, value: '', enabled: true, type: 'path' });
+        if (!paramMap.get(name)) paramMap.set(name, { name, value: '', enabled: true, type: 'path', id: v4() });
     });
 
     // Add or update query params from the URL
     Object.entries(urlParams).forEach(([name, value]) => {
-        paramMap.set(name, { name, value: String(value), enabled: true, type: 'query' });
+        paramMap.set(name, { name, value: String(value), enabled: true, type: 'query', id: v4() });
     });
 
     // Merge with initialParams while keeping disabled ones

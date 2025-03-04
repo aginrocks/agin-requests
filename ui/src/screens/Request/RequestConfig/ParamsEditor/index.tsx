@@ -1,10 +1,8 @@
-import Param from "@lib/components/Param";
 import ParamsGroup from "@lib/components/ParamsGroup";
 import { useRequest } from "@lib/hooks";
-import { parseParams, stringifyParams } from "@lib/util";
+import { stringifyParams } from "@lib/util";
 import { Param as TParam } from "@shared/types";
 import { useCallback } from "react";
-import { v4 } from "uuid";
 
 export default function ParamsEditor() {
     const request = useRequest();
@@ -55,6 +53,13 @@ export default function ParamsEditor() {
             },
             onReorder: (reordered) => {
                 updateParams(reordered);
+            },
+            onRemove: (toRemove) => {
+                if (!request) return;
+                const updatedParams = [...request.values.params].filter((x, i) => i != toRemove);
+                request.removeListItem('params', toRemove);
+                if (!updatedParams) return;
+                updateParams(updatedParams);
             }
         }} />
     )

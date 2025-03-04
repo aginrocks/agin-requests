@@ -91,6 +91,7 @@ export default function ParamsGroup({ property, paramProps }: ParamsGroupProps) 
                         name={p.name}
                         value={p.value}
                         enabled={p.enabled}
+                        type={(p as TParam)?.type}
                         onNameChange={(e) => {
                             paramProps?.onNameChange?.(e, i);
                             onInteraction(i);
