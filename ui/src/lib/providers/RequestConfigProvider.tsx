@@ -59,6 +59,7 @@ export default function RequestConfigProvider({ children }: { children: React.Re
                     enabled: false,
                     name: '',
                     value: '',
+                    type: 'query',
                 }
             ],
             requestBodyType: 'none',
