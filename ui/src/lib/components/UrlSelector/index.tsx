@@ -4,7 +4,7 @@ import { container, inputGroup, methodSelector, sendButton } from "./styles";
 import Input from "@lib/components/Input";
 import Select from "../Select";
 import { useVsCodeApi } from "@lib/hooks/useVsCodeApi";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { parseParams } from "@lib/util";
 import { useEventResponse } from "@lib/hooks/useEventResponse";
 import { OptionProps } from "../Menu/Option";
@@ -54,10 +54,10 @@ export default function UrlSelector() {
     const eventResponse = useEventResponse();
     const vscode = useVsCodeApi();
 
-    const onUrlChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        request?.setFieldValue('url', e.target.value);
+    const onUrlChange = useCallback((val: string) => {
+        request?.setFieldValue('url', val);
 
-        const params = parseParams(e.target.value, request?.values.params);
+        const params = parseParams(val, request?.values.params);
         console.log('_initial', request?.values.params);
         console.log({ params });
 
@@ -68,6 +68,11 @@ export default function UrlSelector() {
     const isRealtime = request?.values.type == 'sse' || request?.values.type == 'ws' || request?.values.type == 'socketio';
 
     const [editMode] = useEditMode();
+
+    useEffect(() => {
+        if (request?.values.params.length !== 0) return;
+        onUrlChange(request?.values.url);
+    }, [request?.values.params, request?.values.url]);
 
     return (
         <div className={container}>
@@ -88,7 +93,7 @@ export default function UrlSelector() {
                     withLeftRadius={!(request?.values.type != 'ws' && request?.values.type != 'socketio')}
                     withRightRadius={editMode != 'test'}
                     {...request?.getInputProps('url')}
-                    onChange={onUrlChange}
+                    onChange={(e) => onUrlChange(e.target.value)}
                     onKeyDown={getHotkeyHandler([
                         ['Enter', () => controller.send()],
                     ])}

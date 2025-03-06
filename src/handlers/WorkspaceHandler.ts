@@ -10,15 +10,12 @@ export class WorkspaceHandler extends Handler {
             this.onCollectionsChanged(collections);
         });
 
-        // TODO: Move it to a folder selector logic
         (async () => {
-            // if (workspace.isAvaliable()) {
             if (!workspace.folderIndex) {
                 const configOption = vscode.workspace.getConfiguration('agin-requests').get('defaultContext') as 'device' | 'workspace';
                 if (configOption === 'workspace' && workspace.getFolders().length > 1) await workspace.setFolderIndex(1);
                 else await workspace.setFolderIndex(0);
             }
-            // }
         })();
     }
 

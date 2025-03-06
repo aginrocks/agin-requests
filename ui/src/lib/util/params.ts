@@ -23,7 +23,8 @@ export function parseParams(url: string, initialParams?: Param[]): Param[] {
     const pathParams = Array.from(path.matchAll(/\{([^}]+)\}/g)).map(match => match[1]);
     // TODO: Fix path variables
     pathParams.forEach(name => {
-        if (!paramMap.get(name)) paramMap.set(name, { name, value: '', enabled: true, type: 'path', id: v4() });
+        console.log(initialParams?.find(p => p.name === name));
+        if (!initialParams?.find(p => p.name === name)) paramMap.set(name, { name, value: '', enabled: true, type: 'path', id: v4() });
     });
 
     // Add or update query params from the URL
@@ -40,7 +41,13 @@ export function parseParams(url: string, initialParams?: Param[]): Param[] {
         });
     }
 
-    return Array.from(paramMap.values());
+    const params = Array.from(paramMap.values());
+    const lastParam = params[params.length - 1];
+    if ((lastParam && (lastParam.name !== '' && lastParam.value !== '')) || params.length === 0) {
+        params.push({ name: '', value: '', enabled: false, id: v4() });
+    }
+
+    return params;
 }
 
 
