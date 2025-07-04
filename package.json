@@ -3,7 +3,7 @@
   "displayName": "Agin Requests",
   "description": "Simplify API and real-time testing in VS Code",
   "publisher": "agin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "pricing": "Free",
   "icon": "assets/icon.png",
   "repository": {
