@@ -2,6 +2,10 @@
 
 All notable changes to the **Agin Requests** extension will be documented in this file.
 
+## 1.0.5
+
+- Impoved importing from curl
+
 ## 1.0.4
 
 - Bug fixes
